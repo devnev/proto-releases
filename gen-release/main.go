@@ -24,6 +24,7 @@ var (
 	out     = flag.String("out", "out", "")
 	release = flag.Int("rel", 0, "")
 	preview = flag.Bool("pre", false, "")
+	include = flag.String("inc", ".", "")
 )
 
 func main() {
@@ -34,7 +35,7 @@ func main() {
 	}
 	log.Printf("releasing for %q", config)
 	parser := protoparse.Parser{
-		ImportPaths:           []string{".", ".."},
+		ImportPaths:           []string{*include, "."},
 		InferImportPaths:      true,
 		IncludeSourceCodeInfo: true,
 		ErrorReporter: func(err protoparse.ErrorWithPos) error {
