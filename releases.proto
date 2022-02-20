@@ -1,0 +1,56 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+syntax = "proto3";
+
+package releases;
+option go_package = "github.com/devnev/proto-releases;releases";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MessageOptions {
+    // TODO: replace with real id from global extension registry.
+    Range message = 65535;
+}
+
+extend google.protobuf.FieldOptions {
+    // TODO: replace with real id from global extension registry.
+    Range field = 65535;
+}
+
+extend google.protobuf.OneofOptions {
+    // TODO: replace with real id from global extension registry.
+    Range oneof = 65535;
+}
+
+extend google.protobuf.EnumOptions {
+    // TODO: replace with real id from global extension registry.
+    Range enum = 65535;
+}
+
+extend google.protobuf.EnumValueOptions {
+    // TODO: replace with real id from global extension registry.
+    Range value = 65535;
+}
+
+extend google.protobuf.ServiceOptions {
+    // TODO: replace with real id from global extension registry.
+    Range service = 65535;
+}
+
+extend google.protobuf.MethodOptions {
+    // TODO: replace with real id from global extension registry.
+    Range method = 65535;
+}
+
+message Range {
+    // Specify from which release onwards to include this item.
+    // Any non-zero (including negative) value will cause the item to be
+    // included in all preview releases, unless preview_in is specified.
+    int32 release_in = 1;
+    // Specify from which preview release onwards to include this item.
+    int32 preview_in = 2;
+    // Specify from which release onwards to drop this item.
+    int32 remove_in = 3;
+}

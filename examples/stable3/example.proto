@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "releases.proto";
+
+message Example {
+  // With a designated starting release, this field will be included in any
+  // release from this number onwards and all preview releases.
+  //
+  // Intended for stabilising fields to be included in general availability
+  // releases.
+  int32 released = 2;
+
+  int32 previewed_then_released = 4;
+}
