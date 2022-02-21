@@ -44,23 +44,25 @@ func main() {
 	}
 	log.Printf("parsing %q", flag.Args())
 	descs, err := parser.ParseFiles(flag.Args()...)
-	checkErr(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 	var kept []*desc.FileDescriptor
 	for _, fdesc := range descs {
 		log.Println("processing", fdesc.GetName())
 		b, err := builder.FromFile(fdesc)
-		checkErr(err)
+		if err != nil {
+			log.Fatal(err)
+		}
 		filter.File(b, config)
 		fdesc, err = b.Build()
-		checkErr(err)
+		if err != nil {
+			log.Fatal(err)
+		}
 		kept = append(kept, fdesc)
 	}
 	var printer protoprint.Printer
 	err = printer.PrintProtosToFileSystem(kept, *out)
-	checkErr(err)
-}
-
-func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}

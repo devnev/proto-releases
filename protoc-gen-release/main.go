@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	releases "github.com/devnev/proto-releases"
@@ -34,11 +33,15 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 		switch k {
 		case "preview":
 			p, err := strconv.ParseBool(v)
-			checkErr(err)
+			if err != nil {
+				bctx.Fail(err)
+			}
 			m.c.Preview = p
 		case "release":
 			r, err := strconv.ParseInt(v, 10, 32)
-			checkErr(err)
+			if err != nil {
+				bctx.Fail(err)
+			}
 			m.c.Release = int32(r)
 		case "":
 			if v == "" {
@@ -65,27 +68,40 @@ func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packa
 		}
 	}
 	fds, err := desc.CreateFileDescriptors(fdps)
-	checkErr(err)
+	if err != nil {
+		return []pgs.Artifact{pgs.GeneratorError{
+			Message: err.Error(),
+		}}
+	}
 	var outputs []pgs.Artifact
 	for _, fdesc := range targets {
 		fb, err := builder.FromFile(fds[string(fdesc.Name())])
-		checkErr(err)
+		if err != nil {
+			outputs = append(outputs, pgs.GeneratorError{
+				Message: err.Error(),
+			})
+			continue
+		}
 		filter.File(fb, m.c)
 		result, err := fb.Build()
-		checkErr(err)
+		if err != nil {
+			outputs = append(outputs, pgs.GeneratorError{
+				Message: err.Error(),
+			})
+			continue
+		}
 		var printer protoprint.Printer
 		contents, err := printer.PrintProtoToString(result)
-		checkErr(err)
+		if err != nil {
+			outputs = append(outputs, pgs.GeneratorError{
+				Message: err.Error(),
+			})
+			continue
+		}
 		outputs = append(outputs, pgs.GeneratorFile{
 			Name:     result.GetName(),
 			Contents: contents,
 		})
 	}
 	return outputs
-}
-
-func checkErr(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
