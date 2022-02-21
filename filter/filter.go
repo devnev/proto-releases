@@ -65,12 +65,11 @@ func Message(b *builder.MessageBuilder, c *releases.Config) (bool, error) {
 			panic(fmt.Sprintf("unexpected message child %T", cb))
 		}
 	}
-	extDesc := releases.E_Message.TypeDescriptor()
-	reflected := b.Options.ProtoReflect()
-	if reflected.Has(extDesc) {
-		reflected.Clear(extDesc)
+	keep, err := shouldKeep(b, c, releases.E_Message)
+	if err != nil {
+		return false, err
 	}
-	return include, nil
+	return include || keep, nil
 }
 
 func Field(b *builder.FieldBuilder, c *releases.Config) (bool, error) {
@@ -93,7 +92,11 @@ func OneOf(b *builder.OneOfBuilder, c *releases.Config) (bool, error) {
 			panic(fmt.Sprintf("unexpected message child %T", cb))
 		}
 	}
-	return include, nil
+	keep, err := shouldKeep(b, c, releases.E_Oneof)
+	if err != nil {
+		return false, err
+	}
+	return include || keep, nil
 }
 
 func Enum(b *builder.EnumBuilder, c *releases.Config) (bool, error) {
@@ -112,7 +115,11 @@ func Enum(b *builder.EnumBuilder, c *releases.Config) (bool, error) {
 			panic(fmt.Sprintf("unexpected message child %T", cb))
 		}
 	}
-	return include, nil
+	keep, err := shouldKeep(b, c, releases.E_Enum)
+	if err != nil {
+		return false, err
+	}
+	return include || keep, nil
 }
 
 func EnumValue(b *builder.EnumValueBuilder, c *releases.Config) (bool, error) {
