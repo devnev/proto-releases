@@ -115,15 +115,11 @@ func Enum(b *builder.EnumBuilder, c *releases.Config) (bool, error) {
 			panic(fmt.Sprintf("unexpected message child %T", cb))
 		}
 	}
-	keep, err := shouldKeep(b, c, releases.E_Enum)
-	if err != nil {
-		return false, err
-	}
-	return include || keep, nil
+	return include, nil
 }
 
 func EnumValue(b *builder.EnumValueBuilder, c *releases.Config) (bool, error) {
-	return shouldKeep(b, c, releases.E_Value)
+	return shouldKeep(b, c, releases.E_Enum)
 }
 
 func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInfo) (bool, error) {

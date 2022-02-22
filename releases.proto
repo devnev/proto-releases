@@ -24,14 +24,9 @@ extend google.protobuf.OneofOptions {
     Range oneof = 65535;
 }
 
-extend google.protobuf.EnumOptions {
-    // TODO: replace with real id from global extension registry.
-    Range enum = 65535;
-}
-
 extend google.protobuf.EnumValueOptions {
     // TODO: replace with real id from global extension registry.
-    Range value = 65535;
+    Range enum = 65535;
 }
 
 extend google.protobuf.ServiceOptions {
