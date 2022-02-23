@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	"log"
+	"path/filepath"
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/devnev/proto-releases/filter"
@@ -16,22 +17,31 @@ import (
 	"github.com/jhump/protoreflect/desc/protoprint"
 )
 
-var (
-	out     = flag.String("out", "out", "")
-	release = flag.Int("rel", 0, "")
-	preview = flag.Bool("pre", false, "")
-	include = flag.String("inc", ".", "")
-)
-
 func main() {
+	var (
+		out     = flag.String("out", "out", "")
+		release = flag.Int("rel", 0, "")
+		preview = flag.Bool("pre", false, "")
+		include = flag.String("inc", ".", "")
+	)
 	flag.Parse()
+	run(*out, *release, *preview, filepath.SplitList(*include), flag.Args())
+}
+
+func run(
+	out string,
+	release int,
+	preview bool,
+	include []string,
+	files []string,
+) {
 	config := &releases.Config{
-		Release: int32(*release),
-		Preview: *preview,
+		Release: int32(release),
+		Preview: preview,
 	}
 	log.Printf("releasing for %q", config)
 	parser := protoparse.Parser{
-		ImportPaths:           []string{*include, "."},
+		ImportPaths:           append(include, "."),
 		InferImportPaths:      true,
 		IncludeSourceCodeInfo: true,
 		ErrorReporter: func(err protoparse.ErrorWithPos) error {
@@ -42,8 +52,8 @@ func main() {
 			log.Println("parse warning", ewp)
 		},
 	}
-	log.Printf("parsing %q", flag.Args())
-	descs, err := parser.ParseFiles(flag.Args()...)
+	log.Printf("parsing %q", files)
+	descs, err := parser.ParseFiles(files...)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +72,7 @@ func main() {
 		kept = append(kept, fdesc)
 	}
 	var printer protoprint.Printer
-	err = printer.PrintProtosToFileSystem(kept, *out)
+	err = printer.PrintProtosToFileSystem(kept, out)
 	if err != nil {
 		log.Fatal(err)
 	}

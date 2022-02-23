@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "releases.proto";
+
+message EmptyRootMessageReleased {
+}
+
+message EmptyRootMessagePreviewedThenReleased {
+}
+
+message RootMessageNotAnnotated {
+  int32 released = 2;
+
+  int32 previewed_then_released = 4;
+}
+
+enum RootEnumNotAnnotated {
+  released = 2;
+
+  previewed_then_released = 4;
+}

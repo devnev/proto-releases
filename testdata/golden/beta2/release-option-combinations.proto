@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "releases.proto";
+
+message EmptyRootMessageReleased {
+}
+
+message EmptyRootMessageReleasedEventually {
+}
+
+message EmptyRootMessagePreviewed {
+}
+
+message EmptyRootMessagePreviewedThenReleased {
+}
+
+message EmptyRootMessagePreviewedThenRemoved {
+}
+
+message EmptyRootMessageReleasedThenRemoved {
+}
+
+message RootMessageNotAnnotated {
+  int32 released = 2;
+
+  int32 released_eventually = 5;
+
+  int32 previewed = 3;
+
+  int32 previewed_then_released = 4;
+
+  int32 previewed_then_removed = 6;
+
+  int32 released_then_removed = 7;
+}
+
+enum RootEnumNotAnnotated {
+  released = 2;
+
+  released_eventually = 5;
+
+  previewed = 3;
+
+  previewed_then_released = 4;
+
+  previewed_then_removed = 6;
+
+  released_then_removed = 7;
+}
