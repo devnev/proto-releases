@@ -6,19 +6,33 @@ import "releases.proto";
 
 option go_package = "github.com/devnev/proto-releases/stable2/testdata";
 
-message EmptyRootMessageReleased {
+message EmptyMessageReleased {
 }
 
-message EmptyRootMessageReleasedThenRemoved {
+message EmptyMessageReleasedThenRemoved {
 }
 
-message RootMessageNotAnnotated {
+message MessageWithReleasedField {
+  int32 released = 1;
+}
+
+message MessageWithReleasedOneofItem {
+  oneof oneof_with_item {
+    int32 released_oneof_item = 2;
+  }
+}
+
+message MessageNotAnnotated {
   int32 released = 2;
 
   int32 released_then_removed = 7;
+
+  oneof not_annotated_oneof {
+    int32 oneof_item_not_annotated = 8;
+  }
 }
 
-enum RootEnumNotAnnotated {
+enum EnumNotAnnotated {
   zero_value = 0;
 
   released = 2;
@@ -29,5 +43,5 @@ enum RootEnumNotAnnotated {
 service TestService {
   rpc EmptyMethodReleased ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
 
-  rpc MethodReleased ( RootMessageNotAnnotated ) returns ( RootMessageNotAnnotated );
+  rpc MethodReleased ( MessageNotAnnotated ) returns ( MessageNotAnnotated );
 }

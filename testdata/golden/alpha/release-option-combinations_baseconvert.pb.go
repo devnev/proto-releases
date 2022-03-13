@@ -8,44 +8,110 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
-func (m *EmptyRootMessageNotAnnotated) ToBase() *golden.EmptyRootMessageNotAnnotated {
-	return &golden.EmptyRootMessageNotAnnotated{}
+func (m *EmptyMessageNotAnnotated) ToBase() *golden.EmptyMessageNotAnnotated {
+	msg := &golden.EmptyMessageNotAnnotated{}
+	return msg
 }
-func (m *EmptyRootMessageNotAnnotated) FromBase(b *golden.EmptyRootMessageNotAnnotated) {
+func (m *EmptyMessageNotAnnotated) FromBase(b *golden.EmptyMessageNotAnnotated) {
 	m.Reset()
 }
-func (m *EmptyRootMessageReleased) ToBase() *golden.EmptyRootMessageReleased {
-	return &golden.EmptyRootMessageReleased{}
+func (m *EmptyMessageReleased) ToBase() *golden.EmptyMessageReleased {
+	msg := &golden.EmptyMessageReleased{}
+	return msg
 }
-func (m *EmptyRootMessageReleased) FromBase(b *golden.EmptyRootMessageReleased) {
+func (m *EmptyMessageReleased) FromBase(b *golden.EmptyMessageReleased) {
 	m.Reset()
 }
-func (m *EmptyRootMessagePreviewed) ToBase() *golden.EmptyRootMessagePreviewed {
-	return &golden.EmptyRootMessagePreviewed{}
+func (m *EmptyMessagePreviewed) ToBase() *golden.EmptyMessagePreviewed {
+	msg := &golden.EmptyMessagePreviewed{}
+	return msg
 }
-func (m *EmptyRootMessagePreviewed) FromBase(b *golden.EmptyRootMessagePreviewed) {
+func (m *EmptyMessagePreviewed) FromBase(b *golden.EmptyMessagePreviewed) {
 	m.Reset()
 }
-func (m *EmptyRootMessagePreviewedThenReleased) ToBase() *golden.EmptyRootMessagePreviewedThenReleased {
-	return &golden.EmptyRootMessagePreviewedThenReleased{}
+func (m *EmptyMessagePreviewedThenReleased) ToBase() *golden.EmptyMessagePreviewedThenReleased {
+	msg := &golden.EmptyMessagePreviewedThenReleased{}
+	return msg
 }
-func (m *EmptyRootMessagePreviewedThenReleased) FromBase(b *golden.EmptyRootMessagePreviewedThenReleased) {
+func (m *EmptyMessagePreviewedThenReleased) FromBase(b *golden.EmptyMessagePreviewedThenReleased) {
 	m.Reset()
 }
-func (m *EmptyRootMessagePreviewedThenRemoved) ToBase() *golden.EmptyRootMessagePreviewedThenRemoved {
-	return &golden.EmptyRootMessagePreviewedThenRemoved{}
+func (m *EmptyMessagePreviewedThenRemoved) ToBase() *golden.EmptyMessagePreviewedThenRemoved {
+	msg := &golden.EmptyMessagePreviewedThenRemoved{}
+	return msg
 }
-func (m *EmptyRootMessagePreviewedThenRemoved) FromBase(b *golden.EmptyRootMessagePreviewedThenRemoved) {
+func (m *EmptyMessagePreviewedThenRemoved) FromBase(b *golden.EmptyMessagePreviewedThenRemoved) {
 	m.Reset()
 }
-func (m *EmptyRootMessageReleasedThenRemoved) ToBase() *golden.EmptyRootMessageReleasedThenRemoved {
-	return &golden.EmptyRootMessageReleasedThenRemoved{}
+func (m *EmptyMessageReleasedThenRemoved) ToBase() *golden.EmptyMessageReleasedThenRemoved {
+	msg := &golden.EmptyMessageReleasedThenRemoved{}
+	return msg
 }
-func (m *EmptyRootMessageReleasedThenRemoved) FromBase(b *golden.EmptyRootMessageReleasedThenRemoved) {
+func (m *EmptyMessageReleasedThenRemoved) FromBase(b *golden.EmptyMessageReleasedThenRemoved) {
 	m.Reset()
 }
-func (m *RootMessageNotAnnotated) ToBase() *golden.RootMessageNotAnnotated {
-	return &golden.RootMessageNotAnnotated{
+func (m *MessageWithNoAnnotations) ToBase() *golden.MessageWithNoAnnotations {
+	msg := &golden.MessageWithNoAnnotations{
+		NotAnnotated: m.GetNotAnnotated(),
+	}
+	return msg
+}
+func (m *MessageWithNoAnnotations) FromBase(b *golden.MessageWithNoAnnotations) {
+	m.Reset()
+	m.NotAnnotated = b.GetNotAnnotated()
+}
+func (m *MessageWithReleasedField) ToBase() *golden.MessageWithReleasedField {
+	msg := &golden.MessageWithReleasedField{
+		Released: m.GetReleased(),
+	}
+	return msg
+}
+func (m *MessageWithReleasedField) FromBase(b *golden.MessageWithReleasedField) {
+	m.Reset()
+	m.Released = b.GetReleased()
+}
+func (m *MessageWithPreviewField) ToBase() *golden.MessageWithPreviewField {
+	msg := &golden.MessageWithPreviewField{
+		Released: m.GetReleased(),
+	}
+	return msg
+}
+func (m *MessageWithPreviewField) FromBase(b *golden.MessageWithPreviewField) {
+	m.Reset()
+	m.Released = b.GetReleased()
+}
+func (m *MessageWithUnannotatedOneof) ToBase() *golden.MessageWithUnannotatedOneof {
+	msg := &golden.MessageWithUnannotatedOneof{}
+	switch o := m.GetNotAnnotatedOneof().(type) {
+	case *MessageWithUnannotatedOneof_OneofItemNotAnnotated:
+		msg.NotAnnotatedOneof = golden.MessageWithUnannotatedOneof_OneofItemNotAnnotated(o)
+	}
+	return msg
+}
+func (m *MessageWithUnannotatedOneof) FromBase(b *golden.MessageWithUnannotatedOneof) {
+	m.Reset()
+	switch o := b.GetNotAnnotatedOneof().(type) {
+	case *golden.MessageWithUnannotatedOneof_OneofItemNotAnnotated:
+		m.NotAnnotatedOneof = MessageWithUnannotatedOneof_OneofItemNotAnnotated(o)
+	}
+}
+func (m *MessageWithReleasedOneofItem) ToBase() *golden.MessageWithReleasedOneofItem {
+	msg := &golden.MessageWithReleasedOneofItem{}
+	switch o := m.GetOneofWithItem().(type) {
+	case *MessageWithReleasedOneofItem_ReleasedOneofItem:
+		msg.OneofWithItem = golden.MessageWithReleasedOneofItem_ReleasedOneofItem(o)
+	}
+	return msg
+}
+func (m *MessageWithReleasedOneofItem) FromBase(b *golden.MessageWithReleasedOneofItem) {
+	m.Reset()
+	switch o := b.GetOneofWithItem().(type) {
+	case *golden.MessageWithReleasedOneofItem_ReleasedOneofItem:
+		m.OneofWithItem = MessageWithReleasedOneofItem_ReleasedOneofItem(o)
+	}
+}
+func (m *MessageNotAnnotated) ToBase() *golden.MessageNotAnnotated {
+	msg := &golden.MessageNotAnnotated{
 		NotAnnotated:          m.GetNotAnnotated(),
 		Released:              m.GetReleased(),
 		Previewed:             m.GetPreviewed(),
@@ -53,8 +119,13 @@ func (m *RootMessageNotAnnotated) ToBase() *golden.RootMessageNotAnnotated {
 		PreviewedThenRemoved:  m.GetPreviewedThenRemoved(),
 		ReleasedThenRemoved:   m.GetReleasedThenRemoved(),
 	}
+	switch o := m.GetNotAnnotatedOneof().(type) {
+	case *MessageNotAnnotated_OneofItemNotAnnotated:
+		msg.NotAnnotatedOneof = golden.MessageNotAnnotated_OneofItemNotAnnotated(o)
+	}
+	return msg
 }
-func (m *RootMessageNotAnnotated) FromBase(b *golden.RootMessageNotAnnotated) {
+func (m *MessageNotAnnotated) FromBase(b *golden.MessageNotAnnotated) {
 	m.Reset()
 	m.NotAnnotated = b.GetNotAnnotated()
 	m.Released = b.GetReleased()
@@ -62,36 +133,40 @@ func (m *RootMessageNotAnnotated) FromBase(b *golden.RootMessageNotAnnotated) {
 	m.PreviewedThenReleased = b.GetPreviewedThenReleased()
 	m.PreviewedThenRemoved = b.GetPreviewedThenRemoved()
 	m.ReleasedThenRemoved = b.GetReleasedThenRemoved()
+	switch o := b.GetNotAnnotatedOneof().(type) {
+	case *golden.MessageNotAnnotated_OneofItemNotAnnotated:
+		m.NotAnnotatedOneof = MessageNotAnnotated_OneofItemNotAnnotated(o)
+	}
 }
 
-type BaseTestServiceserver struct {
+type BaseTestServiceServer struct {
 	UnsafeTestServiceServer
 	Base golden.TestServiceServer
 }
 
-func (s BaseTestServiceserver) EmptyMethodNotAnnotated(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+func (s BaseTestServiceServer) EmptyMethodNotAnnotated(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
 	return s.Base.EmptyMethodNotAnnotated(ctx, in)
 }
-func (s BaseTestServiceserver) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+func (s BaseTestServiceServer) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
 	return s.Base.EmptyMethodReleased(ctx, in)
 }
-func (s BaseTestServiceserver) MethodNotAnnotated(ctx context.Context, in *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+func (s BaseTestServiceServer) MethodNotAnnotated(ctx context.Context, in *MessageNotAnnotated) (*MessageNotAnnotated, error) {
 	baseIn := in.ToBase()
 	baseOut, err := s.Base.MethodNotAnnotated(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}
-	out := new(RootMessageNotAnnotated)
+	out := new(MessageNotAnnotated)
 	out.FromBase(baseOut)
 	return out, nil
 }
-func (s BaseTestServiceserver) MethodReleased(ctx context.Context, in *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+func (s BaseTestServiceServer) MethodReleased(ctx context.Context, in *MessageNotAnnotated) (*MessageNotAnnotated, error) {
 	baseIn := in.ToBase()
 	baseOut, err := s.Base.MethodReleased(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}
-	out := new(RootMessageNotAnnotated)
+	out := new(MessageNotAnnotated)
 	out.FromBase(baseOut)
 	return out, nil
 }

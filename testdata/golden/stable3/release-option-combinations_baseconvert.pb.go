@@ -8,45 +8,81 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
-func (m *EmptyRootMessageReleased) ToBase() *golden.EmptyRootMessageReleased {
-	return &golden.EmptyRootMessageReleased{}
+func (m *EmptyMessageReleased) ToBase() *golden.EmptyMessageReleased {
+	msg := &golden.EmptyMessageReleased{}
+	return msg
 }
-func (m *EmptyRootMessageReleased) FromBase(b *golden.EmptyRootMessageReleased) {
+func (m *EmptyMessageReleased) FromBase(b *golden.EmptyMessageReleased) {
 	m.Reset()
 }
-func (m *EmptyRootMessagePreviewedThenReleased) ToBase() *golden.EmptyRootMessagePreviewedThenReleased {
-	return &golden.EmptyRootMessagePreviewedThenReleased{}
+func (m *EmptyMessagePreviewedThenReleased) ToBase() *golden.EmptyMessagePreviewedThenReleased {
+	msg := &golden.EmptyMessagePreviewedThenReleased{}
+	return msg
 }
-func (m *EmptyRootMessagePreviewedThenReleased) FromBase(b *golden.EmptyRootMessagePreviewedThenReleased) {
+func (m *EmptyMessagePreviewedThenReleased) FromBase(b *golden.EmptyMessagePreviewedThenReleased) {
 	m.Reset()
 }
-func (m *RootMessageNotAnnotated) ToBase() *golden.RootMessageNotAnnotated {
-	return &golden.RootMessageNotAnnotated{
+func (m *MessageWithReleasedField) ToBase() *golden.MessageWithReleasedField {
+	msg := &golden.MessageWithReleasedField{
+		Released: m.GetReleased(),
+	}
+	return msg
+}
+func (m *MessageWithReleasedField) FromBase(b *golden.MessageWithReleasedField) {
+	m.Reset()
+	m.Released = b.GetReleased()
+}
+func (m *MessageWithReleasedOneofItem) ToBase() *golden.MessageWithReleasedOneofItem {
+	msg := &golden.MessageWithReleasedOneofItem{}
+	switch o := m.GetOneofWithItem().(type) {
+	case *MessageWithReleasedOneofItem_ReleasedOneofItem:
+		msg.OneofWithItem = golden.MessageWithReleasedOneofItem_ReleasedOneofItem(o)
+	}
+	return msg
+}
+func (m *MessageWithReleasedOneofItem) FromBase(b *golden.MessageWithReleasedOneofItem) {
+	m.Reset()
+	switch o := b.GetOneofWithItem().(type) {
+	case *golden.MessageWithReleasedOneofItem_ReleasedOneofItem:
+		m.OneofWithItem = MessageWithReleasedOneofItem_ReleasedOneofItem(o)
+	}
+}
+func (m *MessageNotAnnotated) ToBase() *golden.MessageNotAnnotated {
+	msg := &golden.MessageNotAnnotated{
 		Released:              m.GetReleased(),
 		PreviewedThenReleased: m.GetPreviewedThenReleased(),
 	}
+	switch o := m.GetNotAnnotatedOneof().(type) {
+	case *MessageNotAnnotated_OneofItemNotAnnotated:
+		msg.NotAnnotatedOneof = golden.MessageNotAnnotated_OneofItemNotAnnotated(o)
+	}
+	return msg
 }
-func (m *RootMessageNotAnnotated) FromBase(b *golden.RootMessageNotAnnotated) {
+func (m *MessageNotAnnotated) FromBase(b *golden.MessageNotAnnotated) {
 	m.Reset()
 	m.Released = b.GetReleased()
 	m.PreviewedThenReleased = b.GetPreviewedThenReleased()
+	switch o := b.GetNotAnnotatedOneof().(type) {
+	case *golden.MessageNotAnnotated_OneofItemNotAnnotated:
+		m.NotAnnotatedOneof = MessageNotAnnotated_OneofItemNotAnnotated(o)
+	}
 }
 
-type BaseTestServiceserver struct {
+type BaseTestServiceServer struct {
 	UnsafeTestServiceServer
 	Base golden.TestServiceServer
 }
 
-func (s BaseTestServiceserver) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+func (s BaseTestServiceServer) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
 	return s.Base.EmptyMethodReleased(ctx, in)
 }
-func (s BaseTestServiceserver) MethodReleased(ctx context.Context, in *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+func (s BaseTestServiceServer) MethodReleased(ctx context.Context, in *MessageNotAnnotated) (*MessageNotAnnotated, error) {
 	baseIn := in.ToBase()
 	baseOut, err := s.Base.MethodReleased(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}
-	out := new(RootMessageNotAnnotated)
+	out := new(MessageNotAnnotated)
 	out.FromBase(baseOut)
 	return out, nil
 }
