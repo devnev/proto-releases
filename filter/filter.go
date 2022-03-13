@@ -108,7 +108,7 @@ func Enum(b *builder.EnumBuilder, c *releases.Config) (bool, error) {
 				return false, fmt.Errorf("failed to filter value %s of enum %s: %w", cb.GetName(), b.GetName(), err)
 			} else if keep {
 				include = true
-			} else {
+			} else if cb.GetNumber() != 0 {
 				b.RemoveValue(cb.GetName())
 			}
 		default:

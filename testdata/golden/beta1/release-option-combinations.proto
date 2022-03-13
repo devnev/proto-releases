@@ -20,6 +20,8 @@ message RootMessageNotAnnotated {
 }
 
 enum RootEnumNotAnnotated {
+  zero_value = 0;
+
   released = 2;
 
   released_eventually = 5;
