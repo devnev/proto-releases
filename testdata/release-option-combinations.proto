@@ -95,4 +95,8 @@ service TestService {
     rpc EmptyMethodReleased(google.protobuf.Empty) returns (google.protobuf.Empty) {
         option (releases.method).release_in = 2;
     };
+    rpc MethodNotAnnotated(RootMessageNotAnnotated) returns (RootMessageNotAnnotated);
+    rpc MethodReleased(RootMessageNotAnnotated) returns (RootMessageNotAnnotated) {
+        option (releases.method).release_in = 2;
+    };
 }

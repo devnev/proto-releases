@@ -3,7 +3,9 @@
 package testdata
 
 import (
+	context "context"
 	golden "github.com/devnev/proto-releases/testdata/golden"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func (m *EmptyRootMessageReleased) ToBase() *golden.EmptyRootMessageReleased {
@@ -28,4 +30,23 @@ func (m *RootMessageNotAnnotated) FromBase(b *golden.RootMessageNotAnnotated) {
 	m.Reset()
 	m.Released = b.GetReleased()
 	m.ReleasedThenRemoved = b.GetReleasedThenRemoved()
+}
+
+type BaseTestServiceserver struct {
+	UnsafeTestServiceServer
+	Base golden.TestServiceServer
+}
+
+func (s BaseTestServiceserver) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+	return s.Base.EmptyMethodReleased(ctx, in)
+}
+func (s BaseTestServiceserver) MethodReleased(ctx context.Context, in *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+	baseIn := in.ToBase()
+	baseOut, err := s.Base.MethodReleased(ctx, baseIn)
+	if err != nil {
+		return nil, err
+	}
+	out := new(RootMessageNotAnnotated)
+	out.FromBase(baseOut)
+	return out, nil
 }

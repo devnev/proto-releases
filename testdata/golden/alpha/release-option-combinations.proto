@@ -58,4 +58,8 @@ service TestService {
   rpc EmptyMethodNotAnnotated ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
 
   rpc EmptyMethodReleased ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
+
+  rpc MethodNotAnnotated ( RootMessageNotAnnotated ) returns ( RootMessageNotAnnotated );
+
+  rpc MethodReleased ( RootMessageNotAnnotated ) returns ( RootMessageNotAnnotated );
 }

@@ -4,6 +4,7 @@ import (
 	"flag"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func main() {
@@ -47,6 +48,44 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 			g.P("m.", f.GoName, " = b.Get", f.GoName, "()")
 		}
 		g.P("}")
+	}
+
+	emptyDesc := (&emptypb.Empty{}).ProtoReflect().Descriptor()
+	for _, s := range file.Services {
+		baseSrvIface := g.QualifiedGoIdent(protogen.GoIdent{
+			GoName:       s.GoName + "Server",
+			GoImportPath: base,
+		})
+		ctxType := g.QualifiedGoIdent(protogen.GoIdent{
+			GoName:       "Context",
+			GoImportPath: "context",
+		})
+		srvName := "Base" + s.GoName + "server"
+
+		g.P("type ", srvName, " struct {")
+		g.P("Unsafe", s.GoName, "Server")
+		g.P("Base ", baseSrvIface)
+		g.P("}")
+
+		for _, m := range s.Methods {
+			g.P("func (s ", srvName, ") ", m.GoName, "(ctx ", ctxType, ", in *", m.Input.GoIdent, ") (*", m.Output.GoIdent, ", error) {")
+			inVar := "in"
+			if m.Input.Desc.FullName() != emptyDesc.FullName() {
+				g.P("baseIn := in.ToBase()")
+				inVar = "baseIn"
+			}
+			if m.Output.Desc.FullName() == emptyDesc.FullName() {
+				g.P("return s.Base.", m.GoName, "(ctx, ", inVar, ")")
+				g.P("}")
+				continue
+			}
+			g.P("baseOut, err := s.Base.", m.GoName, "(ctx, ", inVar, ")")
+			g.P("if err != nil { return nil, err }")
+			g.P("out := new(", m.Input.GoIdent, ")")
+			g.P("out.FromBase(baseOut)")
+			g.P("return out, nil")
+			g.P("}")
+		}
 	}
 
 	return g
