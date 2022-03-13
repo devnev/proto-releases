@@ -37,7 +37,7 @@ func File(b *builder.FileBuilder, c *releases.Config) error {
 				b.RemoveEnum(child.GetName())
 			}
 		default:
-			panic(fmt.Sprintf("unexpected message child %T", cb))
+			panic(fmt.Sprintf("unexpected file child %T", cb))
 		}
 	}
 	return nil
@@ -99,7 +99,7 @@ func OneOf(b *builder.OneOfBuilder, c *releases.Config) (bool, error) {
 				b.RemoveChoice(cb.GetName())
 			}
 		default:
-			panic(fmt.Sprintf("unexpected message child %T", cb))
+			panic(fmt.Sprintf("unexpected oneof child %T", cb))
 		}
 	}
 	keep, err := shouldKeep(b, c, releases.E_Oneof)
@@ -122,7 +122,7 @@ func Enum(b *builder.EnumBuilder, c *releases.Config) (bool, error) {
 				b.RemoveValue(cb.GetName())
 			}
 		default:
-			panic(fmt.Sprintf("unexpected message child %T", cb))
+			panic(fmt.Sprintf("unexpected enum child %T", cb))
 		}
 	}
 	return include, nil
