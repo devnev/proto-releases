@@ -22,24 +22,24 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RootEnumNotAnnotated int32
+type EnumNotAnnotated int32
 
 const (
-	RootEnumNotAnnotated_zero_value              RootEnumNotAnnotated = 0
-	RootEnumNotAnnotated_released                RootEnumNotAnnotated = 2
-	RootEnumNotAnnotated_previewed               RootEnumNotAnnotated = 3
-	RootEnumNotAnnotated_previewed_then_released RootEnumNotAnnotated = 4
+	EnumNotAnnotated_zero_value              EnumNotAnnotated = 0
+	EnumNotAnnotated_released                EnumNotAnnotated = 2
+	EnumNotAnnotated_previewed               EnumNotAnnotated = 3
+	EnumNotAnnotated_previewed_then_released EnumNotAnnotated = 4
 )
 
-// Enum value maps for RootEnumNotAnnotated.
+// Enum value maps for EnumNotAnnotated.
 var (
-	RootEnumNotAnnotated_name = map[int32]string{
+	EnumNotAnnotated_name = map[int32]string{
 		0: "zero_value",
 		2: "released",
 		3: "previewed",
 		4: "previewed_then_released",
 	}
-	RootEnumNotAnnotated_value = map[string]int32{
+	EnumNotAnnotated_value = map[string]int32{
 		"zero_value":              0,
 		"released":                2,
 		"previewed":               3,
@@ -47,41 +47,41 @@ var (
 	}
 )
 
-func (x RootEnumNotAnnotated) Enum() *RootEnumNotAnnotated {
-	p := new(RootEnumNotAnnotated)
+func (x EnumNotAnnotated) Enum() *EnumNotAnnotated {
+	p := new(EnumNotAnnotated)
 	*p = x
 	return p
 }
 
-func (x RootEnumNotAnnotated) String() string {
+func (x EnumNotAnnotated) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (RootEnumNotAnnotated) Descriptor() protoreflect.EnumDescriptor {
+func (EnumNotAnnotated) Descriptor() protoreflect.EnumDescriptor {
 	return file_beta3_release_option_combinations_proto_enumTypes[0].Descriptor()
 }
 
-func (RootEnumNotAnnotated) Type() protoreflect.EnumType {
+func (EnumNotAnnotated) Type() protoreflect.EnumType {
 	return &file_beta3_release_option_combinations_proto_enumTypes[0]
 }
 
-func (x RootEnumNotAnnotated) Number() protoreflect.EnumNumber {
+func (x EnumNotAnnotated) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RootEnumNotAnnotated.Descriptor instead.
-func (RootEnumNotAnnotated) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use EnumNotAnnotated.Descriptor instead.
+func (EnumNotAnnotated) EnumDescriptor() ([]byte, []int) {
 	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{0}
 }
 
-type EmptyRootMessageReleased struct {
+type EmptyMessageReleased struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *EmptyRootMessageReleased) Reset() {
-	*x = EmptyRootMessageReleased{}
+func (x *EmptyMessageReleased) Reset() {
+	*x = EmptyMessageReleased{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_beta3_release_option_combinations_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -89,13 +89,13 @@ func (x *EmptyRootMessageReleased) Reset() {
 	}
 }
 
-func (x *EmptyRootMessageReleased) String() string {
+func (x *EmptyMessageReleased) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EmptyRootMessageReleased) ProtoMessage() {}
+func (*EmptyMessageReleased) ProtoMessage() {}
 
-func (x *EmptyRootMessageReleased) ProtoReflect() protoreflect.Message {
+func (x *EmptyMessageReleased) ProtoReflect() protoreflect.Message {
 	mi := &file_beta3_release_option_combinations_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -107,19 +107,19 @@ func (x *EmptyRootMessageReleased) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EmptyRootMessageReleased.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessageReleased) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyMessageReleased.ProtoReflect.Descriptor instead.
+func (*EmptyMessageReleased) Descriptor() ([]byte, []int) {
 	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{0}
 }
 
-type EmptyRootMessagePreviewed struct {
+type EmptyMessagePreviewed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *EmptyRootMessagePreviewed) Reset() {
-	*x = EmptyRootMessagePreviewed{}
+func (x *EmptyMessagePreviewed) Reset() {
+	*x = EmptyMessagePreviewed{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_beta3_release_option_combinations_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -127,13 +127,13 @@ func (x *EmptyRootMessagePreviewed) Reset() {
 	}
 }
 
-func (x *EmptyRootMessagePreviewed) String() string {
+func (x *EmptyMessagePreviewed) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EmptyRootMessagePreviewed) ProtoMessage() {}
+func (*EmptyMessagePreviewed) ProtoMessage() {}
 
-func (x *EmptyRootMessagePreviewed) ProtoReflect() protoreflect.Message {
+func (x *EmptyMessagePreviewed) ProtoReflect() protoreflect.Message {
 	mi := &file_beta3_release_option_combinations_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -145,19 +145,19 @@ func (x *EmptyRootMessagePreviewed) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EmptyRootMessagePreviewed.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessagePreviewed) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyMessagePreviewed.ProtoReflect.Descriptor instead.
+func (*EmptyMessagePreviewed) Descriptor() ([]byte, []int) {
 	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{1}
 }
 
-type EmptyRootMessagePreviewedThenReleased struct {
+type EmptyMessagePreviewedThenReleased struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *EmptyRootMessagePreviewedThenReleased) Reset() {
-	*x = EmptyRootMessagePreviewedThenReleased{}
+func (x *EmptyMessagePreviewedThenReleased) Reset() {
+	*x = EmptyMessagePreviewedThenReleased{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_beta3_release_option_combinations_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -165,13 +165,13 @@ func (x *EmptyRootMessagePreviewedThenReleased) Reset() {
 	}
 }
 
-func (x *EmptyRootMessagePreviewedThenReleased) String() string {
+func (x *EmptyMessagePreviewedThenReleased) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EmptyRootMessagePreviewedThenReleased) ProtoMessage() {}
+func (*EmptyMessagePreviewedThenReleased) ProtoMessage() {}
 
-func (x *EmptyRootMessagePreviewedThenReleased) ProtoReflect() protoreflect.Message {
+func (x *EmptyMessagePreviewedThenReleased) ProtoReflect() protoreflect.Message {
 	mi := &file_beta3_release_option_combinations_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -183,23 +183,21 @@ func (x *EmptyRootMessagePreviewedThenReleased) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EmptyRootMessagePreviewedThenReleased.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessagePreviewedThenReleased) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyMessagePreviewedThenReleased.ProtoReflect.Descriptor instead.
+func (*EmptyMessagePreviewedThenReleased) Descriptor() ([]byte, []int) {
 	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{2}
 }
 
-type RootMessageNotAnnotated struct {
+type MessageWithReleasedField struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Released              int32 `protobuf:"varint,2,opt,name=released,proto3" json:"released,omitempty"`
-	Previewed             int32 `protobuf:"varint,3,opt,name=previewed,proto3" json:"previewed,omitempty"`
-	PreviewedThenReleased int32 `protobuf:"varint,4,opt,name=previewed_then_released,json=previewedThenReleased,proto3" json:"previewed_then_released,omitempty"`
+	Released int32 `protobuf:"varint,1,opt,name=released,proto3" json:"released,omitempty"`
 }
 
-func (x *RootMessageNotAnnotated) Reset() {
-	*x = RootMessageNotAnnotated{}
+func (x *MessageWithReleasedField) Reset() {
+	*x = MessageWithReleasedField{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_beta3_release_option_combinations_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -207,13 +205,13 @@ func (x *RootMessageNotAnnotated) Reset() {
 	}
 }
 
-func (x *RootMessageNotAnnotated) String() string {
+func (x *MessageWithReleasedField) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RootMessageNotAnnotated) ProtoMessage() {}
+func (*MessageWithReleasedField) ProtoMessage() {}
 
-func (x *RootMessageNotAnnotated) ProtoReflect() protoreflect.Message {
+func (x *MessageWithReleasedField) ProtoReflect() protoreflect.Message {
 	mi := &file_beta3_release_option_combinations_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -225,31 +223,221 @@ func (x *RootMessageNotAnnotated) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RootMessageNotAnnotated.ProtoReflect.Descriptor instead.
-func (*RootMessageNotAnnotated) Descriptor() ([]byte, []int) {
+// Deprecated: Use MessageWithReleasedField.ProtoReflect.Descriptor instead.
+func (*MessageWithReleasedField) Descriptor() ([]byte, []int) {
 	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RootMessageNotAnnotated) GetReleased() int32 {
+func (x *MessageWithReleasedField) GetReleased() int32 {
 	if x != nil {
 		return x.Released
 	}
 	return 0
 }
 
-func (x *RootMessageNotAnnotated) GetPreviewed() int32 {
+type MessageWithPreviewField struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Released int32 `protobuf:"varint,1,opt,name=released,proto3" json:"released,omitempty"`
+}
+
+func (x *MessageWithPreviewField) Reset() {
+	*x = MessageWithPreviewField{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_beta3_release_option_combinations_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MessageWithPreviewField) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageWithPreviewField) ProtoMessage() {}
+
+func (x *MessageWithPreviewField) ProtoReflect() protoreflect.Message {
+	mi := &file_beta3_release_option_combinations_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageWithPreviewField.ProtoReflect.Descriptor instead.
+func (*MessageWithPreviewField) Descriptor() ([]byte, []int) {
+	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *MessageWithPreviewField) GetReleased() int32 {
+	if x != nil {
+		return x.Released
+	}
+	return 0
+}
+
+type MessageWithReleasedOneofItem struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to OneofWithItem:
+	//	*MessageWithReleasedOneofItem_ReleasedOneofItem
+	OneofWithItem isMessageWithReleasedOneofItem_OneofWithItem `protobuf_oneof:"oneof_with_item"`
+}
+
+func (x *MessageWithReleasedOneofItem) Reset() {
+	*x = MessageWithReleasedOneofItem{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_beta3_release_option_combinations_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MessageWithReleasedOneofItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageWithReleasedOneofItem) ProtoMessage() {}
+
+func (x *MessageWithReleasedOneofItem) ProtoReflect() protoreflect.Message {
+	mi := &file_beta3_release_option_combinations_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageWithReleasedOneofItem.ProtoReflect.Descriptor instead.
+func (*MessageWithReleasedOneofItem) Descriptor() ([]byte, []int) {
+	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{5}
+}
+
+func (m *MessageWithReleasedOneofItem) GetOneofWithItem() isMessageWithReleasedOneofItem_OneofWithItem {
+	if m != nil {
+		return m.OneofWithItem
+	}
+	return nil
+}
+
+func (x *MessageWithReleasedOneofItem) GetReleasedOneofItem() int32 {
+	if x, ok := x.GetOneofWithItem().(*MessageWithReleasedOneofItem_ReleasedOneofItem); ok {
+		return x.ReleasedOneofItem
+	}
+	return 0
+}
+
+type isMessageWithReleasedOneofItem_OneofWithItem interface {
+	isMessageWithReleasedOneofItem_OneofWithItem()
+}
+
+type MessageWithReleasedOneofItem_ReleasedOneofItem struct {
+	ReleasedOneofItem int32 `protobuf:"varint,2,opt,name=released_oneof_item,json=releasedOneofItem,proto3,oneof"`
+}
+
+func (*MessageWithReleasedOneofItem_ReleasedOneofItem) isMessageWithReleasedOneofItem_OneofWithItem() {
+}
+
+type MessageNotAnnotated struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Released              int32 `protobuf:"varint,2,opt,name=released,proto3" json:"released,omitempty"`
+	Previewed             int32 `protobuf:"varint,3,opt,name=previewed,proto3" json:"previewed,omitempty"`
+	PreviewedThenReleased int32 `protobuf:"varint,4,opt,name=previewed_then_released,json=previewedThenReleased,proto3" json:"previewed_then_released,omitempty"`
+	// Types that are assignable to NotAnnotatedOneof:
+	//	*MessageNotAnnotated_OneofItemNotAnnotated
+	NotAnnotatedOneof isMessageNotAnnotated_NotAnnotatedOneof `protobuf_oneof:"not_annotated_oneof"`
+}
+
+func (x *MessageNotAnnotated) Reset() {
+	*x = MessageNotAnnotated{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_beta3_release_option_combinations_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MessageNotAnnotated) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MessageNotAnnotated) ProtoMessage() {}
+
+func (x *MessageNotAnnotated) ProtoReflect() protoreflect.Message {
+	mi := &file_beta3_release_option_combinations_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MessageNotAnnotated.ProtoReflect.Descriptor instead.
+func (*MessageNotAnnotated) Descriptor() ([]byte, []int) {
+	return file_beta3_release_option_combinations_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *MessageNotAnnotated) GetReleased() int32 {
+	if x != nil {
+		return x.Released
+	}
+	return 0
+}
+
+func (x *MessageNotAnnotated) GetPreviewed() int32 {
 	if x != nil {
 		return x.Previewed
 	}
 	return 0
 }
 
-func (x *RootMessageNotAnnotated) GetPreviewedThenReleased() int32 {
+func (x *MessageNotAnnotated) GetPreviewedThenReleased() int32 {
 	if x != nil {
 		return x.PreviewedThenReleased
 	}
 	return 0
 }
+
+func (m *MessageNotAnnotated) GetNotAnnotatedOneof() isMessageNotAnnotated_NotAnnotatedOneof {
+	if m != nil {
+		return m.NotAnnotatedOneof
+	}
+	return nil
+}
+
+func (x *MessageNotAnnotated) GetOneofItemNotAnnotated() int32 {
+	if x, ok := x.GetNotAnnotatedOneof().(*MessageNotAnnotated_OneofItemNotAnnotated); ok {
+		return x.OneofItemNotAnnotated
+	}
+	return 0
+}
+
+type isMessageNotAnnotated_NotAnnotatedOneof interface {
+	isMessageNotAnnotated_NotAnnotatedOneof()
+}
+
+type MessageNotAnnotated_OneofItemNotAnnotated struct {
+	OneofItemNotAnnotated int32 `protobuf:"varint,8,opt,name=oneof_item_not_annotated,json=oneofItemNotAnnotated,proto3,oneof"`
+}
+
+func (*MessageNotAnnotated_OneofItemNotAnnotated) isMessageNotAnnotated_NotAnnotatedOneof() {}
 
 var File_beta3_release_option_combinations_proto protoreflect.FileDescriptor
 
@@ -259,41 +447,58 @@ var file_beta3_release_option_combinations_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
 	0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0e, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x73,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1a, 0x0a, 0x18, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52,
-	0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73,
-	0x65, 0x64, 0x22, 0x1b, 0x0a, 0x19, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x6f, 0x6f, 0x74, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x22,
-	0x27, 0x0a, 0x25, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x50, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x54, 0x68, 0x65, 0x6e,
-	0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x22, 0x8b, 0x01, 0x0a, 0x17, 0x52, 0x6f, 0x6f,
-	0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74,
-	0x61, 0x74, 0x65, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64,
-	0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x05, 0x52, 0x09, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x12, 0x36,
-	0x0a, 0x17, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x5f, 0x74, 0x68, 0x65, 0x6e,
-	0x5f, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52,
-	0x15, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x54, 0x68, 0x65, 0x6e, 0x52, 0x65,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x2a, 0x60, 0x0a, 0x14, 0x52, 0x6f, 0x6f, 0x74, 0x45, 0x6e,
-	0x75, 0x6d, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x12, 0x0e,
-	0x0a, 0x0a, 0x7a, 0x65, 0x72, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x10, 0x00, 0x12, 0x0c,
-	0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0d, 0x0a, 0x09,
-	0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x10, 0x03, 0x12, 0x1b, 0x0a, 0x17, 0x70,
-	0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x5f, 0x74, 0x68, 0x65, 0x6e, 0x5f, 0x72, 0x65,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x10, 0x04, 0x32, 0x9a, 0x01, 0x0a, 0x0b, 0x54, 0x65, 0x73,
-	0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x45, 0x0a, 0x13, 0x45, 0x6d, 0x70, 0x74,
-	0x79, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x12,
-	0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12,
-	0x44, 0x0a, 0x0e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x64, 0x12, 0x18, 0x2e, 0x52, 0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4e,
-	0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x1a, 0x18, 0x2e, 0x52, 0x6f,
-	0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f,
-	0x74, 0x61, 0x74, 0x65, 0x64, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x76, 0x6e, 0x65, 0x76, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x2d, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x73, 0x2f, 0x62, 0x65, 0x74, 0x61, 0x33, 0x2f,
-	0x74, 0x65, 0x73, 0x74, 0x64, 0x61, 0x74, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x16, 0x0a, 0x14, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x22, 0x17,
+	0x0a, 0x15, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72,
+	0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x22, 0x23, 0x0a, 0x21, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64,
+	0x54, 0x68, 0x65, 0x6e, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x22, 0x36, 0x0a, 0x18,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x57, 0x69, 0x74, 0x68, 0x52, 0x65, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x72, 0x65, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x64, 0x22, 0x35, 0x0a, 0x17, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x57,
+	0x69, 0x74, 0x68, 0x50, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x12,
+	0x1a, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x22, 0x63, 0x0a, 0x1c, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x57, 0x69, 0x74, 0x68, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x64, 0x4f, 0x6e, 0x65, 0x6f, 0x66, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x30, 0x0a, 0x13, 0x72,
+	0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x5f, 0x6f, 0x6e, 0x65, 0x6f, 0x66, 0x5f, 0x69, 0x74,
+	0x65, 0x6d, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x48, 0x00, 0x52, 0x11, 0x72, 0x65, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x64, 0x4f, 0x6e, 0x65, 0x6f, 0x66, 0x49, 0x74, 0x65, 0x6d, 0x42, 0x11, 0x0a,
+	0x0f, 0x6f, 0x6e, 0x65, 0x6f, 0x66, 0x5f, 0x77, 0x69, 0x74, 0x68, 0x5f, 0x69, 0x74, 0x65, 0x6d,
+	0x22, 0xd9, 0x01, 0x0a, 0x13, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4e, 0x6f, 0x74, 0x41,
+	0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x72, 0x65, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65,
+	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77,
+	0x65, 0x64, 0x12, 0x36, 0x0a, 0x17, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x5f,
+	0x74, 0x68, 0x65, 0x6e, 0x5f, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x15, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x54, 0x68,
+	0x65, 0x6e, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x12, 0x39, 0x0a, 0x18, 0x6f, 0x6e,
+	0x65, 0x6f, 0x66, 0x5f, 0x69, 0x74, 0x65, 0x6d, 0x5f, 0x6e, 0x6f, 0x74, 0x5f, 0x61, 0x6e, 0x6e,
+	0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x05, 0x48, 0x00, 0x52, 0x15,
+	0x6f, 0x6e, 0x65, 0x6f, 0x66, 0x49, 0x74, 0x65, 0x6d, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f,
+	0x74, 0x61, 0x74, 0x65, 0x64, 0x42, 0x15, 0x0a, 0x13, 0x6e, 0x6f, 0x74, 0x5f, 0x61, 0x6e, 0x6e,
+	0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6f, 0x6e, 0x65, 0x6f, 0x66, 0x2a, 0x5c, 0x0a, 0x10,
+	0x45, 0x6e, 0x75, 0x6d, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64,
+	0x12, 0x0e, 0x0a, 0x0a, 0x7a, 0x65, 0x72, 0x6f, 0x5f, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x10, 0x00,
+	0x12, 0x0c, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x10, 0x02, 0x12, 0x0d,
+	0x0a, 0x09, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x10, 0x03, 0x12, 0x1b, 0x0a,
+	0x17, 0x70, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x65, 0x64, 0x5f, 0x74, 0x68, 0x65, 0x6e, 0x5f,
+	0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x10, 0x04, 0x32, 0x92, 0x01, 0x0a, 0x0b, 0x54,
+	0x65, 0x73, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x45, 0x0a, 0x13, 0x45, 0x6d,
+	0x70, 0x74, 0x79, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x64, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74,
+	0x79, 0x12, 0x3c, 0x0a, 0x0e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x64, 0x12, 0x14, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x4e, 0x6f, 0x74,
+	0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x1a, 0x14, 0x2e, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x42,
+	0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65,
+	0x76, 0x6e, 0x65, 0x76, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2d, 0x72, 0x65, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x73, 0x2f, 0x62, 0x65, 0x74, 0x61, 0x33, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x64, 0x61,
+	0x74, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -309,20 +514,23 @@ func file_beta3_release_option_combinations_proto_rawDescGZIP() []byte {
 }
 
 var file_beta3_release_option_combinations_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_beta3_release_option_combinations_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_beta3_release_option_combinations_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_beta3_release_option_combinations_proto_goTypes = []interface{}{
-	(RootEnumNotAnnotated)(0),                     // 0: RootEnumNotAnnotated
-	(*EmptyRootMessageReleased)(nil),              // 1: EmptyRootMessageReleased
-	(*EmptyRootMessagePreviewed)(nil),             // 2: EmptyRootMessagePreviewed
-	(*EmptyRootMessagePreviewedThenReleased)(nil), // 3: EmptyRootMessagePreviewedThenReleased
-	(*RootMessageNotAnnotated)(nil),               // 4: RootMessageNotAnnotated
-	(*emptypb.Empty)(nil),                         // 5: google.protobuf.Empty
+	(EnumNotAnnotated)(0),                     // 0: EnumNotAnnotated
+	(*EmptyMessageReleased)(nil),              // 1: EmptyMessageReleased
+	(*EmptyMessagePreviewed)(nil),             // 2: EmptyMessagePreviewed
+	(*EmptyMessagePreviewedThenReleased)(nil), // 3: EmptyMessagePreviewedThenReleased
+	(*MessageWithReleasedField)(nil),          // 4: MessageWithReleasedField
+	(*MessageWithPreviewField)(nil),           // 5: MessageWithPreviewField
+	(*MessageWithReleasedOneofItem)(nil),      // 6: MessageWithReleasedOneofItem
+	(*MessageNotAnnotated)(nil),               // 7: MessageNotAnnotated
+	(*emptypb.Empty)(nil),                     // 8: google.protobuf.Empty
 }
 var file_beta3_release_option_combinations_proto_depIdxs = []int32{
-	5, // 0: TestService.EmptyMethodReleased:input_type -> google.protobuf.Empty
-	4, // 1: TestService.MethodReleased:input_type -> RootMessageNotAnnotated
-	5, // 2: TestService.EmptyMethodReleased:output_type -> google.protobuf.Empty
-	4, // 3: TestService.MethodReleased:output_type -> RootMessageNotAnnotated
+	8, // 0: TestService.EmptyMethodReleased:input_type -> google.protobuf.Empty
+	7, // 1: TestService.MethodReleased:input_type -> MessageNotAnnotated
+	8, // 2: TestService.EmptyMethodReleased:output_type -> google.protobuf.Empty
+	7, // 3: TestService.MethodReleased:output_type -> MessageNotAnnotated
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -337,7 +545,7 @@ func file_beta3_release_option_combinations_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_beta3_release_option_combinations_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessageReleased); i {
+			switch v := v.(*EmptyMessageReleased); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -349,7 +557,7 @@ func file_beta3_release_option_combinations_proto_init() {
 			}
 		}
 		file_beta3_release_option_combinations_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessagePreviewed); i {
+			switch v := v.(*EmptyMessagePreviewed); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -361,7 +569,7 @@ func file_beta3_release_option_combinations_proto_init() {
 			}
 		}
 		file_beta3_release_option_combinations_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessagePreviewedThenReleased); i {
+			switch v := v.(*EmptyMessagePreviewedThenReleased); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -373,7 +581,43 @@ func file_beta3_release_option_combinations_proto_init() {
 			}
 		}
 		file_beta3_release_option_combinations_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RootMessageNotAnnotated); i {
+			switch v := v.(*MessageWithReleasedField); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_beta3_release_option_combinations_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MessageWithPreviewField); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_beta3_release_option_combinations_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MessageWithReleasedOneofItem); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_beta3_release_option_combinations_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MessageNotAnnotated); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -385,13 +629,19 @@ func file_beta3_release_option_combinations_proto_init() {
 			}
 		}
 	}
+	file_beta3_release_option_combinations_proto_msgTypes[5].OneofWrappers = []interface{}{
+		(*MessageWithReleasedOneofItem_ReleasedOneofItem)(nil),
+	}
+	file_beta3_release_option_combinations_proto_msgTypes[6].OneofWrappers = []interface{}{
+		(*MessageNotAnnotated_OneofItemNotAnnotated)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_beta3_release_option_combinations_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

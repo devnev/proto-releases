@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestServiceClient interface {
 	EmptyMethodReleased(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	MethodReleased(ctx context.Context, in *RootMessageNotAnnotated, opts ...grpc.CallOption) (*RootMessageNotAnnotated, error)
+	MethodReleased(ctx context.Context, in *MessageNotAnnotated, opts ...grpc.CallOption) (*MessageNotAnnotated, error)
 }
 
 type testServiceClient struct {
@@ -44,8 +44,8 @@ func (c *testServiceClient) EmptyMethodReleased(ctx context.Context, in *emptypb
 	return out, nil
 }
 
-func (c *testServiceClient) MethodReleased(ctx context.Context, in *RootMessageNotAnnotated, opts ...grpc.CallOption) (*RootMessageNotAnnotated, error) {
-	out := new(RootMessageNotAnnotated)
+func (c *testServiceClient) MethodReleased(ctx context.Context, in *MessageNotAnnotated, opts ...grpc.CallOption) (*MessageNotAnnotated, error) {
+	out := new(MessageNotAnnotated)
 	err := c.cc.Invoke(ctx, "/TestService/MethodReleased", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (c *testServiceClient) MethodReleased(ctx context.Context, in *RootMessageN
 // for forward compatibility
 type TestServiceServer interface {
 	EmptyMethodReleased(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
-	MethodReleased(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error)
+	MethodReleased(context.Context, *MessageNotAnnotated) (*MessageNotAnnotated, error)
 	mustEmbedUnimplementedTestServiceServer()
 }
 
@@ -69,7 +69,7 @@ type UnimplementedTestServiceServer struct {
 func (UnimplementedTestServiceServer) EmptyMethodReleased(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EmptyMethodReleased not implemented")
 }
-func (UnimplementedTestServiceServer) MethodReleased(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+func (UnimplementedTestServiceServer) MethodReleased(context.Context, *MessageNotAnnotated) (*MessageNotAnnotated, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MethodReleased not implemented")
 }
 func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
@@ -104,7 +104,7 @@ func _TestService_EmptyMethodReleased_Handler(srv interface{}, ctx context.Conte
 }
 
 func _TestService_MethodReleased_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RootMessageNotAnnotated)
+	in := new(MessageNotAnnotated)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func _TestService_MethodReleased_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: "/TestService/MethodReleased",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestServiceServer).MethodReleased(ctx, req.(*RootMessageNotAnnotated))
+		return srv.(TestServiceServer).MethodReleased(ctx, req.(*MessageNotAnnotated))
 	}
 	return interceptor(ctx, in, info, handler)
 }

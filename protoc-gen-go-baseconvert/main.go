@@ -36,16 +36,43 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 			GoImportPath: base,
 		})
 		g.P("func (m *", m.GoIdent.GoName, ") ToBase() *", baseMsg, " {")
-		g.P("return &", baseMsg, "{")
+		g.P("msg := &", baseMsg, "{")
 		for _, f := range m.Fields {
-			g.P(f.GoName, ": m.Get", f.GoName, "(),")
+			if f.Oneof == nil {
+				g.P(f.GoName, ": m.Get", f.GoName, "(),")
+			}
 		}
 		g.P("}")
+		for _, o := range m.Oneofs {
+			g.P("switch o := m.Get", o.GoName, "().(type) {")
+			for _, f := range o.Fields {
+				g.P("case *", f.GoIdent, ":")
+				g.P("msg.", o.GoName, " = ", g.QualifiedGoIdent(protogen.GoIdent{
+					GoName:       f.GoIdent.GoName,
+					GoImportPath: base,
+				}), "(o)")
+			}
+			g.P("}")
+		}
+		g.P("return msg")
 		g.P("}")
 		g.P("func (m *", m.GoIdent.GoName, ") FromBase(b *", baseMsg, ") {")
 		g.P("m.Reset()")
 		for _, f := range m.Fields {
-			g.P("m.", f.GoName, " = b.Get", f.GoName, "()")
+			if f.Oneof == nil {
+				g.P("m.", f.GoName, " = b.Get", f.GoName, "()")
+			}
+		}
+		for _, o := range m.Oneofs {
+			g.P("switch o := b.Get", o.GoName, "().(type) {")
+			for _, f := range o.Fields {
+				g.P("case *", g.QualifiedGoIdent(protogen.GoIdent{
+					GoName:       f.GoIdent.GoName,
+					GoImportPath: base,
+				}), ":")
+				g.P("m.", o.GoName, " = ", f.GoIdent, "(o)")
+			}
+			g.P("}")
 		}
 		g.P("}")
 	}
@@ -60,7 +87,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 			GoName:       "Context",
 			GoImportPath: "context",
 		})
-		srvName := "Base" + s.GoName + "server"
+		srvName := "Base" + s.GoName + "Server"
 
 		g.P("type ", srvName, " struct {")
 		g.P("Unsafe", s.GoName, "Server")
