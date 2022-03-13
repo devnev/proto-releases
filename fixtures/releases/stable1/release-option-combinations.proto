@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+import "releases.proto";
+
+option go_package = "github.com/devnev/proto-releases/stable1/fixtures";

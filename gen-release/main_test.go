@@ -13,7 +13,7 @@ import (
 func TestRun(t *testing.T) {
 	outDir := t.TempDir()
 	t.Logf("generating output to dir %q", outDir)
-	includes := []string{filepath.Join("..", "testdata"), ".."}
+	includes := []string{filepath.Join("..", "fixtures"), ".."}
 	for _, preview := range []bool{false, true} {
 		for release := 0; release < 4; release++ {
 			outPath := filepath.Join(outDir, testName(release, preview))
@@ -25,7 +25,7 @@ func TestRun(t *testing.T) {
 			run(outPath, config, includes, []string{"release-option-combinations.proto"})
 		}
 	}
-	cmd := exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, filepath.Join("..", "testdata", "golden"))
+	cmd := exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, filepath.Join("..", "fixtures", "releases"))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
