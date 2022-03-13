@@ -18,8 +18,8 @@ func TestProtoc(t *testing.T) {
 
 	var (
 		binDir      = t.TempDir()
-		testdataDir = filepath.Join("..", "testdata")
-		goldenDir   = filepath.Join(testdataDir, "golden")
+		fixturesDir = filepath.Join("..", "fixtures")
+		releasesDir = filepath.Join(fixturesDir, "releases")
 		outDir      = t.TempDir()
 	)
 
@@ -29,40 +29,24 @@ func TestProtoc(t *testing.T) {
 		t.Fatalf("unable to build plugin executable: %v", err)
 	}
 
-	cmd = exec.Command(
-		"protoc",
-		"-I"+testdataDir,
-		"-I..",
-		"--go_out="+outDir,
-		"--go_opt=paths=source_relative",
-		"--go-grpc_out="+outDir,
-		"--go-grpc_opt=paths=source_relative",
-		"release-option-combinations.proto",
-	)
-	cmd.Env = append(os.Environ(), "PATH="+binDir+":"+os.Getenv("PATH"))
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		t.Fatalf("unable to generate base proto")
-	}
-
-	if err := filepath.WalkDir(goldenDir, func(path string, d fs.DirEntry, err error) error {
+	if err := filepath.WalkDir(releasesDir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() || filepath.Ext(path) != ".proto" {
 			return err
 		}
-		relPath, err := filepath.Rel(goldenDir, path)
+		relPath, err := filepath.Rel(releasesDir, path)
 		if err != nil {
 			return err
 		}
 		cmd = exec.Command(
 			"protoc",
-			"-I"+goldenDir,
+			"-I"+releasesDir,
 			"-I..",
 			"--go_out="+outDir,
 			"--go_opt=paths=source_relative",
 			"--go-grpc_out="+outDir,
 			"--go-grpc_opt=paths=source_relative",
 			"--go-baseconvert_out="+outDir,
-			"--go-baseconvert_opt=base=github.com/devnev/proto-releases/testdata/golden,paths=source_relative",
+			"--go-baseconvert_opt=base=github.com/devnev/proto-releases/fixtures,paths=source_relative",
 			relPath,
 		)
 		cmd.Env = append(os.Environ(), "PATH="+binDir+":"+os.Getenv("PATH"))
@@ -72,7 +56,7 @@ func TestProtoc(t *testing.T) {
 		t.Errorf("failed to find files: %v", err)
 	}
 
-	cmd = exec.Command("diff", "--unified", "--recursive", "--exclude=*.proto", outDir, goldenDir)
+	cmd = exec.Command("diff", "--unified", "--recursive", "--exclude=*.proto", outDir, releasesDir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

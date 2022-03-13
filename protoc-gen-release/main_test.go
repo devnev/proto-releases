@@ -18,8 +18,8 @@ func TestProtoc(t *testing.T) {
 
 	var (
 		binDir      = t.TempDir()
-		testdataDir = filepath.Join("..", "testdata")
-		goldenDir   = filepath.Join(testdataDir, "golden")
+		fixturesDir = filepath.Join("..", "fixtures")
+		releasesDir = filepath.Join(fixturesDir, "releases")
 		outDir      = t.TempDir()
 	)
 
@@ -37,7 +37,7 @@ func TestProtoc(t *testing.T) {
 			}
 			cmd := exec.Command(
 				"protoc",
-				"-I"+testdataDir,
+				"-I"+fixturesDir,
 				"-I..",
 				"--release_out="+outPath,
 				fmt.Sprintf("--release_opt=release=%v,preview=%v,go_package=%v", release, preview, "github.com/devnev/proto-releases/"+testName(release, preview)),
@@ -53,7 +53,7 @@ func TestProtoc(t *testing.T) {
 	if t.Failed() {
 		return
 	}
-	cmd = exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, goldenDir)
+	cmd = exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, releasesDir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

@@ -47,10 +47,10 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 			g.P("switch o := m.Get", o.GoName, "().(type) {")
 			for _, f := range o.Fields {
 				g.P("case *", f.GoIdent, ":")
-				g.P("msg.", o.GoName, " = ", g.QualifiedGoIdent(protogen.GoIdent{
+				g.P("msg.", o.GoName, " = (*", g.QualifiedGoIdent(protogen.GoIdent{
 					GoName:       f.GoIdent.GoName,
 					GoImportPath: base,
-				}), "(o)")
+				}), ")(o)")
 			}
 			g.P("}")
 		}
@@ -70,7 +70,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 					GoName:       f.GoIdent.GoName,
 					GoImportPath: base,
 				}), ":")
-				g.P("m.", o.GoName, " = ", f.GoIdent, "(o)")
+				g.P("m.", o.GoName, " = (*", f.GoIdent, ")(o)")
 			}
 			g.P("}")
 		}
