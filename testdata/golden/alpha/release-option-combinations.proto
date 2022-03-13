@@ -2,6 +2,8 @@ syntax = "proto3";
 
 import "releases.proto";
 
+option go_package = "github.com/devnev/proto-releases/alpha/testdata";
+
 message EmptyRootMessageNotAnnotated {
 }
 

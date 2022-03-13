@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"testing"
+
+	releases "github.com/devnev/proto-releases"
 )
 
 func TestRun(t *testing.T) {
@@ -15,7 +17,12 @@ func TestRun(t *testing.T) {
 	for _, preview := range []bool{false, true} {
 		for release := 0; release < 4; release++ {
 			outPath := filepath.Join(outDir, testName(release, preview))
-			run(outPath, release, preview, includes, []string{"release-option-combinations.proto"})
+			config := &releases.Config{
+				Release:   int32(release),
+				Preview:   preview,
+				GoPackage: "github.com/devnev/proto-releases/" + testName(release, preview),
+			}
+			run(outPath, config, includes, []string{"release-option-combinations.proto"})
 		}
 	}
 	cmd := exec.Command("diff", "-ur", outDir, filepath.Join("..", "testdata", "golden"))

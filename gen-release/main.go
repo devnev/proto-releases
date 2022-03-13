@@ -23,22 +23,23 @@ func main() {
 		release = flag.Int("rel", 0, "")
 		preview = flag.Bool("pre", false, "")
 		include = flag.String("inc", ".", "")
+		gopkg   = flag.String("gopkg", "", "")
 	)
 	flag.Parse()
-	run(*out, *release, *preview, filepath.SplitList(*include), flag.Args())
+	config := &releases.Config{
+		Release:   int32(*release),
+		Preview:   *preview,
+		GoPackage: *gopkg,
+	}
+	run(*out, config, filepath.SplitList(*include), flag.Args())
 }
 
 func run(
 	out string,
-	release int,
-	preview bool,
+	config *releases.Config,
 	include []string,
 	files []string,
 ) {
-	config := &releases.Config{
-		Release: int32(release),
-		Preview: preview,
-	}
 	log.Printf("releasing for %q", config)
 	parser := protoparse.Parser{
 		ImportPaths:           append(include, "."),

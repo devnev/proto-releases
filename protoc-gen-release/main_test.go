@@ -36,7 +36,7 @@ func TestProtoc(t *testing.T) {
 				"-I"+filepath.Join("..", "testdata"),
 				"-I..",
 				"--release_out="+outPath,
-				fmt.Sprintf("--release_opt=release=%v,preview=%v", release, preview),
+				fmt.Sprintf("--release_opt=release=%v,preview=%v,go_package=%v", release, preview, "github.com/devnev/proto-releases/"+testName(release, preview)),
 				"release-option-combinations.proto",
 			)
 			cmd.Env = append(os.Environ(), "PATH="+binDir)

@@ -43,6 +43,8 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 				bctx.Fail(err)
 			}
 			m.c.Release = int32(r)
+		case "go_package":
+			m.c.GoPackage = v
 		case "":
 			if v == "" {
 				continue
