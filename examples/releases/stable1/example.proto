@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+import "releases.proto";
+
+option go_package = "github.com/devnev/proto-releases/examples/releases/stable1/github.com/devnev/proto-releases/examples";

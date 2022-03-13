@@ -2,6 +2,8 @@ syntax = "proto3";
 
 import "releases.proto";
 
+option go_package = "github.com/devnev/proto-releases/examples/releases/alpha/github.com/devnev/proto-releases/examples";
+
 message Example {
   // Not annotated means this is not include in any numbered release.
   //
@@ -23,4 +25,10 @@ message Example {
   int32 previewed = 3;
 
   int32 previewed_released_removed = 4;
+}
+
+service ExampleService {
+  rpc ExampleUnreleaseMethod ( Example ) returns ( Example );
+
+  rpc ExampleReleasedMethod ( Example ) returns ( Example );
 }

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 import "releases.proto";
 
+option go_package = "github.com/devnev/proto-releases/examples/releases/beta3/github.com/devnev/proto-releases/examples";
+
 message Example {
   // With a designated starting release, this field will be included in any
   // release from this number onwards.
@@ -16,6 +18,8 @@ message Example {
   // Intended to allow fields under development to be included in beta
   // releases.
   int32 previewed = 3;
+}
 
-  int32 previewed_released_removed = 4;
+service ExampleService {
+  rpc ExampleReleasedMethod ( Example ) returns ( Example );
 }

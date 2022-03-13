@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-import "releases.proto";
-
-message Example {
-  int32 previewed_released_removed = 4;
-}

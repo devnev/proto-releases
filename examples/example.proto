@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 syntax = "proto3";
+option go_package = "github.com/devnev/proto-releases/examples";
 
 import "releases.proto";
 
@@ -35,4 +36,11 @@ message Example {
         (releases.field).release_in = 2,
         (releases.field).remove_in = 3
     ];
+}
+
+service ExampleService {
+    rpc ExampleUnreleaseMethod(Example) returns (Example);
+    rpc ExampleReleasedMethod(Example) returns (Example) {
+        option (releases.method).release_in = 2;
+    };
 }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "releases.proto";
+
+option go_package = "github.com/devnev/proto-releases/examples/releases/beta1/github.com/devnev/proto-releases/examples";
+
+message Example {
+  int32 previewed_released_removed = 4;
+}
