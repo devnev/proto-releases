@@ -16,8 +16,12 @@ func TestProtoc(t *testing.T) {
 		t.Fatalf("unexpected error checking for `protoc`: %v", err)
 	}
 
-	binDir := t.TempDir()
-	outDir := t.TempDir()
+	var (
+		binDir      = t.TempDir()
+		testdataDir = filepath.Join("..", "testdata")
+		goldenDir   = filepath.Join(testdataDir, "golden")
+		outDir      = t.TempDir()
+	)
 
 	cmd := exec.Command("go", "build", "-o", filepath.Join(binDir, "protoc-gen-release"), ".")
 	cmd.Stderr = os.Stderr
@@ -33,7 +37,7 @@ func TestProtoc(t *testing.T) {
 			}
 			cmd := exec.Command(
 				"protoc",
-				"-I"+filepath.Join("..", "testdata"),
+				"-I"+testdataDir,
 				"-I..",
 				"--release_out="+outPath,
 				fmt.Sprintf("--release_opt=release=%v,preview=%v,go_package=%v", release, preview, "github.com/devnev/proto-releases/"+testName(release, preview)),
@@ -49,7 +53,7 @@ func TestProtoc(t *testing.T) {
 	if t.Failed() {
 		return
 	}
-	cmd = exec.Command("diff", "-ur", outDir, filepath.Join("..", "testdata", "golden"))
+	cmd = exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, goldenDir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
