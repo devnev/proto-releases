@@ -4,27 +4,18 @@ import "releases.proto";
 
 message Example {
   // With a designated starting release, this field will be included in any
-  // release from this number onwards and all preview releases.
+  // release from this number onwards.
   //
   // Intended for stabilising fields to be included in general availability
   // releases.
   int32 released = 2;
 
-  // With a negative starting release, this field be included in all preview
-  // releases.
-  //
-  // Intended for marking fields for including in preview releases that aren't
-  // strictly versioned, with the intent to change the number to a release
-  // once the field is intended to be generally available.
-  int32 released_eventually = 5;
-
-  // With a designated starting release, this field will be included in any
+  // With a designated preview release, this field will be included in any
   // preview releases from this number onwards.
+  //
+  // Intended to allow fields under development to be included in beta
+  // releases.
   int32 previewed = 3;
 
-  int32 previewed_then_released = 4;
-
-  int32 previewed_then_removed = 6;
-
-  int32 released_then_removed = 7;
+  int32 previewed_released_removed = 4;
 }

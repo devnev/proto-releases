@@ -7,9 +7,6 @@ option go_package = "github.com/devnev/proto-releases/beta2/testdata";
 message EmptyRootMessageReleased {
 }
 
-message EmptyRootMessageReleasedEventually {
-}
-
 message EmptyRootMessagePreviewed {
 }
 
@@ -25,8 +22,6 @@ message EmptyRootMessageReleasedThenRemoved {
 message RootMessageNotAnnotated {
   int32 released = 2;
 
-  int32 released_eventually = 5;
-
   int32 previewed = 3;
 
   int32 previewed_then_released = 4;
@@ -40,8 +35,6 @@ enum RootEnumNotAnnotated {
   zero_value = 0;
 
   released = 2;
-
-  released_eventually = 5;
 
   previewed = 3;
 

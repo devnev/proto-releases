@@ -27,7 +27,7 @@ func main() {
 	)
 	flag.Parse()
 	config := &releases.Config{
-		Release:   int32(*release),
+		Release:   uint32(*release),
 		Preview:   *preview,
 		GoPackage: *gopkg,
 	}

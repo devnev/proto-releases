@@ -11,7 +11,6 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -21,292 +20,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RootEnumNotAnnotated int32
-
-const (
-	RootEnumNotAnnotated_zero_value            RootEnumNotAnnotated = 0
-	RootEnumNotAnnotated_released              RootEnumNotAnnotated = 2
-	RootEnumNotAnnotated_released_eventually   RootEnumNotAnnotated = 5
-	RootEnumNotAnnotated_released_then_removed RootEnumNotAnnotated = 7
-)
-
-// Enum value maps for RootEnumNotAnnotated.
-var (
-	RootEnumNotAnnotated_name = map[int32]string{
-		0: "zero_value",
-		2: "released",
-		5: "released_eventually",
-		7: "released_then_removed",
-	}
-	RootEnumNotAnnotated_value = map[string]int32{
-		"zero_value":            0,
-		"released":              2,
-		"released_eventually":   5,
-		"released_then_removed": 7,
-	}
-)
-
-func (x RootEnumNotAnnotated) Enum() *RootEnumNotAnnotated {
-	p := new(RootEnumNotAnnotated)
-	*p = x
-	return p
-}
-
-func (x RootEnumNotAnnotated) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (RootEnumNotAnnotated) Descriptor() protoreflect.EnumDescriptor {
-	return file_beta1_release_option_combinations_proto_enumTypes[0].Descriptor()
-}
-
-func (RootEnumNotAnnotated) Type() protoreflect.EnumType {
-	return &file_beta1_release_option_combinations_proto_enumTypes[0]
-}
-
-func (x RootEnumNotAnnotated) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use RootEnumNotAnnotated.Descriptor instead.
-func (RootEnumNotAnnotated) EnumDescriptor() ([]byte, []int) {
-	return file_beta1_release_option_combinations_proto_rawDescGZIP(), []int{0}
-}
-
-type EmptyRootMessageReleased struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *EmptyRootMessageReleased) Reset() {
-	*x = EmptyRootMessageReleased{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_beta1_release_option_combinations_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *EmptyRootMessageReleased) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*EmptyRootMessageReleased) ProtoMessage() {}
-
-func (x *EmptyRootMessageReleased) ProtoReflect() protoreflect.Message {
-	mi := &file_beta1_release_option_combinations_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use EmptyRootMessageReleased.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessageReleased) Descriptor() ([]byte, []int) {
-	return file_beta1_release_option_combinations_proto_rawDescGZIP(), []int{0}
-}
-
-type EmptyRootMessageReleasedEventually struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *EmptyRootMessageReleasedEventually) Reset() {
-	*x = EmptyRootMessageReleasedEventually{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_beta1_release_option_combinations_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *EmptyRootMessageReleasedEventually) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*EmptyRootMessageReleasedEventually) ProtoMessage() {}
-
-func (x *EmptyRootMessageReleasedEventually) ProtoReflect() protoreflect.Message {
-	mi := &file_beta1_release_option_combinations_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use EmptyRootMessageReleasedEventually.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessageReleasedEventually) Descriptor() ([]byte, []int) {
-	return file_beta1_release_option_combinations_proto_rawDescGZIP(), []int{1}
-}
-
-type EmptyRootMessageReleasedThenRemoved struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *EmptyRootMessageReleasedThenRemoved) Reset() {
-	*x = EmptyRootMessageReleasedThenRemoved{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_beta1_release_option_combinations_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *EmptyRootMessageReleasedThenRemoved) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*EmptyRootMessageReleasedThenRemoved) ProtoMessage() {}
-
-func (x *EmptyRootMessageReleasedThenRemoved) ProtoReflect() protoreflect.Message {
-	mi := &file_beta1_release_option_combinations_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use EmptyRootMessageReleasedThenRemoved.ProtoReflect.Descriptor instead.
-func (*EmptyRootMessageReleasedThenRemoved) Descriptor() ([]byte, []int) {
-	return file_beta1_release_option_combinations_proto_rawDescGZIP(), []int{2}
-}
-
-type RootMessageNotAnnotated struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Released            int32 `protobuf:"varint,2,opt,name=released,proto3" json:"released,omitempty"`
-	ReleasedEventually  int32 `protobuf:"varint,5,opt,name=released_eventually,json=releasedEventually,proto3" json:"released_eventually,omitempty"`
-	ReleasedThenRemoved int32 `protobuf:"varint,7,opt,name=released_then_removed,json=releasedThenRemoved,proto3" json:"released_then_removed,omitempty"`
-}
-
-func (x *RootMessageNotAnnotated) Reset() {
-	*x = RootMessageNotAnnotated{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_beta1_release_option_combinations_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RootMessageNotAnnotated) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RootMessageNotAnnotated) ProtoMessage() {}
-
-func (x *RootMessageNotAnnotated) ProtoReflect() protoreflect.Message {
-	mi := &file_beta1_release_option_combinations_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RootMessageNotAnnotated.ProtoReflect.Descriptor instead.
-func (*RootMessageNotAnnotated) Descriptor() ([]byte, []int) {
-	return file_beta1_release_option_combinations_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *RootMessageNotAnnotated) GetReleased() int32 {
-	if x != nil {
-		return x.Released
-	}
-	return 0
-}
-
-func (x *RootMessageNotAnnotated) GetReleasedEventually() int32 {
-	if x != nil {
-		return x.ReleasedEventually
-	}
-	return 0
-}
-
-func (x *RootMessageNotAnnotated) GetReleasedThenRemoved() int32 {
-	if x != nil {
-		return x.ReleasedThenRemoved
-	}
-	return 0
-}
-
 var File_beta1_release_option_combinations_proto protoreflect.FileDescriptor
 
 var file_beta1_release_option_combinations_proto_rawDesc = []byte{
 	0x0a, 0x27, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2f, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2d,
 	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x2d, 0x63, 0x6f, 0x6d, 0x62, 0x69, 0x6e, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0e, 0x72, 0x65, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1a, 0x0a, 0x18, 0x45, 0x6d, 0x70,
-	0x74, 0x79, 0x52, 0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x64, 0x22, 0x24, 0x0a, 0x22, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x6f,
-	0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x64, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x75, 0x61, 0x6c, 0x6c, 0x79, 0x22, 0x25, 0x0a, 0x23, 0x45,
-	0x6d, 0x70, 0x74, 0x79, 0x52, 0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52,
-	0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x54, 0x68, 0x65, 0x6e, 0x52, 0x65, 0x6d, 0x6f, 0x76,
-	0x65, 0x64, 0x22, 0x9a, 0x01, 0x0a, 0x17, 0x52, 0x6f, 0x6f, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x4e, 0x6f, 0x74, 0x41, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x12, 0x1a,
-	0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x12, 0x2f, 0x0a, 0x13, 0x72, 0x65,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x5f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x75, 0x61, 0x6c, 0x6c,
-	0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x12, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x64, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x75, 0x61, 0x6c, 0x6c, 0x79, 0x12, 0x32, 0x0a, 0x15, 0x72,
-	0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x5f, 0x74, 0x68, 0x65, 0x6e, 0x5f, 0x72, 0x65, 0x6d,
-	0x6f, 0x76, 0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x05, 0x52, 0x13, 0x72, 0x65, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x64, 0x54, 0x68, 0x65, 0x6e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64, 0x2a,
-	0x68, 0x0a, 0x14, 0x52, 0x6f, 0x6f, 0x74, 0x45, 0x6e, 0x75, 0x6d, 0x4e, 0x6f, 0x74, 0x41, 0x6e,
-	0x6e, 0x6f, 0x74, 0x61, 0x74, 0x65, 0x64, 0x12, 0x0e, 0x0a, 0x0a, 0x7a, 0x65, 0x72, 0x6f, 0x5f,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x72, 0x65, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x64, 0x10, 0x02, 0x12, 0x17, 0x0a, 0x13, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x64, 0x5f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x75, 0x61, 0x6c, 0x6c, 0x79, 0x10, 0x05, 0x12, 0x19,
-	0x0a, 0x15, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x5f, 0x74, 0x68, 0x65, 0x6e, 0x5f,
-	0x72, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x64, 0x10, 0x07, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74,
+	0x73, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74,
 	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x76, 0x6e, 0x65, 0x76, 0x2f, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x2d, 0x72, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x73, 0x2f, 0x62, 0x65,
 	0x74, 0x61, 0x31, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x64, 0x61, 0x74, 0x61, 0x62, 0x06, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x33,
 }
 
-var (
-	file_beta1_release_option_combinations_proto_rawDescOnce sync.Once
-	file_beta1_release_option_combinations_proto_rawDescData = file_beta1_release_option_combinations_proto_rawDesc
-)
-
-func file_beta1_release_option_combinations_proto_rawDescGZIP() []byte {
-	file_beta1_release_option_combinations_proto_rawDescOnce.Do(func() {
-		file_beta1_release_option_combinations_proto_rawDescData = protoimpl.X.CompressGZIP(file_beta1_release_option_combinations_proto_rawDescData)
-	})
-	return file_beta1_release_option_combinations_proto_rawDescData
-}
-
-var file_beta1_release_option_combinations_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_beta1_release_option_combinations_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_beta1_release_option_combinations_proto_goTypes = []interface{}{
-	(RootEnumNotAnnotated)(0),                   // 0: RootEnumNotAnnotated
-	(*EmptyRootMessageReleased)(nil),            // 1: EmptyRootMessageReleased
-	(*EmptyRootMessageReleasedEventually)(nil),  // 2: EmptyRootMessageReleasedEventually
-	(*EmptyRootMessageReleasedThenRemoved)(nil), // 3: EmptyRootMessageReleasedThenRemoved
-	(*RootMessageNotAnnotated)(nil),             // 4: RootMessageNotAnnotated
-}
+var file_beta1_release_option_combinations_proto_goTypes = []interface{}{}
 var file_beta1_release_option_combinations_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
@@ -320,70 +47,18 @@ func file_beta1_release_option_combinations_proto_init() {
 	if File_beta1_release_option_combinations_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_beta1_release_option_combinations_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessageReleased); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_beta1_release_option_combinations_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessageReleasedEventually); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_beta1_release_option_combinations_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EmptyRootMessageReleasedThenRemoved); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_beta1_release_option_combinations_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RootMessageNotAnnotated); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_beta1_release_option_combinations_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   4,
+			NumEnums:      0,
+			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_beta1_release_option_combinations_proto_goTypes,
 		DependencyIndexes: file_beta1_release_option_combinations_proto_depIdxs,
-		EnumInfos:         file_beta1_release_option_combinations_proto_enumTypes,
-		MessageInfos:      file_beta1_release_option_combinations_proto_msgTypes,
 	}.Build()
 	File_beta1_release_option_combinations_proto = out.File
 	file_beta1_release_option_combinations_proto_rawDesc = nil

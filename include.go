@@ -13,18 +13,13 @@ func Include(range_ *Range, config *Config) bool {
 		// skip if removed
 		return false
 	}
-
-	if config.GetPreview() {
-		// if an explicit pre-release version is specified, only include if it matches
-		if range_.GetPreviewIn() > 0 {
-			return range_.GetPreviewIn() <= config.GetRelease()
-		}
-		return range_.GetReleaseIn() != 0
-	} else {
-		if range_.GetReleaseIn() <= 0 {
-			// non-preview requires positive release gate
-			return false
-		}
-		return range_.GetReleaseIn() <= config.GetRelease()
+	if range_.GetReleaseIn() > 0 && range_.GetReleaseIn() <= config.GetRelease() {
+		// keep if released
+		return true
 	}
+	if config.GetPreview() && range_.GetPreviewIn() > 0 && range_.GetPreviewIn() <= config.GetRelease() {
+		// keep if previewed
+		return true
+	}
+	return false
 }

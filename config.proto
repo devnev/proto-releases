@@ -8,7 +8,7 @@ package releases;
 option go_package = "github.com/devnev/proto-releases;releases";
 
 message Config {
-    int32 release = 1;
+    uint32 release = 1;
     bool preview = 2;
     string go_package = 3;
 }

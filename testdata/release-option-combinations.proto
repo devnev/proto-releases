@@ -14,10 +14,6 @@ message EmptyRootMessageReleased {
     option (releases.message).release_in = 2;
 }
 
-message EmptyRootMessageReleasedEventually {
-    option (releases.message).release_in = -1;
-}
-
 message EmptyRootMessagePreviewed {
     option (releases.message).preview_in = 2;
 }
@@ -42,10 +38,6 @@ message RootMessageNotAnnotated {
 
     int32 released = 2 [
         (releases.field).release_in = 2
-    ];
-
-    int32 released_eventually = 5 [
-        (releases.field).release_in = -1
     ];
 
     int32 previewed = 3 [
@@ -75,10 +67,6 @@ enum RootEnumNotAnnotated {
 
     released = 2 [
         (releases.enum).release_in = 2
-    ];
-
-    released_eventually = 5 [
-        (releases.enum).release_in = -1
     ];
 
     previewed = 3 [

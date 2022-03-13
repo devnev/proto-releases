@@ -38,11 +38,11 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 			}
 			m.c.Preview = p
 		case "release":
-			r, err := strconv.ParseInt(v, 10, 32)
+			r, err := strconv.ParseUint(v, 10, 32)
 			if err != nil {
 				bctx.Fail(err)
 			}
-			m.c.Release = int32(r)
+			m.c.Release = uint32(r)
 		case "go_package":
 			m.c.GoPackage = v
 		case "":
