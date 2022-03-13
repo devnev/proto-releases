@@ -25,7 +25,7 @@ func TestRun(t *testing.T) {
 			run(outPath, config, includes, []string{"release-option-combinations.proto"})
 		}
 	}
-	cmd := exec.Command("diff", "-ur", outDir, filepath.Join("..", "testdata", "golden"))
+	cmd := exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, filepath.Join("..", "testdata", "golden"))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

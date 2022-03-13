@@ -5,11 +5,23 @@
 package releases
 
 //go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative releases.proto config.proto
-//go:generate -command gen go run github.com/devnev/proto-releases/gen-release -inc .:testdata
-//go:generate gen -out testdata/golden/alpha -gopkg github.com/devnev/proto-releases/alpha release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta1 -gopkg github.com/devnev/proto-releases/beta1 -rel 1 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta2 -gopkg github.com/devnev/proto-releases/beta2 -rel 2 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta3 -gopkg github.com/devnev/proto-releases/beta3 -rel 3 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable1 -gopkg github.com/devnev/proto-releases/stable1 -rel 1 release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable2 -gopkg github.com/devnev/proto-releases/stable2 -rel 2 release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable3 -gopkg github.com/devnev/proto-releases/stable3 -rel 3 release-option-combinations.proto
+//go:generate mkdir -p testdata/golden/alpha testdata/golden/beta1 testdata/golden/beta2 testdata/golden/beta3 testdata/golden/stable1 testdata/golden/stable2 testdata/golden/stable3
+//go:generate go install github.com/devnev/proto-releases/protoc-gen-release
+//go:generate -command genrel protoc -I. -Itestdata release-option-combinations.proto
+//go:generate genrel --release_out=testdata/golden/alpha --release_opt=go_package=github.com/devnev/proto-releases/alpha
+//go:generate genrel --release_out=testdata/golden/beta1 --release_opt=go_package=github.com/devnev/proto-releases/beta1,release=1,preview=true
+//go:generate genrel --release_out=testdata/golden/beta2 --release_opt=go_package=github.com/devnev/proto-releases/beta2,release=2,preview=true
+//go:generate genrel --release_out=testdata/golden/beta3 --release_opt=go_package=github.com/devnev/proto-releases/beta3,release=3,preview=true
+//go:generate genrel --release_out=testdata/golden/stable1 --release_opt=go_package=github.com/devnev/proto-releases/stable1,release=1
+//go:generate genrel --release_out=testdata/golden/stable2 --release_opt=go_package=github.com/devnev/proto-releases/stable2,release=2
+//go:generate genrel --release_out=testdata/golden/stable3 --release_opt=go_package=github.com/devnev/proto-releases/stable3,release=3
+//go:generate protoc -I. -Itestdata --go_out=testdata/golden --go_opt=paths=source_relative release-option-combinations.proto
+//go:generate go install github.com/devnev/proto-releases/protoc-gen-go-baseconvert
+//go:generate -command genbaseconv protoc -I. -Itestdata/golden --go_out=testdata/golden --go_opt=paths=source_relative --go-baseconvert_out=testdata/golden --go-baseconvert_opt=base=github.com/devnev/proto-releases/testdata/golden,paths=source_relative
+//go:generate genbaseconv alpha/release-option-combinations.proto
+//go:generate genbaseconv beta1/release-option-combinations.proto
+//go:generate genbaseconv beta2/release-option-combinations.proto
+//go:generate genbaseconv beta3/release-option-combinations.proto
+//go:generate genbaseconv stable1/release-option-combinations.proto
+//go:generate genbaseconv stable2/release-option-combinations.proto
+//go:generate genbaseconv stable3/release-option-combinations.proto
