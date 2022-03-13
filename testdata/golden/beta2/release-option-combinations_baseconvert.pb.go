@@ -12,12 +12,6 @@ func (m *EmptyRootMessageReleased) ToBase() *golden.EmptyRootMessageReleased {
 func (m *EmptyRootMessageReleased) FromBase(b *golden.EmptyRootMessageReleased) {
 	m.Reset()
 }
-func (m *EmptyRootMessageReleasedEventually) ToBase() *golden.EmptyRootMessageReleasedEventually {
-	return &golden.EmptyRootMessageReleasedEventually{}
-}
-func (m *EmptyRootMessageReleasedEventually) FromBase(b *golden.EmptyRootMessageReleasedEventually) {
-	m.Reset()
-}
 func (m *EmptyRootMessagePreviewed) ToBase() *golden.EmptyRootMessagePreviewed {
 	return &golden.EmptyRootMessagePreviewed{}
 }
@@ -45,7 +39,6 @@ func (m *EmptyRootMessageReleasedThenRemoved) FromBase(b *golden.EmptyRootMessag
 func (m *RootMessageNotAnnotated) ToBase() *golden.RootMessageNotAnnotated {
 	return &golden.RootMessageNotAnnotated{
 		Released:              m.GetReleased(),
-		ReleasedEventually:    m.GetReleasedEventually(),
 		Previewed:             m.GetPreviewed(),
 		PreviewedThenReleased: m.GetPreviewedThenReleased(),
 		PreviewedThenRemoved:  m.GetPreviewedThenRemoved(),
@@ -55,7 +48,6 @@ func (m *RootMessageNotAnnotated) ToBase() *golden.RootMessageNotAnnotated {
 func (m *RootMessageNotAnnotated) FromBase(b *golden.RootMessageNotAnnotated) {
 	m.Reset()
 	m.Released = b.GetReleased()
-	m.ReleasedEventually = b.GetReleasedEventually()
 	m.Previewed = b.GetPreviewed()
 	m.PreviewedThenReleased = b.GetPreviewedThenReleased()
 	m.PreviewedThenRemoved = b.GetPreviewedThenRemoved()

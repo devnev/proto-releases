@@ -18,7 +18,7 @@ func TestRun(t *testing.T) {
 		for release := 0; release < 4; release++ {
 			outPath := filepath.Join(outDir, testName(release, preview))
 			config := &releases.Config{
-				Release:   int32(release),
+				Release:   uint32(release),
 				Preview:   preview,
 				GoPackage: "github.com/devnev/proto-releases/" + testName(release, preview),
 			}
