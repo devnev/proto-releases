@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.4
-// source: stable2/release-option-combinations.proto
+// source: release-option-combinations.proto
 
 package testdata
 
@@ -23,7 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestServiceClient interface {
+	EmptyMethodNotAnnotated(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	EmptyMethodReleased(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	MethodNotAnnotated(ctx context.Context, in *RootMessageNotAnnotated, opts ...grpc.CallOption) (*RootMessageNotAnnotated, error)
 	MethodReleased(ctx context.Context, in *RootMessageNotAnnotated, opts ...grpc.CallOption) (*RootMessageNotAnnotated, error)
 }
 
@@ -35,9 +37,27 @@ func NewTestServiceClient(cc grpc.ClientConnInterface) TestServiceClient {
 	return &testServiceClient{cc}
 }
 
+func (c *testServiceClient) EmptyMethodNotAnnotated(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/TestService/EmptyMethodNotAnnotated", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *testServiceClient) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/TestService/EmptyMethodReleased", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) MethodNotAnnotated(ctx context.Context, in *RootMessageNotAnnotated, opts ...grpc.CallOption) (*RootMessageNotAnnotated, error) {
+	out := new(RootMessageNotAnnotated)
+	err := c.cc.Invoke(ctx, "/TestService/MethodNotAnnotated", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +77,9 @@ func (c *testServiceClient) MethodReleased(ctx context.Context, in *RootMessageN
 // All implementations must embed UnimplementedTestServiceServer
 // for forward compatibility
 type TestServiceServer interface {
+	EmptyMethodNotAnnotated(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	EmptyMethodReleased(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	MethodNotAnnotated(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error)
 	MethodReleased(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error)
 	mustEmbedUnimplementedTestServiceServer()
 }
@@ -66,8 +88,14 @@ type TestServiceServer interface {
 type UnimplementedTestServiceServer struct {
 }
 
+func (UnimplementedTestServiceServer) EmptyMethodNotAnnotated(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EmptyMethodNotAnnotated not implemented")
+}
 func (UnimplementedTestServiceServer) EmptyMethodReleased(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EmptyMethodReleased not implemented")
+}
+func (UnimplementedTestServiceServer) MethodNotAnnotated(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MethodNotAnnotated not implemented")
 }
 func (UnimplementedTestServiceServer) MethodReleased(context.Context, *RootMessageNotAnnotated) (*RootMessageNotAnnotated, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MethodReleased not implemented")
@@ -85,6 +113,24 @@ func RegisterTestServiceServer(s grpc.ServiceRegistrar, srv TestServiceServer) {
 	s.RegisterService(&TestService_ServiceDesc, srv)
 }
 
+func _TestService_EmptyMethodNotAnnotated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).EmptyMethodNotAnnotated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TestService/EmptyMethodNotAnnotated",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).EmptyMethodNotAnnotated(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TestService_EmptyMethodReleased_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -99,6 +145,24 @@ func _TestService_EmptyMethodReleased_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestServiceServer).EmptyMethodReleased(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_MethodNotAnnotated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RootMessageNotAnnotated)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).MethodNotAnnotated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/TestService/MethodNotAnnotated",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).MethodNotAnnotated(ctx, req.(*RootMessageNotAnnotated))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -129,8 +193,16 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TestServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "EmptyMethodNotAnnotated",
+			Handler:    _TestService_EmptyMethodNotAnnotated_Handler,
+		},
+		{
 			MethodName: "EmptyMethodReleased",
 			Handler:    _TestService_EmptyMethodReleased_Handler,
+		},
+		{
+			MethodName: "MethodNotAnnotated",
+			Handler:    _TestService_MethodNotAnnotated_Handler,
 		},
 		{
 			MethodName: "MethodReleased",
@@ -138,5 +210,5 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "stable2/release-option-combinations.proto",
+	Metadata: "release-option-combinations.proto",
 }

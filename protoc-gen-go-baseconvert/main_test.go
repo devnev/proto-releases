@@ -35,6 +35,8 @@ func TestProtoc(t *testing.T) {
 		"-I..",
 		"--go_out="+outDir,
 		"--go_opt=paths=source_relative",
+		"--go-grpc_out="+outDir,
+		"--go-grpc_opt=paths=source_relative",
 		"release-option-combinations.proto",
 	)
 	cmd.Env = append(os.Environ(), "PATH="+binDir+":"+os.Getenv("PATH"))

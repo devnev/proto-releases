@@ -49,4 +49,6 @@ enum RootEnumNotAnnotated {
 
 service TestService {
   rpc EmptyMethodReleased ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
+
+  rpc MethodReleased ( RootMessageNotAnnotated ) returns ( RootMessageNotAnnotated );
 }

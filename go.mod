@@ -2,7 +2,10 @@ module github.com/devnev/proto-releases
 
 go 1.17
 
-require google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
+require (
+	google.golang.org/grpc v1.38.0
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0
+)
 
 require (
 	github.com/spf13/afero v1.3.3 // indirect
