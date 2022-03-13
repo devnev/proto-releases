@@ -57,6 +57,8 @@ func TestProtoc(t *testing.T) {
 			"-I..",
 			"--go_out="+outDir,
 			"--go_opt=paths=source_relative",
+			"--go-grpc_out="+outDir,
+			"--go-grpc_opt=paths=source_relative",
 			"--go-baseconvert_out="+outDir,
 			"--go-baseconvert_opt=base=github.com/devnev/proto-releases/testdata/golden,paths=source_relative",
 			relPath,

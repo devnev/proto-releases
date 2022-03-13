@@ -29,11 +29,6 @@ extend google.protobuf.EnumValueOptions {
     Range enum = 65535;
 }
 
-extend google.protobuf.ServiceOptions {
-    // TODO: replace with real id from global extension registry.
-    Range service = 65535;
-}
-
 extend google.protobuf.MethodOptions {
     // TODO: replace with real id from global extension registry.
     Range method = 65535;

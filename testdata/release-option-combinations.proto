@@ -6,6 +6,7 @@ syntax = "proto3";
 option go_package = "github.com/devnev/proto-releases/testdata";
 
 import "releases.proto";
+import "google/protobuf/empty.proto";
 
 message EmptyRootMessageNotAnnotated {
 }
@@ -87,4 +88,11 @@ enum RootEnumNotAnnotated {
         (releases.enum).release_in = 2,
         (releases.enum).remove_in = 3
     ];
+}
+
+service TestService {
+    rpc EmptyMethodNotAnnotated(google.protobuf.Empty) returns (google.protobuf.Empty);
+    rpc EmptyMethodReleased(google.protobuf.Empty) returns (google.protobuf.Empty) {
+        option (releases.method).release_in = 2;
+    };
 }
