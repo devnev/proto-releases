@@ -23,18 +23,20 @@ jobs:
       env:
         PROTOC_VERSION: '3.19.4'
       run: >
+        set -xeuo pipefail;
         curl -fo protoc.zip -sSL \
           "https://github.com/google/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip";
         mkdir protoc;
         unzip -q protoc.zip -d protoc;
         sudo install -m 755 ./protoc/bin/protoc /usr/local/bin/;
         sudo cp -a ./protoc/include/google /usr/local/include/;
-        rm protoc.zip protoc -rf;
+        rm -rf protoc.zip protoc;
 
-    - name: Setup protoc-gen-go
-      env:  
-        PROTOC_GEN_GO_VERSION: '1.27.1'
-      run: go install google.golang.org/protobuf/cmd/protoc-gen-go@v${PROTOC_GEN_GO_VERSION}
+    - name: Setup protoc plugins
+      run: >
+        set -xeuo pipefail;
+        go install google.golang.org/protobuf/cmd/protoc-gen-go;
+        go install google.golang.org/grpc/cmd/protoc-gen-go-grpc;
 
     - name: Generate
       run: go generate -x -v ./...

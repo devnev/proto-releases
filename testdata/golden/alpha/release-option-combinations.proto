@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 import "releases.proto";
 
 option go_package = "github.com/devnev/proto-releases/alpha/testdata";
@@ -50,4 +52,10 @@ enum RootEnumNotAnnotated {
   previewed_then_removed = 6;
 
   released_then_removed = 7;
+}
+
+service TestService {
+  rpc EmptyMethodNotAnnotated ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
+
+  rpc EmptyMethodReleased ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
 }

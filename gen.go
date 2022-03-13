@@ -17,11 +17,11 @@ package releases
 //go:generate genrel --release_out=testdata/golden/stable3 --release_opt=go_package=github.com/devnev/proto-releases/stable3,release=3
 //go:generate protoc -I. -Itestdata --go_out=testdata/golden --go_opt=paths=source_relative release-option-combinations.proto
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-go-baseconvert
-//go:generate -command genbaseconv protoc -I. -Itestdata/golden --go_out=testdata/golden --go_opt=paths=source_relative --go-baseconvert_out=testdata/golden --go-baseconvert_opt=base=github.com/devnev/proto-releases/testdata/golden,paths=source_relative
-//go:generate genbaseconv alpha/release-option-combinations.proto
-//go:generate genbaseconv beta1/release-option-combinations.proto
-//go:generate genbaseconv beta2/release-option-combinations.proto
-//go:generate genbaseconv beta3/release-option-combinations.proto
-//go:generate genbaseconv stable1/release-option-combinations.proto
-//go:generate genbaseconv stable2/release-option-combinations.proto
-//go:generate genbaseconv stable3/release-option-combinations.proto
+//go:generate -command genrelgo protoc -I. -Itestdata/golden --go_out=testdata/golden --go_opt=paths=source_relative --go-grpc_out=testdata/golden --go-grpc_opt=paths=source_relative --go-baseconvert_out=testdata/golden --go-baseconvert_opt=base=github.com/devnev/proto-releases/testdata/golden,paths=source_relative
+//go:generate genrelgo alpha/release-option-combinations.proto
+//go:generate genrelgo beta1/release-option-combinations.proto
+//go:generate genrelgo beta2/release-option-combinations.proto
+//go:generate genrelgo beta3/release-option-combinations.proto
+//go:generate genrelgo stable1/release-option-combinations.proto
+//go:generate genrelgo stable2/release-option-combinations.proto
+//go:generate genrelgo stable3/release-option-combinations.proto
