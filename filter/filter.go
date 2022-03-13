@@ -2,7 +2,9 @@ package filter
 
 import (
 	"fmt"
+	"path"
 	"reflect"
+	"strings"
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/golang/protobuf/proto"
@@ -12,6 +14,14 @@ import (
 )
 
 func File(b *builder.FileBuilder, c *releases.Config) error {
+	if relgopkg := c.GetGoPackage(); relgopkg != "" {
+		prefix := path.Dir(relgopkg)
+		if srcgopkg := b.Options.GetGoPackage(); srcgopkg != "" {
+			rest := strings.TrimPrefix(srcgopkg, prefix)
+			outgopkg := path.Join(relgopkg, rest)
+			b.Options.GoPackage = &outgopkg
+		}
+	}
 	for _, child := range b.GetChildren() {
 		switch cb := child.(type) {
 		case *builder.MessageBuilder:

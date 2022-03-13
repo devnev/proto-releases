@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 syntax = "proto3";
+option go_package = "github.com/devnev/proto-releases/testdata";
 
 import "releases.proto";
 

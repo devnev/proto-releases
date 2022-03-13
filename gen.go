@@ -6,10 +6,10 @@ package releases
 
 //go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative releases.proto config.proto
 //go:generate -command gen go run github.com/devnev/proto-releases/gen-release -inc .:testdata
-//go:generate gen -out testdata/golden/alpha release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta1 -rel 1 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta2 -rel 2 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/beta3 -rel 3 -pre release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable1 -rel 1 release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable2 -rel 2 release-option-combinations.proto
-//go:generate gen -out testdata/golden/stable3 -rel 3 release-option-combinations.proto
+//go:generate gen -out testdata/golden/alpha -gopkg github.com/devnev/proto-releases/alpha release-option-combinations.proto
+//go:generate gen -out testdata/golden/beta1 -gopkg github.com/devnev/proto-releases/beta1 -rel 1 -pre release-option-combinations.proto
+//go:generate gen -out testdata/golden/beta2 -gopkg github.com/devnev/proto-releases/beta2 -rel 2 -pre release-option-combinations.proto
+//go:generate gen -out testdata/golden/beta3 -gopkg github.com/devnev/proto-releases/beta3 -rel 3 -pre release-option-combinations.proto
+//go:generate gen -out testdata/golden/stable1 -gopkg github.com/devnev/proto-releases/stable1 -rel 1 release-option-combinations.proto
+//go:generate gen -out testdata/golden/stable2 -gopkg github.com/devnev/proto-releases/stable2 -rel 2 release-option-combinations.proto
+//go:generate gen -out testdata/golden/stable3 -gopkg github.com/devnev/proto-releases/stable3 -rel 3 release-option-combinations.proto
