@@ -84,7 +84,7 @@ func (m *MessageWithUnannotatedOneof) ToBase() *fixtures.MessageWithUnannotatedO
 	msg := &fixtures.MessageWithUnannotatedOneof{}
 	switch o := m.GetNotAnnotatedOneof().(type) {
 	case *MessageWithUnannotatedOneof_OneofItemNotAnnotated:
-		msg.NotAnnotatedOneof = (*fixtures.MessageWithUnannotatedOneof_OneofItemNotAnnotated)(o)
+		msg.NotAnnotatedOneof = o.ToBase()
 	}
 	return msg
 }
@@ -92,14 +92,22 @@ func (m *MessageWithUnannotatedOneof) FromBase(b *fixtures.MessageWithUnannotate
 	m.Reset()
 	switch o := b.GetNotAnnotatedOneof().(type) {
 	case *fixtures.MessageWithUnannotatedOneof_OneofItemNotAnnotated:
-		m.NotAnnotatedOneof = (*MessageWithUnannotatedOneof_OneofItemNotAnnotated)(o)
+		msg := new(MessageWithUnannotatedOneof_OneofItemNotAnnotated)
+		msg.FromBase(o)
+		m.NotAnnotatedOneof = msg
 	}
+}
+func (m *MessageWithUnannotatedOneof_OneofItemNotAnnotated) ToBase() *fixtures.MessageWithUnannotatedOneof_OneofItemNotAnnotated {
+	return (*fixtures.MessageWithUnannotatedOneof_OneofItemNotAnnotated)(m)
+}
+func (m *MessageWithUnannotatedOneof_OneofItemNotAnnotated) FromBase(b *fixtures.MessageWithUnannotatedOneof_OneofItemNotAnnotated) {
+	*m = *(*MessageWithUnannotatedOneof_OneofItemNotAnnotated)(b)
 }
 func (m *MessageWithReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOneofItem {
 	msg := &fixtures.MessageWithReleasedOneofItem{}
 	switch o := m.GetOneofWithItem().(type) {
 	case *MessageWithReleasedOneofItem_ReleasedOneofItem:
-		msg.OneofWithItem = (*fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem)(o)
+		msg.OneofWithItem = o.ToBase()
 	}
 	return msg
 }
@@ -107,8 +115,72 @@ func (m *MessageWithReleasedOneofItem) FromBase(b *fixtures.MessageWithReleasedO
 	m.Reset()
 	switch o := b.GetOneofWithItem().(type) {
 	case *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem:
-		m.OneofWithItem = (*MessageWithReleasedOneofItem_ReleasedOneofItem)(o)
+		msg := new(MessageWithReleasedOneofItem_ReleasedOneofItem)
+		msg.FromBase(o)
+		m.OneofWithItem = msg
 	}
+}
+func (m *MessageWithReleasedOneofItem_ReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem {
+	return (*fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem)(m)
+}
+func (m *MessageWithReleasedOneofItem_ReleasedOneofItem) FromBase(b *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem) {
+	*m = *(*MessageWithReleasedOneofItem_ReleasedOneofItem)(b)
+}
+func (m *MessageWithOneofWithMessages) ToBase() *fixtures.MessageWithOneofWithMessages {
+	msg := &fixtures.MessageWithOneofWithMessages{}
+	switch o := m.GetOneofWithMessage().(type) {
+	case *MessageWithOneofWithMessages_MessageWithNoAnnotations:
+		msg.OneofWithMessage = o.ToBase()
+	case *MessageWithOneofWithMessages_MessageWithReleasedField:
+		msg.OneofWithMessage = o.ToBase()
+	case *MessageWithOneofWithMessages_MessageWithReleaseAnnotation:
+		msg.OneofWithMessage = o.ToBase()
+	}
+	return msg
+}
+func (m *MessageWithOneofWithMessages) FromBase(b *fixtures.MessageWithOneofWithMessages) {
+	m.Reset()
+	switch o := b.GetOneofWithMessage().(type) {
+	case *fixtures.MessageWithOneofWithMessages_MessageWithNoAnnotations:
+		msg := new(MessageWithOneofWithMessages_MessageWithNoAnnotations)
+		msg.FromBase(o)
+		m.OneofWithMessage = msg
+	case *fixtures.MessageWithOneofWithMessages_MessageWithReleasedField:
+		msg := new(MessageWithOneofWithMessages_MessageWithReleasedField)
+		msg.FromBase(o)
+		m.OneofWithMessage = msg
+	case *fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation:
+		msg := new(MessageWithOneofWithMessages_MessageWithReleaseAnnotation)
+		msg.FromBase(o)
+		m.OneofWithMessage = msg
+	}
+}
+func (m *MessageWithOneofWithMessages_MessageWithNoAnnotations) ToBase() *fixtures.MessageWithOneofWithMessages_MessageWithNoAnnotations {
+	return &fixtures.MessageWithOneofWithMessages_MessageWithNoAnnotations{
+		MessageWithNoAnnotations: m.MessageWithNoAnnotations.ToBase(),
+	}
+}
+func (m *MessageWithOneofWithMessages_MessageWithNoAnnotations) FromBase(b *fixtures.MessageWithOneofWithMessages_MessageWithNoAnnotations) {
+	m.MessageWithNoAnnotations = new(MessageWithNoAnnotations)
+	m.MessageWithNoAnnotations.FromBase(b.MessageWithNoAnnotations)
+}
+func (m *MessageWithOneofWithMessages_MessageWithReleasedField) ToBase() *fixtures.MessageWithOneofWithMessages_MessageWithReleasedField {
+	return &fixtures.MessageWithOneofWithMessages_MessageWithReleasedField{
+		MessageWithReleasedField: m.MessageWithReleasedField.ToBase(),
+	}
+}
+func (m *MessageWithOneofWithMessages_MessageWithReleasedField) FromBase(b *fixtures.MessageWithOneofWithMessages_MessageWithReleasedField) {
+	m.MessageWithReleasedField = new(MessageWithReleasedField)
+	m.MessageWithReleasedField.FromBase(b.MessageWithReleasedField)
+}
+func (m *MessageWithOneofWithMessages_MessageWithReleaseAnnotation) ToBase() *fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation {
+	return &fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation{
+		MessageWithReleaseAnnotation: m.MessageWithReleaseAnnotation.ToBase(),
+	}
+}
+func (m *MessageWithOneofWithMessages_MessageWithReleaseAnnotation) FromBase(b *fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation) {
+	m.MessageWithReleaseAnnotation = new(MessageWithReleasedField)
+	m.MessageWithReleaseAnnotation.FromBase(b.MessageWithReleaseAnnotation)
 }
 func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {
 	msg := &fixtures.MessageNotAnnotated{
@@ -121,7 +193,7 @@ func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {
 	}
 	switch o := m.GetNotAnnotatedOneof().(type) {
 	case *MessageNotAnnotated_OneofItemNotAnnotated:
-		msg.NotAnnotatedOneof = (*fixtures.MessageNotAnnotated_OneofItemNotAnnotated)(o)
+		msg.NotAnnotatedOneof = o.ToBase()
 	}
 	return msg
 }
@@ -135,8 +207,16 @@ func (m *MessageNotAnnotated) FromBase(b *fixtures.MessageNotAnnotated) {
 	m.ReleasedThenRemoved = b.GetReleasedThenRemoved()
 	switch o := b.GetNotAnnotatedOneof().(type) {
 	case *fixtures.MessageNotAnnotated_OneofItemNotAnnotated:
-		m.NotAnnotatedOneof = (*MessageNotAnnotated_OneofItemNotAnnotated)(o)
+		msg := new(MessageNotAnnotated_OneofItemNotAnnotated)
+		msg.FromBase(o)
+		m.NotAnnotatedOneof = msg
 	}
+}
+func (m *MessageNotAnnotated_OneofItemNotAnnotated) ToBase() *fixtures.MessageNotAnnotated_OneofItemNotAnnotated {
+	return (*fixtures.MessageNotAnnotated_OneofItemNotAnnotated)(m)
+}
+func (m *MessageNotAnnotated_OneofItemNotAnnotated) FromBase(b *fixtures.MessageNotAnnotated_OneofItemNotAnnotated) {
+	*m = *(*MessageNotAnnotated_OneofItemNotAnnotated)(b)
 }
 
 type BaseTestServiceServer struct {

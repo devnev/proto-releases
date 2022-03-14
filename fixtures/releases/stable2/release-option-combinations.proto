@@ -22,6 +22,12 @@ message MessageWithReleasedOneofItem {
   }
 }
 
+message MessageWithOneofWithMessages {
+  oneof oneof_with_message {
+    MessageWithReleasedField message_with_release_annotation = 3;
+  }
+}
+
 message MessageNotAnnotated {
   int32 released = 2;
 

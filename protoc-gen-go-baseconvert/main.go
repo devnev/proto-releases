@@ -47,10 +47,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 			g.P("switch o := m.Get", o.GoName, "().(type) {")
 			for _, f := range o.Fields {
 				g.P("case *", f.GoIdent, ":")
-				g.P("msg.", o.GoName, " = (*", g.QualifiedGoIdent(protogen.GoIdent{
-					GoName:       f.GoIdent.GoName,
-					GoImportPath: base,
-				}), ")(o)")
+				g.P("msg.", o.GoName, " = o.ToBase()")
 			}
 			g.P("}")
 		}
@@ -70,11 +67,38 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 					GoName:       f.GoIdent.GoName,
 					GoImportPath: base,
 				}), ":")
-				g.P("m.", o.GoName, " = (*", f.GoIdent, ")(o)")
+				g.P("msg := new(", f.GoIdent, ")")
+				g.P("msg.FromBase(o)")
+				g.P("m.", o.GoName, " = msg")
 			}
 			g.P("}")
 		}
 		g.P("}")
+		for _, o := range m.Oneofs {
+			for _, f := range o.Fields {
+				baseType := g.QualifiedGoIdent(protogen.GoIdent{
+					GoName:       f.GoIdent.GoName,
+					GoImportPath: base,
+				})
+				g.P("func (m *", f.GoIdent, ") ToBase() *", baseType, "{")
+				if f.Message == nil {
+					g.P("return (*", baseType, ")(m)")
+				} else {
+					g.P("return &", baseType, "{")
+					g.P(f.GoName, ": m.", f.GoName, ".ToBase(),")
+					g.P("}")
+				}
+				g.P("}")
+				g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") {")
+				if f.Message == nil {
+					g.P("*m = *(*", f.GoIdent, ")(b)")
+				} else {
+					g.P("m.", f.GoName, " = new(", f.Message.GoIdent, ")")
+					g.P("m.", f.GoName, ".FromBase(b.", f.GoName, ")")
+				}
+				g.P("}")
+			}
+		}
 	}
 
 	emptyDesc := (&emptypb.Empty{}).ProtoReflect().Descriptor()

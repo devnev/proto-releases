@@ -48,6 +48,16 @@ message MessageWithReleasedOneofItem {
   }
 }
 
+message MessageWithOneofWithMessages {
+  oneof oneof_with_message {
+    MessageWithNoAnnotations message_with_no_annotations = 1;
+
+    MessageWithReleasedField message_with_released_field = 2;
+
+    MessageWithReleasedField message_with_release_annotation = 3;
+  }
+}
+
 message MessageNotAnnotated {
   int32 not_annotated = 1;
 
