@@ -13,9 +13,11 @@ func (m *Example) ToBase() *server.Example {
 	}
 	return msg
 }
-func (m *Example) FromBase(b *server.Example) {
-	m.Reset()
-	m.Released = b.GetReleased()
+func (m *Example) FromBase(b *server.Example) *Example {
+	msg := &Example{
+		Released: b.GetReleased(),
+	}
+	return msg
 }
 
 type BaseExampleServiceServer struct {

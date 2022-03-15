@@ -12,7 +12,9 @@ func (m *Example) ToBase() *server.Example {
 	}
 	return msg
 }
-func (m *Example) FromBase(b *server.Example) {
-	m.Reset()
-	m.PreviewedReleasedRemoved = b.GetPreviewedReleasedRemoved()
+func (m *Example) FromBase(b *server.Example) *Example {
+	msg := &Example{
+		PreviewedReleasedRemoved: b.GetPreviewedReleasedRemoved(),
+	}
+	return msg
 }

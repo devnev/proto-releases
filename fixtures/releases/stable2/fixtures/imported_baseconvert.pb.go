@@ -12,7 +12,9 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAn
 	}
 	return msg
 }
-func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) {
-	m.Reset()
-	m.Released = b.GetReleased()
+func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
+	msg := &ImportedNotAnnotatedWithReleasedField{
+		Released: b.GetReleased(),
+	}
+	return msg
 }

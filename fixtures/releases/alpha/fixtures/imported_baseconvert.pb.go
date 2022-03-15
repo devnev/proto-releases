@@ -10,8 +10,9 @@ func (m *ImportedNotAnnotatedAndEmpty) ToBase() *fixtures.ImportedNotAnnotatedAn
 	msg := &fixtures.ImportedNotAnnotatedAndEmpty{}
 	return msg
 }
-func (m *ImportedNotAnnotatedAndEmpty) FromBase(b *fixtures.ImportedNotAnnotatedAndEmpty) {
-	m.Reset()
+func (m *ImportedNotAnnotatedAndEmpty) FromBase(b *fixtures.ImportedNotAnnotatedAndEmpty) *ImportedNotAnnotatedAndEmpty {
+	msg := &ImportedNotAnnotatedAndEmpty{}
+	return msg
 }
 func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *fixtures.ImportedNotAnnotatedWithUnreleasedField {
 	msg := &fixtures.ImportedNotAnnotatedWithUnreleasedField{
@@ -19,9 +20,11 @@ func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *fixtures.ImportedNot
 	}
 	return msg
 }
-func (m *ImportedNotAnnotatedWithUnreleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithUnreleasedField) {
-	m.Reset()
-	m.Released = b.GetReleased()
+func (m *ImportedNotAnnotatedWithUnreleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithUnreleasedField) *ImportedNotAnnotatedWithUnreleasedField {
+	msg := &ImportedNotAnnotatedWithUnreleasedField{
+		Released: b.GetReleased(),
+	}
+	return msg
 }
 func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAnnotatedWithReleasedField {
 	msg := &fixtures.ImportedNotAnnotatedWithReleasedField{
@@ -29,7 +32,9 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAn
 	}
 	return msg
 }
-func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) {
-	m.Reset()
-	m.Released = b.GetReleased()
+func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
+	msg := &ImportedNotAnnotatedWithReleasedField{
+		Released: b.GetReleased(),
+	}
+	return msg
 }

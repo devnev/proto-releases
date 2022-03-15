@@ -58,17 +58,17 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 		}
 		g.P("return msg")
 		g.P("}")
-		g.P("func (m *", m.GoIdent.GoName, ") FromBase(b *", baseMsg, ") {")
-		g.P("m.Reset()")
+		g.P("func (m *", m.GoIdent, ") FromBase(b *", baseMsg, ") *", m.GoIdent, " {")
+		g.P("msg := &", m.GoIdent, "{")
 		for _, f := range m.Fields {
-			if f.Oneof != nil {
-				continue
+			if f.Oneof == nil && f.Message == nil {
+				g.P(f.GoName, ": b.Get", f.GoName, "(),")
 			}
-			if f.Message != nil {
-				g.P("m.", f.GoName, " = new(", f.Message.GoIdent, ")")
-				g.P("m.", f.GoName, ".FromBase(b.", f.GoName, ")")
-			} else {
-				g.P("m.", f.GoName, " = b.Get", f.GoName, "()")
+		}
+		g.P("}")
+		for _, f := range m.Fields {
+			if f.Oneof == nil && f.Message != nil {
+				g.P("msg.", f.GoName, "= msg.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
 			}
 		}
 		for _, o := range m.Oneofs {
@@ -78,12 +78,11 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 					GoName:       f.GoIdent.GoName,
 					GoImportPath: base,
 				}), ":")
-				g.P("msg := new(", f.GoIdent, ")")
-				g.P("msg.FromBase(o)")
-				g.P("m.", o.GoName, " = msg")
+				g.P("m.", o.GoName, " = (*", f.GoIdent, ")(nil).FromBase(o)")
 			}
 			g.P("}")
 		}
+		g.P("return msg")
 		g.P("}")
 		for _, o := range m.Oneofs {
 			for _, f := range o.Fields {
@@ -100,12 +99,13 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 					g.P("}")
 				}
 				g.P("}")
-				g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") {")
+				g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") *", f.GoIdent, " {")
 				if f.Message == nil {
-					g.P("*m = *(*", f.GoIdent, ")(b)")
+					g.P("return (*", f.GoIdent, ")(b)")
 				} else {
-					g.P("m.", f.GoName, " = new(", f.Message.GoIdent, ")")
-					g.P("m.", f.GoName, ".FromBase(b.", f.GoName, ")")
+					g.P("return &", f.GoIdent, "{")
+					g.P(f.GoName, ": (*", f.Message.GoIdent, ")(nil).FromBase(b.", f.GoName, "),")
+					g.P("}")
 				}
 				g.P("}")
 			}
