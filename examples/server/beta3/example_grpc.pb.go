@@ -4,7 +4,7 @@
 // - protoc             v3.19.4
 // source: beta3/example.proto
 
-package examples
+package beta3
 
 import (
 	context "context"

@@ -4,7 +4,7 @@
 // - protoc             v3.19.4
 // source: alpha/example.proto
 
-package examples
+package alpha
 
 import (
 	context "context"

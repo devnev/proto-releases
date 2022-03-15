@@ -38,7 +38,12 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 		g.P("func (m *", m.GoIdent.GoName, ") ToBase() *", baseMsg, " {")
 		g.P("msg := &", baseMsg, "{")
 		for _, f := range m.Fields {
-			if f.Oneof == nil {
+			if f.Oneof != nil {
+				continue
+			}
+			if f.Message != nil {
+				g.P(f.GoName, ": m.Get", f.GoName, "().ToBase(),")
+			} else {
 				g.P(f.GoName, ": m.Get", f.GoName, "(),")
 			}
 		}
@@ -56,7 +61,13 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 		g.P("func (m *", m.GoIdent.GoName, ") FromBase(b *", baseMsg, ") {")
 		g.P("m.Reset()")
 		for _, f := range m.Fields {
-			if f.Oneof == nil {
+			if f.Oneof != nil {
+				continue
+			}
+			if f.Message != nil {
+				g.P("m.", f.GoName, " = new(", f.Message.GoIdent, ")")
+				g.P("m.", f.GoName, ".FromBase(b.", f.GoName, ")")
+			} else {
 				g.P("m.", f.GoName, " = b.Get", f.GoName, "()")
 			}
 		}

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.github.devnev.proto_releases.fixtures;
+
+import "fixtures/imported.proto";
+
+import "google/protobuf/empty.proto";
+
+import "releases.proto";
+
+option go_package = "github.com/devnev/proto-releases/fixtures/releases/stable2/fixtures";
+
+message EmptyMessageReleased {
+}
+
+message EmptyMessageReleasedThenRemoved {
+}
+
+message MessageWithReleasedField {
+  int32 released = 1;
+}
+
+message MessageWithReleasedOneofItem {
+  oneof oneof_with_item {
+    int32 released_oneof_item = 2;
+  }
+}
+
+message MessageWithOneofWithMessages {
+  oneof oneof_with_message {
+    MessageWithReleasedField message_with_release_annotation = 3;
+  }
+}
+
+message MessageNotAnnotated {
+  int32 released = 2;
+
+  int32 released_then_removed = 7;
+
+  oneof not_annotated_oneof {
+    int32 oneof_item_not_annotated = 8;
+  }
+}
+
+enum EnumNotAnnotated {
+  zero_value = 0;
+
+  released = 2;
+
+  released_then_removed = 7;
+}
+
+service TestService {
+  rpc EmptyMethodReleased ( google.protobuf.Empty ) returns ( google.protobuf.Empty );
+
+  rpc MethodReleased ( MessageNotAnnotated ) returns ( MessageNotAnnotated );
+}

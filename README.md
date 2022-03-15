@@ -86,10 +86,10 @@ protoc my_api.proto \
 go install \
     github.com/devnev/proto-releases/protoc-gen-go-baseconvert
 
-protoc beta17/my_api.proto \
-    -Ireleases \
-    --go_out=server --go_opt=paths=source_relative \
-    --go-grpc_out=server --go-grpc_opt=paths=source_relative \
-    --go-baseconvert_out=server \
+protoc my_api.proto \
+    -Ireleases/beta17 \
+    --go_out=server/beta17 --go_opt=paths=source_relative \
+    --go-grpc_out=server/beta17 --go-grpc_opt=paths=source_relative \
+    --go-baseconvert_out=server/beta17 \
     --go-baseconvert_opt=base=github.com/me/server,paths=source_relative
 ```

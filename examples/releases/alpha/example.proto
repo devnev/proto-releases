@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "releases.proto";
 
-option go_package = "github.com/devnev/proto-releases/examples/releases/alpha/github.com/devnev/proto-releases/examples";
+option go_package = "github.com/devnev/proto-releases/examples/releases/alpha";
 
 message Example {
   // Not annotated means this is not include in any numbered release.

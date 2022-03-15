@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.github.devnev.proto_releases.fixtures;
+
+import "releases.proto";
+
+option go_package = "github.com/devnev/proto-releases/fixtures/releases/stable3/fixtures";
+
+message ImportedNotAnnotatedWithReleasedField {
+  int32 released = 1;
+}

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "releases.proto";
 
-option go_package = "github.com/devnev/proto-releases/examples/releases/beta2/github.com/devnev/proto-releases/examples";
+option go_package = "github.com/devnev/proto-releases/examples/releases/beta2";
 
 message Example {
   // With a designated starting release, this field will be included in any

@@ -13,16 +13,21 @@ import (
 func TestRun(t *testing.T) {
 	outDir := t.TempDir()
 	t.Logf("generating output to dir %q", outDir)
-	includes := []string{filepath.Join("..", "fixtures"), ".."}
+	includes := []string{".."}
+	files := []string{
+		"fixtures/core.proto",
+		"fixtures/imported.proto",
+		"releases.proto",
+	}
 	for _, preview := range []bool{false, true} {
 		for release := 0; release < 4; release++ {
 			outPath := filepath.Join(outDir, testName(release, preview))
 			config := &releases.Config{
 				Release:   uint32(release),
 				Preview:   preview,
-				GoPackage: "github.com/devnev/proto-releases/" + testName(release, preview),
+				GoPackage: "github.com/devnev/proto-releases:fixtures/releases/" + testName(release, preview),
 			}
-			run(outPath, config, includes, []string{"release-option-combinations.proto"})
+			run(outPath, config, includes, files)
 		}
 	}
 	cmd := exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, filepath.Join("..", "fixtures", "releases"))

@@ -37,11 +37,12 @@ func TestProtoc(t *testing.T) {
 			}
 			cmd := exec.Command(
 				"protoc",
-				"-I"+fixturesDir,
 				"-I..",
 				"--release_out="+outPath,
-				fmt.Sprintf("--release_opt=release=%v,preview=%v,go_package=%v", release, preview, "github.com/devnev/proto-releases/"+testName(release, preview)),
-				"release-option-combinations.proto",
+				fmt.Sprintf("--release_opt=release=%v,preview=%v,go_package=%v", release, preview, "github.com/devnev/proto-releases:fixtures/releases/"+testName(release, preview)),
+				"fixtures/core.proto",
+				"fixtures/imported.proto",
+				"releases.proto",
 			)
 			cmd.Env = append(os.Environ(), "PATH="+binDir)
 			cmd.Stderr = os.Stderr
