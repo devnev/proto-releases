@@ -31,124 +31,164 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 	g.P()
 
 	for _, m := range file.Messages {
-		baseMsg := g.QualifiedGoIdent(protogen.GoIdent{
-			GoName:       m.GoIdent.GoName,
-			GoImportPath: base,
-		})
-		g.P("func (m *", m.GoIdent.GoName, ") ToBase() *", baseMsg, " {")
-		g.P("msg := &", baseMsg, "{")
-		for _, f := range m.Fields {
-			if f.Oneof != nil {
-				continue
-			}
-			if f.Message != nil {
-				g.P(f.GoName, ": m.Get", f.GoName, "().ToBase(),")
-			} else {
-				g.P(f.GoName, ": m.Get", f.GoName, "(),")
-			}
-		}
-		g.P("}")
-		for _, o := range m.Oneofs {
-			g.P("switch o := m.Get", o.GoName, "().(type) {")
-			for _, f := range o.Fields {
-				g.P("case *", f.GoIdent, ":")
-				g.P("msg.", o.GoName, " = o.ToBase()")
-			}
-			g.P("}")
-		}
-		g.P("return msg")
-		g.P("}")
-		g.P("func (m *", m.GoIdent, ") FromBase(b *", baseMsg, ") *", m.GoIdent, " {")
-		g.P("msg := &", m.GoIdent, "{")
-		for _, f := range m.Fields {
-			if f.Oneof == nil && f.Message == nil {
-				g.P(f.GoName, ": b.Get", f.GoName, "(),")
-			}
-		}
-		g.P("}")
-		for _, f := range m.Fields {
-			if f.Oneof == nil && f.Message != nil {
-				g.P("msg.", f.GoName, "= msg.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
-			}
-		}
-		for _, o := range m.Oneofs {
-			g.P("switch o := b.Get", o.GoName, "().(type) {")
-			for _, f := range o.Fields {
-				g.P("case *", g.QualifiedGoIdent(protogen.GoIdent{
-					GoName:       f.GoIdent.GoName,
-					GoImportPath: base,
-				}), ":")
-				g.P("m.", o.GoName, " = (*", f.GoIdent, ")(nil).FromBase(o)")
-			}
-			g.P("}")
-		}
-		g.P("return msg")
-		g.P("}")
-		for _, o := range m.Oneofs {
-			for _, f := range o.Fields {
-				baseType := g.QualifiedGoIdent(protogen.GoIdent{
-					GoName:       f.GoIdent.GoName,
-					GoImportPath: base,
-				})
-				g.P("func (m *", f.GoIdent, ") ToBase() *", baseType, "{")
-				if f.Message == nil {
-					g.P("return (*", baseType, ")(m)")
-				} else {
-					g.P("return &", baseType, "{")
-					g.P(f.GoName, ": m.", f.GoName, ".ToBase(),")
-					g.P("}")
-				}
-				g.P("}")
-				g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") *", f.GoIdent, " {")
-				if f.Message == nil {
-					g.P("return (*", f.GoIdent, ")(b)")
-				} else {
-					g.P("return &", f.GoIdent, "{")
-					g.P(f.GoName, ": (*", f.Message.GoIdent, ")(nil).FromBase(b.", f.GoName, "),")
-					g.P("}")
-				}
-				g.P("}")
-			}
-		}
+		generateMessage(g, m, base)
 	}
 
-	emptyDesc := (&emptypb.Empty{}).ProtoReflect().Descriptor()
 	for _, s := range file.Services {
-		baseSrvIface := g.QualifiedGoIdent(protogen.GoIdent{
-			GoName:       s.GoName + "Server",
-			GoImportPath: base,
-		})
-		ctxType := g.QualifiedGoIdent(protogen.GoIdent{
-			GoName:       "Context",
-			GoImportPath: "context",
-		})
-		srvName := "Base" + s.GoName + "Server"
-
-		g.P("type ", srvName, " struct {")
-		g.P("Unsafe", s.GoName, "Server")
-		g.P("Base ", baseSrvIface)
-		g.P("}")
-
-		for _, m := range s.Methods {
-			g.P("func (s ", srvName, ") ", m.GoName, "(ctx ", ctxType, ", in *", m.Input.GoIdent, ") (*", m.Output.GoIdent, ", error) {")
-			inVar := "in"
-			if m.Input.Desc.FullName() != emptyDesc.FullName() {
-				g.P("baseIn := in.ToBase()")
-				inVar = "baseIn"
-			}
-			if m.Output.Desc.FullName() == emptyDesc.FullName() {
-				g.P("return s.Base.", m.GoName, "(ctx, ", inVar, ")")
-				g.P("}")
-				continue
-			}
-			g.P("baseOut, err := s.Base.", m.GoName, "(ctx, ", inVar, ")")
-			g.P("if err != nil { return nil, err }")
-			g.P("out := new(", m.Input.GoIdent, ")")
-			g.P("out.FromBase(baseOut)")
-			g.P("return out, nil")
-			g.P("}")
-		}
+		generateService(g, s, base)
 	}
 
 	return g
+}
+
+func generateMessage(g *protogen.GeneratedFile, m *protogen.Message, base protogen.GoImportPath) {
+	generateMessageToBase(g, m, base)
+	generateMessageFromBase(g, m, base)
+
+	for _, o := range m.Oneofs {
+		for _, f := range o.Fields {
+			generateOneofFieldToBase(g, o, f, base)
+			generateOneofFieldFromBase(g, o, f, base)
+		}
+	}
+}
+
+func generateMessageToBase(g *protogen.GeneratedFile, m *protogen.Message, base protogen.GoImportPath) {
+	baseMsg := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       m.GoIdent.GoName,
+		GoImportPath: base,
+	})
+
+	g.P("func (m *", m.GoIdent.GoName, ") ToBase() *", baseMsg, " {")
+	g.P("msg := &", baseMsg, "{")
+	for _, f := range m.Fields {
+		if f.Oneof != nil {
+			continue
+		}
+		if f.Message != nil {
+			g.P(f.GoName, ": m.Get", f.GoName, "().ToBase(),")
+		} else {
+			g.P(f.GoName, ": m.Get", f.GoName, "(),")
+		}
+	}
+	g.P("}")
+	for _, o := range m.Oneofs {
+		g.P("switch o := m.Get", o.GoName, "().(type) {")
+		for _, f := range o.Fields {
+			g.P("case *", f.GoIdent, ":")
+			g.P("msg.", o.GoName, " = o.ToBase()")
+		}
+		g.P("}")
+	}
+	g.P("return msg")
+	g.P("}")
+}
+
+func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, base protogen.GoImportPath) {
+	baseMsg := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       m.GoIdent.GoName,
+		GoImportPath: base,
+	})
+
+	g.P("func (m *", m.GoIdent, ") FromBase(b *", baseMsg, ") *", m.GoIdent, " {")
+	g.P("msg := &", m.GoIdent, "{")
+	for _, f := range m.Fields {
+		if f.Oneof == nil && f.Message == nil {
+			g.P(f.GoName, ": b.Get", f.GoName, "(),")
+		}
+	}
+	g.P("}")
+	for _, f := range m.Fields {
+		if f.Oneof == nil && f.Message != nil {
+			g.P("msg.", f.GoName, "= msg.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
+		}
+	}
+	for _, o := range m.Oneofs {
+		g.P("switch o := b.Get", o.GoName, "().(type) {")
+		for _, f := range o.Fields {
+			g.P("case *", g.QualifiedGoIdent(protogen.GoIdent{
+				GoName:       f.GoIdent.GoName,
+				GoImportPath: base,
+			}), ":")
+			g.P("m.", o.GoName, " = (*", f.GoIdent, ")(nil).FromBase(o)")
+		}
+		g.P("}")
+	}
+	g.P("return msg")
+	g.P("}")
+}
+
+func generateOneofFieldToBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *protogen.Field, base protogen.GoImportPath) {
+	baseType := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       f.GoIdent.GoName,
+		GoImportPath: base,
+	})
+	g.P("func (m *", f.GoIdent, ") ToBase() *", baseType, "{")
+	if f.Message == nil {
+		g.P("return (*", baseType, ")(m)")
+	} else {
+		g.P("return &", baseType, "{")
+		g.P(f.GoName, ": m.", f.GoName, ".ToBase(),")
+		g.P("}")
+	}
+	g.P("}")
+}
+
+func generateOneofFieldFromBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *protogen.Field, base protogen.GoImportPath) {
+	baseType := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       f.GoIdent.GoName,
+		GoImportPath: base,
+	})
+	g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") *", f.GoIdent, " {")
+	if f.Message == nil {
+		g.P("return (*", f.GoIdent, ")(b)")
+	} else {
+		g.P("return &", f.GoIdent, "{")
+		g.P(f.GoName, ": (*", f.Message.GoIdent, ")(nil).FromBase(b.", f.GoName, "),")
+		g.P("}")
+	}
+	g.P("}")
+}
+
+func generateService(g *protogen.GeneratedFile, s *protogen.Service, base protogen.GoImportPath) {
+	baseSrvIface := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       s.GoName + "Server",
+		GoImportPath: base,
+	})
+	srvName := "Base" + s.GoName + "Server"
+
+	g.P("type ", srvName, " struct {")
+	g.P("Unsafe", s.GoName, "Server")
+	g.P("Base ", baseSrvIface)
+	g.P("}")
+
+	for _, m := range s.Methods {
+		generateMethod(g, m, srvName)
+	}
+}
+
+func generateMethod(g *protogen.GeneratedFile, m *protogen.Method, srvName string) {
+	emptyDesc := (&emptypb.Empty{}).ProtoReflect().Descriptor()
+	ctxType := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       "Context",
+		GoImportPath: "context",
+	})
+
+	g.P("func (s ", srvName, ") ", m.GoName, "(ctx ", ctxType, ", in *", m.Input.GoIdent, ") (*", m.Output.GoIdent, ", error) {")
+	inVar := "in"
+	if m.Input.Desc.FullName() != emptyDesc.FullName() {
+		g.P("baseIn := in.ToBase()")
+		inVar = "baseIn"
+	}
+	if m.Output.Desc.FullName() == emptyDesc.FullName() {
+		g.P("return s.Base.", m.GoName, "(ctx, ", inVar, ")")
+		g.P("}")
+		return
+	}
+	g.P("baseOut, err := s.Base.", m.GoName, "(ctx, ", inVar, ")")
+	g.P("if err != nil { return nil, err }")
+	g.P("out := new(", m.Input.GoIdent, ")")
+	g.P("out.FromBase(baseOut)")
+	g.P("return out, nil")
+	g.P("}")
 }
