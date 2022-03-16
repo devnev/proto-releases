@@ -17,6 +17,7 @@ func TestRun(t *testing.T) {
 	files := []string{
 		"fixtures/core.proto",
 		"fixtures/imported.proto",
+		"fixtures/subpackage/subimport.proto",
 		"releases.proto",
 	}
 	for _, preview := range []bool{false, true} {

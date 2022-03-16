@@ -18,8 +18,8 @@ func TestProtoc(t *testing.T) {
 
 	var (
 		binDir      = t.TempDir()
-		fixturesDir = filepath.Join("..", "fixtures")
-		releasesDir = filepath.Join(fixturesDir, "releases")
+		repoRoot    = ".."
+		releasesDir = filepath.Join(repoRoot, "fixtures", "releases")
 		outDir      = t.TempDir()
 	)
 
@@ -58,9 +58,11 @@ func TestProtoc(t *testing.T) {
 				"--go-grpc_out="+outPath,
 				"--go-grpc_opt=paths=source_relative",
 				"--go-baseconvert_out="+outPath,
-				"--go-baseconvert_opt=base=github.com/devnev/proto-releases/fixtures,paths=source_relative",
+				"--go-baseconvert_opt=base_path="+repoRoot,
+				"--go-baseconvert_opt=paths=source_relative",
 				"fixtures/core.proto",
 				"fixtures/imported.proto",
+				"fixtures/subpackage/subimport.proto",
 			)
 			cmd.Env = append(os.Environ(), "PATH="+binDir+":"+os.Getenv("PATH"))
 			cmd.Stderr = os.Stderr

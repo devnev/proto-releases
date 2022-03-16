@@ -4,6 +4,7 @@
 
 package example
 
+//go:generate rm -r releases server
 //go:generate mkdir -p releases/alpha releases/beta1 releases/beta2 releases/beta3 releases/stable1 releases/stable2 releases/stable3
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-release
 //go:generate -command gen-release protoc -I.. -I. example.proto
@@ -18,11 +19,11 @@ package example
 //go:generate mkdir -p server/alpha server/beta1 server/beta2 server/beta3 server/stable1 server/stable2 server/stable3
 //go:generate protoc -I.. -I. --go_out=server --go_opt=paths=source_relative --go-grpc_out=server --go-grpc_opt=paths=source_relative example.proto
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-go-baseconvert
-//go:generate -command gen-server protoc -I.. -Ireleases --go_out=server --go_opt=paths=source_relative --go-grpc_out=server --go-grpc_opt=paths=source_relative --go-baseconvert_out=server --go-baseconvert_opt=base=github.com/devnev/proto-releases/examples/server,paths=source_relative
-//go:generate gen-server alpha/example.proto
-//go:generate gen-server beta1/example.proto
-//go:generate gen-server beta2/example.proto
-//go:generate gen-server beta3/example.proto
-//go:generate gen-server stable1/example.proto
-//go:generate gen-server stable2/example.proto
-//go:generate gen-server stable3/example.proto
+//go:generate -command gen-server protoc -I.. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative --go-baseconvert_opt=base_path=.,base_go_package=github.com/devnev/proto-releases/examples:server,paths=source_relative example.proto
+//go:generate gen-server -Ireleases/alpha --go_out=server/alpha --go-grpc_out=server/alpha --go-baseconvert_out=server/alpha
+//go:generate gen-server -Ireleases/beta1 --go_out=server/beta1 --go-grpc_out=server/beta1 --go-baseconvert_out=server/beta1
+//go:generate gen-server -Ireleases/beta2 --go_out=server/beta2 --go-grpc_out=server/beta2 --go-baseconvert_out=server/beta2
+//go:generate gen-server -Ireleases/beta3 --go_out=server/beta3 --go-grpc_out=server/beta3 --go-baseconvert_out=server/beta3
+//go:generate gen-server -Ireleases/stable1 --go_out=server/stable1 --go-grpc_out=server/stable1 --go-baseconvert_out=server/stable1
+//go:generate gen-server -Ireleases/stable2 --go_out=server/stable2 --go-grpc_out=server/stable2 --go-baseconvert_out=server/stable2
+//go:generate gen-server -Ireleases/stable3 --go_out=server/stable3 --go-grpc_out=server/stable3 --go-baseconvert_out=server/stable3

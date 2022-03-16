@@ -77,7 +77,7 @@ go install \
 
 protoc my_api.proto \
     --release_out=releases/beta17 \
-    --release_opt=release=17,preview=true,go_package=github.com/me/releases/beta17
+    --release_opt=release=17,preview=true,go_package=github.com/me:releases/beta17
 
 protoc my_api.proto \
     --go_out=server --go_opt=paths=source_relative \
@@ -91,5 +91,6 @@ protoc my_api.proto \
     --go_out=server/beta17 --go_opt=paths=source_relative \
     --go-grpc_out=server/beta17 --go-grpc_opt=paths=source_relative \
     --go-baseconvert_out=server/beta17 \
-    --go-baseconvert_opt=base=github.com/me/server,paths=source_relative
+    --go-baseconvert_opt=base_go_package=github.com/me:server\
+    --go-baseconvert_opt=paths=source_relative
 ```

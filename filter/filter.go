@@ -16,18 +16,7 @@ import (
 
 func File(b *builder.FileBuilder, c *releases.Config) error {
 	if relgopkg, srcgopkg := c.GetGoPackage(), b.Options.GetGoPackage(); relgopkg != "" && srcgopkg != "" {
-		if i := strings.LastIndex(srcgopkg, ";"); i > 0 {
-			srcgopkg = srcgopkg[:i]
-		}
-		var relprefix, relsuffix string
-		if i := strings.Index(relgopkg, ":"); i > 0 {
-			relprefix = relgopkg[:i]
-			relsuffix = relgopkg[i+1:]
-		} else {
-			relprefix = commonPrefix(relgopkg, srcgopkg, '/')
-			relsuffix = relgopkg[len(relprefix):]
-		}
-		outgopkg := path.Join(relprefix, relsuffix, strings.TrimPrefix(srcgopkg, relprefix))
+		outgopkg := GoPackage(srcgopkg, c.GetGoPackage())
 		b.Options.GoPackage = &outgopkg
 	}
 
@@ -197,6 +186,27 @@ func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInf
 		msg.Clear(x.TypeDescriptor())
 	}
 	return include, nil
+}
+
+func GoPackage(srcgopkg, relgopkg string) string {
+	if relgopkg == "" {
+		return srcgopkg
+	}
+	if srcgopkg == "" {
+		return relgopkg
+	}
+	if i := strings.LastIndex(srcgopkg, ";"); i > 0 {
+		srcgopkg = srcgopkg[:i]
+	}
+	var relprefix, relsuffix string
+	if i := strings.Index(relgopkg, ":"); i > 0 {
+		relprefix = relgopkg[:i]
+		relsuffix = relgopkg[i+1:]
+	} else {
+		relprefix = commonPrefix(relgopkg, srcgopkg, '/')
+		relsuffix = relgopkg[len(relprefix):]
+	}
+	return path.Join(relprefix, relsuffix, strings.TrimPrefix(srcgopkg, relprefix))
 }
 
 func commonPrefix(path1, path2 string, sep rune) string {
