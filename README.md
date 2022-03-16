@@ -17,7 +17,8 @@ See the [examples](examples) directory for a very small demo:
 - Different releases of the example in the [examples/releases](examples/releases) directory
 - Generated code and a server in the [examples/server](examples/server) directory
 
-A more complete suite of examples can be found in the [fixtures](fixtures) directory.
+A more complete suite of examples can be found in the [fixtures](fixtures)
+directory.
 
 ## In short
 
@@ -29,23 +30,57 @@ A message can be annotated with release gates as follows:
 message Hello {
     int32 unreleased = 1;
     string released = 2 [
-        (releases.field).release_in = 14;
+        (releases.field).release_in = 12;
     ];
     float32 preview_only = 3 [
-        (releases.field).preview_in = 22;
+        (releases.field).preview_in = 17;
     ];
 }
 ```
 
-Releases can be generated specifying the number of a release and whether it is a preview release or not. In above example, only releases from #22 onwards will include the `released` field, preview-releases from #14 onwards will include the `preview_only` field, and release 0 will include all fields. In all cases, the release options are stripped.
+Releases can be generated specifying the number of a release and whether it is a
+preview release or not. In above example, only releases from #12 onwards will
+include the `released` field, preview-releases from #17 onwards will include the
+`preview_only` field, and release #0 will include all fields. In all cases, the
+release options are stripped.
 
-Use something like the following commands to generate the releases (assuming protoc is already installed):
+Use something like the following commands to generate the releases (assuming
+protoc is already installed):
 
 ```sh
 go install github.com/devnev/proto-releases/protoc-gen-release
 protoc my_api.proto --release_out=releases/alpha
 protoc my_api.proto --release_out=releases/beta17 --release_opt=release=17,preview=true
-protoc my_api.proto --release_out=releases/stable17 --release_opt=release=17,preview=true
+protoc my_api.proto --release_out=releases/stable17 --release_opt=release=17
+```
+
+`releases/alpha/my_api.proto`:
+
+```proto
+message Hello {
+    int32 unreleased = 1;
+    string released = 2;
+    float32 preview_only = 3;
+}
+```
+
+`releases/beta17/my_api.proto`:
+
+```proto
+message Hello {
+    int32 unreleased = 1;
+    string released = 2;
+    float32 preview_only = 3;
+}
+```
+
+`releases/stable17/my_api.proto`:
+
+```proto
+message Hello {
+    int32 unreleased = 1;
+    string released = 2;
+}
 ```
 
 ### Automatic release implementation
@@ -72,20 +107,28 @@ func main() {
 To generate the release implementations, run something like the following:
 
 ```sh
+# Install tools. for installing protoc, see https://grpc.io/docs/protoc-installation/.
 go install \
-    github.com/devnev/proto-releases/protoc-gen-release
+    github.com/devnev/proto-releases/protoc-gen-release \
+    github.com/devnev/proto-releases/protoc-gen-go-baseconvert \
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+    google.golang.org/protobuf/cmd/protoc-gen-go
 
+# Generate the preview release 17 ("beta17") of my_api.proto.
+# Due to the go_package option, release proto's go_package will start with
+# github.com/me/releases/beta17, followed by the original go_package but with
+# the prefix github.com/me stripped.
 protoc my_api.proto \
     --release_out=releases/beta17 \
     --release_opt=release=17,preview=true,go_package=github.com/me:releases/beta17
 
+# Generate internal protos and server stubs for my_api.proto.
+# In this example, stubs are being generated in a separate "server" directory.
 protoc my_api.proto \
     --go_out=server --go_opt=paths=source_relative \
     --go-grpc_out=server --go-grpc_opt=paths=source_relative
 
-go install \
-    github.com/devnev/proto-releases/protoc-gen-go-baseconvert
-
+# Generate automatic implementation of the beta17 release.
 protoc my_api.proto \
     -Ireleases/beta17 \
     --go_out=server/beta17 --go_opt=paths=source_relative \
