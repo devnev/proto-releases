@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package com.github.devnev.proto_releases.fixtures;
 
-import "releases.proto";
-
 option go_package = "github.com/devnev/proto-releases/fixtures/releases/beta2/fixtures";
 
 message ImportedNotAnnotatedWithReleasedField {

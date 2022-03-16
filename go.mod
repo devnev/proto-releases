@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/golang/protobuf v1.5.2
-	github.com/jhump/protoreflect v1.12.0
+	github.com/jhump/protoreflect v1.12.1-0.20220316173934-5603151797d4
 	github.com/lyft/protoc-gen-star v0.6.0
 	google.golang.org/grpc v1.38.0
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0

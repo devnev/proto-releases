@@ -51,6 +51,8 @@ func File(b *builder.FileBuilder, c *releases.Config) error {
 		}
 	}
 
+	b.PruneUnusedDependencies()
+
 	return nil
 }
 

@@ -18,7 +18,6 @@ func TestRun(t *testing.T) {
 		"fixtures/core.proto",
 		"fixtures/imported.proto",
 		"fixtures/subpackage/subimport.proto",
-		"releases.proto",
 	}
 	for _, preview := range []bool{false, true} {
 		for release := 0; release < 4; release++ {

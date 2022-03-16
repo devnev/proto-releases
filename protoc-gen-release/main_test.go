@@ -43,7 +43,6 @@ func TestProtoc(t *testing.T) {
 				"fixtures/core.proto",
 				"fixtures/imported.proto",
 				"fixtures/subpackage/subimport.proto",
-				"releases.proto",
 			)
 			cmd.Env = append(os.Environ(), "PATH="+binDir)
 			cmd.Stderr = os.Stderr

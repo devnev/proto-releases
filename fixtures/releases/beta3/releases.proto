@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package releases;
-
-import "google/protobuf/descriptor.proto";
-
-option go_package = "github.com/devnev/proto-releases/fixtures/releases/beta3";
