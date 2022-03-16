@@ -34,20 +34,8 @@ func TestProtoc(t *testing.T) {
 			name := testName(release, preview)
 			relPath := filepath.Join(releasesDir, name)
 			outPath := filepath.Join(outDir, name)
-			_ = os.MkdirAll(outPath, 0o755)
-			cmd = exec.Command(
-				"protoc",
-				"-I"+relPath,
-				"--go_out="+outPath,
-				"--go_opt=paths=source_relative",
-				"--go-grpc_out="+outPath,
-				"--go-grpc_opt=paths=source_relative",
-				"releases.proto",
-			)
-			cmd.Env = append(os.Environ(), "PATH="+binDir+":"+os.Getenv("PATH"))
-			cmd.Stderr = os.Stderr
-			if err := cmd.Run(); err != nil {
-				t.Fatalf("failed to run protoc: %v", err)
+			if err := os.MkdirAll(outPath, 0o755); err != nil {
+				t.Fatalf("unable to create %q: %v", outPath, err)
 			}
 
 			cmd = exec.Command(

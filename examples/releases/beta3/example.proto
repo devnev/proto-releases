@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "releases.proto";
-
 option go_package = "github.com/devnev/proto-releases/examples/releases/beta3";
 
 message Example {
