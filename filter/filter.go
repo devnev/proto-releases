@@ -15,7 +15,7 @@ import (
 )
 
 func File(b *builder.FileBuilder, c *releases.Config) error {
-	if relgopkg, srcgopkg := c.GetGoPackage(), b.Options.GetGoPackage(); relgopkg != "" && srcgopkg != "" {
+	if srcgopkg := b.Options.GetGoPackage(); srcgopkg != "" {
 		outgopkg := GoPackage(srcgopkg, c.GetGoPackage())
 		b.Options.GoPackage = &outgopkg
 	}
@@ -190,25 +190,17 @@ func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInf
 	return include, nil
 }
 
-func GoPackage(srcgopkg, relgopkg string) string {
-	if relgopkg == "" {
+func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackage) string {
+	if gopkgconfig.GetReleaseRoot() == "" {
 		return srcgopkg
 	}
 	if srcgopkg == "" {
-		return relgopkg
+		return gopkgconfig.ReleaseRoot
 	}
 	if i := strings.LastIndex(srcgopkg, ";"); i > 0 {
 		srcgopkg = srcgopkg[:i]
 	}
-	var relprefix, relsuffix string
-	if i := strings.Index(relgopkg, ":"); i > 0 {
-		relprefix = relgopkg[:i]
-		relsuffix = relgopkg[i+1:]
-	} else {
-		relprefix = commonPrefix(relgopkg, srcgopkg, '/')
-		relsuffix = relgopkg[len(relprefix):]
-	}
-	return path.Join(relprefix, relsuffix, strings.TrimPrefix(srcgopkg, relprefix))
+	return path.Join(gopkgconfig.ReleaseRoot, strings.TrimPrefix(srcgopkg, gopkgconfig.SourceRoot))
 }
 
 func commonPrefix(path1, path2 string, sep rune) string {

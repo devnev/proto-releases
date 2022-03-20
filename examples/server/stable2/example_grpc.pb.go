@@ -4,7 +4,7 @@
 // - protoc             v3.19.4
 // source: example.proto
 
-package stable2
+package examples
 
 import (
 	context "context"

@@ -38,9 +38,9 @@ message Range {
     // Specify from which release onwards to include this item.
     // Any non-zero (including negative) value will cause the item to be
     // included in all preview releases, unless preview_in is specified.
-    uint32 release_in = 1;
+    uint64 release_in = 1;
     // Specify from which preview release onwards to include this item.
-    uint32 preview_in = 2;
+    uint64 preview_in = 2;
     // Specify from which release onwards to drop this item.
-    uint32 remove_in = 3;
+    uint64 remove_in = 3;
 }

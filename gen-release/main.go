@@ -19,19 +19,15 @@ import (
 
 func main() {
 	var (
+		config  releases.Config
 		out     = flag.String("out", "out", "")
-		release = flag.Int("rel", 0, "")
-		preview = flag.Bool("pre", false, "")
 		include = flag.String("inc", ".", "")
-		gopkg   = flag.String("gopkg", "", "")
 	)
+	flag.BoolVar(&config.Preview, "pre", false, "")
+	flag.Uint64Var(&config.Release, "rel", 0, "")
+	flag.Var(&releases.GoPackageShorthand{ConfigPtr: &config.GoPackage}, "gopkg", "")
 	flag.Parse()
-	config := &releases.Config{
-		Release:   uint32(*release),
-		Preview:   *preview,
-		GoPackage: *gopkg,
-	}
-	run(*out, config, filepath.SplitList(*include), flag.Args())
+	run(*out, &config, filepath.SplitList(*include), flag.Args())
 }
 
 func run(

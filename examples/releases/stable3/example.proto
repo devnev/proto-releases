@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/devnev/proto-releases/examples/releases/stable3";
+option go_package = "github.com/devnev/proto-releases/examples/releases/stable3/github.com/devnev/proto-releases/examples";
 
 message Example {
   // With a designated starting release, this field will be included in any

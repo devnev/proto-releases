@@ -4,9 +4,9 @@
 
 package releases
 
-//go:generate rm -r fixtures/releases
+//go:generate sh -ec "[ ! -e fixtures/releases ] || rm -r fixtures/releases"
 //go:generate find fixtures -name *.go -delete
-//go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative releases.proto config.proto
+//go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative options.proto config.proto
 //go:generate mkdir -p fixtures/releases/alpha fixtures/releases/beta1 fixtures/releases/beta2 fixtures/releases/beta3 fixtures/releases/stable1 fixtures/releases/stable2 fixtures/releases/stable3
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-release
 //go:generate -command genrel protoc -I. fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto

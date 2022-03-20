@@ -6,7 +6,7 @@ syntax = "proto3";
 option go_package = "github.com/devnev/proto-releases/fixtures";
 package com.github.devnev.proto_releases.fixtures;
 
-import "releases.proto";
+import "options.proto";
 import "google/protobuf/empty.proto";
 import "fixtures/imported.proto";
 

@@ -4,7 +4,8 @@
 
 package example
 
-//go:generate rm -r releases server
+//go:generate sh -ec "[ ! -e releases ] || rm -r releases"
+//go:generate sh -ec "[ ! -e server ] || rm -r server"
 //go:generate mkdir -p releases/alpha releases/beta1 releases/beta2 releases/beta3 releases/stable1 releases/stable2 releases/stable3
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-release
 //go:generate -command gen-release protoc -I.. -I. example.proto

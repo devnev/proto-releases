@@ -4,6 +4,7 @@ import (
 	"flag"
 	"path/filepath"
 
+	releases "github.com/devnev/proto-releases"
 	"github.com/devnev/proto-releases/filter"
 	"github.com/jhump/protoreflect/desc/protoparse"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -12,7 +13,8 @@ import (
 
 func main() {
 	basePath := flag.String("base_path", ".", "")
-	basePkg := flag.String("base_go_package", "", "")
+	var pkgConfig releases.Config_GoPackage
+	flag.Var(&releases.GoPackageShorthand{Config: &pkgConfig}, "base_go_package", "")
 	protogen.Options{
 		ParamFunc: flag.Set,
 	}.Run(func(gen *protogen.Plugin) error {
@@ -34,7 +36,7 @@ func main() {
 					break
 				}
 			}
-			baseGoPackage = filter.GoPackage(baseGoPackage, *basePkg)
+			baseGoPackage = filter.GoPackage(baseGoPackage, &pkgConfig)
 			generateFile(gen, f, protogen.GoImportPath(baseGoPackage))
 		}
 		return nil

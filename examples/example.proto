@@ -5,7 +5,7 @@
 syntax = "proto3";
 option go_package = "github.com/devnev/proto-releases/examples";
 
-import "releases.proto";
+import "options.proto";
 
 message Example {
     // Not annotated means this is not include in any numbered release.
