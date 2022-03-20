@@ -30,7 +30,9 @@ func TestRun(t *testing.T) {
 					ReleaseRoot: "github.com/devnev/proto-releases/fixtures/releases/" + testName(release, preview),
 				},
 			}
-			run(outPath, config, includes, files)
+			if err := run(outPath, config, includes, files); err != nil {
+				t.Fatal(err)
+			}
 		}
 	}
 	cmd := exec.Command("diff", "--unified", "--recursive", "--exclude=*.go", outDir, filepath.Join("..", "fixtures", "releases"))

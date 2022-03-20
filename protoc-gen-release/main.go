@@ -87,7 +87,12 @@ func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packa
 			})
 			continue
 		}
-		filter.File(fb, m.c)
+		if err = filter.File(fb, m.c); err != nil {
+			outputs = append(outputs, pgs.GeneratorError{
+				Message: err.Error(),
+			})
+			continue
+		}
 		result, err := fb.Build()
 		if err != nil {
 			outputs = append(outputs, pgs.GeneratorError{

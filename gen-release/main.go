@@ -27,7 +27,9 @@ func main() {
 	flag.Uint64Var(&config.Release, "rel", 0, "")
 	flag.Var(&releases.GoPackageShorthand{ConfigPtr: &config.GoPackage}, "gopkg", "")
 	flag.Parse()
-	run(*out, &config, filepath.SplitList(*include), flag.Args())
+	if err := run(*out, &config, filepath.SplitList(*include), flag.Args()); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func run(
@@ -35,7 +37,7 @@ func run(
 	config *releases.Config,
 	include []string,
 	files []string,
-) {
+) error {
 	log.Printf("releasing for %q", config)
 	parser := protoparse.Parser{
 		ImportPaths:           append(include, "."),
@@ -52,25 +54,23 @@ func run(
 	log.Printf("parsing %q", files)
 	descs, err := parser.ParseFiles(files...)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	var kept []*desc.FileDescriptor
 	for _, fdesc := range descs {
 		log.Println("processing", fdesc.GetName())
 		b, err := builder.FromFile(fdesc)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
-		filter.File(b, config)
-		fdesc, err = b.Build()
-		if err != nil {
-			log.Fatal(err)
+		if err = filter.File(b, config); err != nil {
+			return err
+		}
+		if fdesc, err = b.Build(); err != nil {
+			return err
 		}
 		kept = append(kept, fdesc)
 	}
 	var printer protoprint.Printer
-	err = printer.PrintProtosToFileSystem(kept, out)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return printer.PrintProtosToFileSystem(kept, out)
 }
