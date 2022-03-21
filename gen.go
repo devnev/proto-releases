@@ -17,7 +17,9 @@ package releases
 //go:generate genrel --release_out=fixtures/releases/stable1 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable1,release=1
 //go:generate genrel --release_out=fixtures/releases/stable2 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable2,release=2
 //go:generate genrel --release_out=fixtures/releases/stable3 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable3,release=3
-//go:generate protoc -I. --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto
+
+//go:generate go install github.com/devnev/proto-releases/protoc-gen-go-torelease
+//go:generate protoc -I. --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --go-torelease_out=. --go-torelease_opt=paths=source_relative fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto
 
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-go-baseconvert
 //go:generate -command genrelgo protoc fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative --go-baseconvert_opt=base_path=.,paths=source_relative
