@@ -44,8 +44,13 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 			}
 			m.c.Release = r
 		case "go_package":
-			m.c.GoPackage = &releases.Config_GoPackage{}
+			m.c.GoPackage = &releases.Config_GoPackageMapping{}
 			if err := releases.ParseGoPackageShorthand(v, m.c.GoPackage); err != nil {
+				bctx.Fail(err)
+			}
+		case "package":
+			m.c.Package = &releases.Config_PackageMapping{}
+			if err := releases.ParsePackageShorthand(v, m.c.Package); err != nil {
 				bctx.Fail(err)
 			}
 		case "":
@@ -64,14 +69,15 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 // Artifacts that it would like to be generated.
 func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
 	var fdps []*descriptorpb.FileDescriptorProto
-	for _, f := range targets {
-		fdps = append(fdps, f.Descriptor())
-	}
 	for _, p := range packages {
 		for _, f := range p.Files() {
 			fdps = append(fdps, f.Descriptor())
 		}
 	}
+	for _, fdp := range fdps {
+		filter.Packages(fdp, m.c)
+	}
+
 	fds, err := desc.CreateFileDescriptors(fdps)
 	if err != nil {
 		return []pgs.Artifact{pgs.GeneratorError{

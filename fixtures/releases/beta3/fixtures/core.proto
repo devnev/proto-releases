@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.github.devnev.proto_releases.fixtures;
+package com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures;
 
 import "google/protobuf/empty.proto";
 

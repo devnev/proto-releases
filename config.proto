@@ -11,9 +11,15 @@ message Config {
     uint64 release = 1;
     bool preview = 2;
 
-    message GoPackage {
+    message PackageMapping {
         string source_root = 1;
         string release_root = 2;
     }
-    GoPackage go_package = 3;
+    PackageMapping package = 4;
+
+    message GoPackageMapping {
+        string source_root = 1;
+        string release_root = 2;
+    }
+    GoPackageMapping go_package = 3;
 }

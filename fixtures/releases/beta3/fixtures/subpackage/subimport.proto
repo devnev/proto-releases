@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.github.devnev.proto_releases.fixtures.subpackage;
+package com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.subpackage;
 
 option go_package = "github.com/devnev/proto-releases/fixtures/releases/beta3/fixtures/subpackage";
 

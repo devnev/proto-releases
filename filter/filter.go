@@ -12,7 +12,31 @@ import (
 	"github.com/jhump/protoreflect/desc/builder"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/runtime/protoimpl"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
+
+func Packages(fdp *descriptorpb.FileDescriptorProto, c *releases.Config) {
+	if fdp.GetPackage() != "" {
+		fdp.Package = proto.String(Package(fdp.GetPackage(), c.GetPackage()))
+	}
+	for _, mdp := range fdp.GetMessageType() {
+		for _, fldp := range mdp.GetField() {
+			if fldp.GetTypeName() != "" {
+				fldp.TypeName = proto.String(Package(fldp.GetTypeName(), c.GetPackage()))
+			}
+		}
+	}
+	for _, sdp := range fdp.GetService() {
+		for _, mdp := range sdp.GetMethod() {
+			if mdp.GetInputType() != "" {
+				mdp.InputType = proto.String(Package(mdp.GetInputType(), c.GetPackage()))
+			}
+			if mdp.GetOutputType() != "" {
+				mdp.OutputType = proto.String(Package(mdp.GetOutputType(), c.GetPackage()))
+			}
+		}
+	}
+}
 
 func File(b *builder.FileBuilder, c *releases.Config) error {
 	if srcgopkg := b.Options.GetGoPackage(); srcgopkg != "" {
@@ -190,7 +214,7 @@ func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInf
 	return include, nil
 }
 
-func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackage) string {
+func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackageMapping) string {
 	if gopkgconfig.GetReleaseRoot() == "" {
 		return srcgopkg
 	}
@@ -201,6 +225,24 @@ func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackage) string {
 		srcgopkg = srcgopkg[:i]
 	}
 	return path.Join(gopkgconfig.ReleaseRoot, strings.TrimPrefix(srcgopkg, gopkgconfig.SourceRoot))
+}
+
+func Package(srcpkg string, pkgconfig *releases.Config_PackageMapping) (outpkg string) {
+	if pkgconfig.GetReleaseRoot() == "" || srcpkg == "" {
+		return srcpkg
+	}
+	relpkg := pkgconfig.ReleaseRoot
+	if strings.HasPrefix(srcpkg, ".") {
+		relpkg = "." + relpkg
+	}
+	srcpkgNodot := strings.TrimPrefix(srcpkg, ".")
+	if srcpkgNodot == pkgconfig.SourceRoot {
+		return relpkg
+	}
+	if strings.HasPrefix(strings.TrimPrefix(srcpkgNodot, pkgconfig.SourceRoot), ".") {
+		return relpkg + srcpkgNodot[len(pkgconfig.SourceRoot):]
+	}
+	return srcpkg
 }
 
 func commonPrefix(path1, path2 string, sep rune) string {

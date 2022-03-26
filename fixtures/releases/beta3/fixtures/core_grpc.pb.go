@@ -37,7 +37,7 @@ func NewTestServiceClient(cc grpc.ClientConnInterface) TestServiceClient {
 
 func (c *testServiceClient) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/com.github.devnev.proto_releases.fixtures.TestService/EmptyMethodReleased", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.TestService/EmptyMethodReleased", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *testServiceClient) EmptyMethodReleased(ctx context.Context, in *emptypb
 
 func (c *testServiceClient) MethodReleased(ctx context.Context, in *MessageNotAnnotated, opts ...grpc.CallOption) (*MessageNotAnnotated, error) {
 	out := new(MessageNotAnnotated)
-	err := c.cc.Invoke(ctx, "/com.github.devnev.proto_releases.fixtures.TestService/MethodReleased", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.TestService/MethodReleased", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ func _TestService_EmptyMethodReleased_Handler(srv interface{}, ctx context.Conte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/com.github.devnev.proto_releases.fixtures.TestService/EmptyMethodReleased",
+		FullMethod: "/com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.TestService/EmptyMethodReleased",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestServiceServer).EmptyMethodReleased(ctx, req.(*emptypb.Empty))
@@ -113,7 +113,7 @@ func _TestService_MethodReleased_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/com.github.devnev.proto_releases.fixtures.TestService/MethodReleased",
+		FullMethod: "/com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.TestService/MethodReleased",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestServiceServer).MethodReleased(ctx, req.(*MessageNotAnnotated))
@@ -125,7 +125,7 @@ func _TestService_MethodReleased_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TestService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "com.github.devnev.proto_releases.fixtures.TestService",
+	ServiceName: "com.github.devnev.proto_releases.fixtures.releases.beta3.fixtures.TestService",
 	HandlerType: (*TestServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

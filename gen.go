@@ -10,13 +10,13 @@ package releases
 //go:generate mkdir -p fixtures/releases/alpha fixtures/releases/beta1 fixtures/releases/beta2 fixtures/releases/beta3 fixtures/releases/stable1 fixtures/releases/stable2 fixtures/releases/stable3
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-release
 //go:generate -command genrel protoc -I. fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto
-//go:generate genrel --release_out=fixtures/releases/alpha --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/alpha
-//go:generate genrel --release_out=fixtures/releases/beta1 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta1,release=1,preview=true
-//go:generate genrel --release_out=fixtures/releases/beta2 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta2,release=2,preview=true
-//go:generate genrel --release_out=fixtures/releases/beta3 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta3,release=3,preview=true
-//go:generate genrel --release_out=fixtures/releases/stable1 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable1,release=1
-//go:generate genrel --release_out=fixtures/releases/stable2 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable2,release=2
-//go:generate genrel --release_out=fixtures/releases/stable3 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable3,release=3
+//go:generate genrel --release_out=fixtures/releases/alpha --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/alpha --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.alpha
+//go:generate genrel --release_out=fixtures/releases/beta1 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta1,release=1,preview=true --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.beta1
+//go:generate genrel --release_out=fixtures/releases/beta2 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta2,release=2,preview=true --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.beta2
+//go:generate genrel --release_out=fixtures/releases/beta3 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/beta3,release=3,preview=true --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.beta3
+//go:generate genrel --release_out=fixtures/releases/stable1 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable1,release=1 --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.stable1
+//go:generate genrel --release_out=fixtures/releases/stable2 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable2,release=2 --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.stable2
+//go:generate genrel --release_out=fixtures/releases/stable3 --release_opt=go_package=github.com/devnev/proto-releases:fixtures/releases/stable3,release=3 --release_opt=package=com.github.devnev.proto_releases:fixtures.releases.stable3
 
 //go:generate go install github.com/devnev/proto-releases/protoc-gen-go-torelease
 //go:generate protoc -I. --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --go-torelease_out=. --go-torelease_opt=paths=source_relative fixtures/core.proto fixtures/imported.proto fixtures/subpackage/subimport.proto

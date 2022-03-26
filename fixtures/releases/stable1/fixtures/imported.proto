@@ -1,5 +1,5 @@
 syntax = "proto3";
 
-package com.github.devnev.proto_releases.fixtures;
+package com.github.devnev.proto_releases.fixtures.releases.stable1.fixtures;
 
 option go_package = "github.com/devnev/proto-releases/fixtures/releases/stable1/fixtures";
