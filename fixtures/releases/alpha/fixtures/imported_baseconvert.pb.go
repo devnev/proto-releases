@@ -38,3 +38,11 @@ func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNot
 	}
 	return msg
 }
+func (m *ImportedRelesed) ToBase() *fixtures.ImportedRelesed {
+	msg := &fixtures.ImportedRelesed{}
+	return msg
+}
+func (m *ImportedRelesed) FromBase(b *fixtures.ImportedRelesed) *ImportedRelesed {
+	msg := &ImportedRelesed{}
+	return msg
+}

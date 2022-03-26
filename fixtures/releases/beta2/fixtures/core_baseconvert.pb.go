@@ -120,6 +120,17 @@ func (m *MessageWithOneofWithMessages_MessageWithReleaseAnnotation) FromBase(b *
 		MessageWithReleaseAnnotation: (*MessageWithReleasedField)(nil).FromBase(b.MessageWithReleaseAnnotation),
 	}
 }
+func (m *MessageWithImportedFields) ToBase() *fixtures.MessageWithImportedFields {
+	msg := &fixtures.MessageWithImportedFields{
+		EmptyReleased: m.GetEmptyReleased().ToBase(),
+	}
+	return msg
+}
+func (m *MessageWithImportedFields) FromBase(b *fixtures.MessageWithImportedFields) *MessageWithImportedFields {
+	msg := &MessageWithImportedFields{}
+	msg.EmptyReleased = msg.EmptyReleased.FromBase(b.GetEmptyReleased())
+	return msg
+}
 func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {
 	msg := &fixtures.MessageNotAnnotated{
 		Released:              m.GetReleased(),

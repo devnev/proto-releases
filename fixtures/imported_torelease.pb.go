@@ -24,3 +24,5 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToRelease(c *proto_releases.Conf
 		m.Released = 0
 	}
 }
+func (m *ImportedRelesed) ToRelease(c *proto_releases.Config) {
+}

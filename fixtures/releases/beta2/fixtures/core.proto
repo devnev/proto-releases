@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package com.github.devnev.proto_releases.fixtures.releases.beta2.fixtures;
 
+import "fixtures/imported.proto";
+
 import "google/protobuf/empty.proto";
 
 option go_package = "github.com/devnev/proto-releases/fixtures/releases/beta2/fixtures";
@@ -39,6 +41,10 @@ message MessageWithOneofWithMessages {
   oneof oneof_with_message {
     MessageWithReleasedField message_with_release_annotation = 3;
   }
+}
+
+message MessageWithImportedFields {
+  ImportedRelesed empty_released = 4;
 }
 
 message MessageNotAnnotated {

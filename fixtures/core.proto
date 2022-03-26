@@ -81,6 +81,9 @@ message MessageWithImportedFields {
     com.github.devnev.proto_releases.fixtures.ImportedNotAnnotatedAndEmpty empty = 1;
     com.github.devnev.proto_releases.fixtures.ImportedNotAnnotatedWithUnreleasedField with_unreleased = 2;
     com.github.devnev.proto_releases.fixtures.ImportedNotAnnotatedWithReleasedField with_released = 3;
+    com.github.devnev.proto_releases.fixtures.ImportedRelesed empty_released = 4 [
+        (releases.field).release_in = 2
+    ];
 }
 
 message MessageNotAnnotated {

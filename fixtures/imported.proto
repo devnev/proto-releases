@@ -16,3 +16,7 @@ message ImportedNotAnnotatedWithReleasedField {
         (releases.field).release_in = 2
     ];
 }
+
+message ImportedRelesed {
+    option (releases.message).release_in = 2;
+}

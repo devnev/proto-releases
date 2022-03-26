@@ -68,6 +68,8 @@ message MessageWithImportedFields {
   ImportedNotAnnotatedWithUnreleasedField with_unreleased = 2;
 
   ImportedNotAnnotatedWithReleasedField with_released = 3;
+
+  ImportedRelesed empty_released = 4;
 }
 
 message MessageNotAnnotated {

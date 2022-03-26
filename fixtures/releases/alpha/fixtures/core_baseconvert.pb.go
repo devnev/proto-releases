@@ -205,6 +205,7 @@ func (m *MessageWithImportedFields) ToBase() *fixtures.MessageWithImportedFields
 		Empty:          m.GetEmpty().ToBase(),
 		WithUnreleased: m.GetWithUnreleased().ToBase(),
 		WithReleased:   m.GetWithReleased().ToBase(),
+		EmptyReleased:  m.GetEmptyReleased().ToBase(),
 	}
 	return msg
 }
@@ -213,6 +214,7 @@ func (m *MessageWithImportedFields) FromBase(b *fixtures.MessageWithImportedFiel
 	msg.Empty = msg.Empty.FromBase(b.GetEmpty())
 	msg.WithUnreleased = msg.WithUnreleased.FromBase(b.GetWithUnreleased())
 	msg.WithReleased = msg.WithReleased.FromBase(b.GetWithReleased())
+	msg.EmptyReleased = msg.EmptyReleased.FromBase(b.GetEmptyReleased())
 	return msg
 }
 func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {

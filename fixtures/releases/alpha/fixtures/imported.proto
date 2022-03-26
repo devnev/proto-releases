@@ -14,3 +14,6 @@ message ImportedNotAnnotatedWithUnreleasedField {
 message ImportedNotAnnotatedWithReleasedField {
   int32 released = 1;
 }
+
+message ImportedRelesed {
+}

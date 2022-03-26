@@ -99,9 +99,15 @@ func (m *MessageWithImportedFields) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
 		return
 	}
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
 	m.Empty.ToRelease(c)
 	m.WithUnreleased.ToRelease(c)
 	m.WithReleased.ToRelease(c)
+	if !(r >= 2) {
+		m.EmptyReleased = nil
+	}
+	m.EmptyReleased.ToRelease(c)
 }
 func (m *MessageNotAnnotated) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {

@@ -7,3 +7,6 @@ option go_package = "github.com/devnev/proto-releases/fixtures/releases/stable3/
 message ImportedNotAnnotatedWithReleasedField {
   int32 released = 1;
 }
+
+message ImportedRelesed {
+}
