@@ -55,7 +55,7 @@ func generateMessage(g *protogen.GeneratedFile, m *protogen.Message) {
 		return
 	}
 	g.P("if m == nil || c.GetRelease() == 0 { return }")
-	if hasReleaseOptions(m) {
+	if hasReleaseOptions(m.Fields) {
 		g.P("r, p := c.GetRelease(), c.GetPreview()")
 		g.P("_, _ = r, p // prevent unused variable")
 	}
@@ -85,41 +85,61 @@ func generateMessage(g *protogen.GeneratedFile, m *protogen.Message) {
 		}
 	}
 	for _, o := range m.Oneofs {
-		g.P("m.", o.GoName, " = toRelease_", o.GoIdent.GoName, "(m.", o.GoName, ", c)")
+		if hasReleaseOptions(o.Fields) {
+			g.P("m.", o.GoName, " = toRelease_", o.GoIdent.GoName, "(m.", o.GoName, ", c)")
+		} else {
+			g.P("m.", o.GoName, " = nil")
+		}
 	}
 	g.P("}")
 	for _, o := range m.Oneofs {
-		g.P("func toRelease_", o.GoIdent.GoName, "(o is", o.GoIdent, ", c *", configIdent, ") is", o.GoIdent, " {")
-		g.P("r, p := c.GetRelease(), c.GetPreview()")
-		g.P("_, _ = r, p // prevent unused variable")
-		g.P("switch t := o.(type) {")
-		for _, f := range o.Fields {
-			cond := buildCondition(f.Desc, releases.E_Field)
-			if f.Message != nil {
-				g.P("case *", f.GoIdent, ":")
-				if cond != "" {
-					g.P("if ", cond, " {")
-				}
-				g.P("t.", f.GoName, ".ToRelease(c)")
-				g.P("return o")
-				if cond != "" {
-					g.P("}")
-				}
-			} else if cond != "" {
-				g.P("case *", f.GoIdent, ":")
-				g.P("if ", cond, " {")
-				if f.Enum != nil {
-					g.P("t.", f.GoName, " = t.", f.GoName, ".ToRelease(c)")
-				}
-				g.P("return t")
-				g.P("}")
-			}
+		if hasReleaseOptions(o.Fields) {
+			generateOneOfHelper(g, o)
 		}
-		g.P("default: _ = t // prevent unused variable")
-		g.P("}")
+	}
+}
+
+func generateOneOfHelper(g *protogen.GeneratedFile, o *protogen.Oneof) {
+	configIdent := g.QualifiedGoIdent(protogen.GoIdent{
+		GoImportPath: "github.com/devnev/proto-releases",
+		GoName:       "Config",
+	})
+
+	g.P("func toRelease_", o.GoIdent.GoName, "(o is", o.GoIdent, ", c *", configIdent, ") is", o.GoIdent, " {")
+	if !hasReleaseOptions(o.Fields) {
 		g.P("return nil")
 		g.P("}")
+		return
 	}
+
+	g.P("r, p := c.GetRelease(), c.GetPreview()")
+	g.P("_, _ = r, p // prevent unused variable")
+	g.P("switch t := o.(type) {")
+	for _, f := range o.Fields {
+		cond := buildCondition(f.Desc, releases.E_Field)
+		if f.Message != nil {
+			g.P("case *", f.GoIdent, ":")
+			if cond != "" {
+				g.P("if ", cond, " {")
+			}
+			g.P("t.", f.GoName, ".ToRelease(c)")
+			g.P("return o")
+			if cond != "" {
+				g.P("}")
+			}
+		} else if cond != "" {
+			g.P("case *", f.GoIdent, ":")
+			g.P("if ", cond, " {")
+			if f.Enum != nil {
+				g.P("t.", f.GoName, " = t.", f.GoName, ".ToRelease(c)")
+			}
+			g.P("return t")
+			g.P("}")
+		}
+	}
+	g.P("}")
+	g.P("return nil")
+	g.P("}")
 }
 
 func generateEnum(g *protogen.GeneratedFile, e *protogen.Enum) {
@@ -149,8 +169,8 @@ func generateEnum(g *protogen.GeneratedFile, e *protogen.Enum) {
 	g.P("}")
 }
 
-func hasReleaseOptions(m *protogen.Message) bool {
-	for _, f := range m.Fields {
+func hasReleaseOptions(fs []*protogen.Field) bool {
+	for _, f := range fs {
 		range_, _ := proto.GetExtension(f.Desc.Options(), releases.E_Field).(*releases.Range)
 		if range_.GetReleaseIn() > 0 || range_.GetPreviewIn() > 0 {
 			return true

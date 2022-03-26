@@ -48,16 +48,7 @@ func (m *MessageWithUnannotatedOneof) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
 		return
 	}
-	m.NotAnnotatedOneof = toRelease_MessageWithUnannotatedOneof_NotAnnotatedOneof(m.NotAnnotatedOneof, c)
-}
-func toRelease_MessageWithUnannotatedOneof_NotAnnotatedOneof(o isMessageWithUnannotatedOneof_NotAnnotatedOneof, c *proto_releases.Config) isMessageWithUnannotatedOneof_NotAnnotatedOneof {
-	r, p := c.GetRelease(), c.GetPreview()
-	_, _ = r, p // prevent unused variable
-	switch t := o.(type) {
-	default:
-		_ = t // prevent unused variable
-	}
-	return nil
+	m.NotAnnotatedOneof = nil
 }
 func (m *MessageWithReleasedOneofItem) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
@@ -75,8 +66,6 @@ func toRelease_MessageWithReleasedOneofItem_OneofWithItem(o isMessageWithRelease
 		if r >= 2 {
 			return t
 		}
-	default:
-		_ = t // prevent unused variable
 	}
 	return nil
 }
@@ -103,8 +92,6 @@ func toRelease_MessageWithOneofWithMessages_OneofWithMessage(o isMessageWithOneo
 			t.MessageWithReleaseAnnotation.ToRelease(c)
 			return o
 		}
-	default:
-		_ = t // prevent unused variable
 	}
 	return nil
 }
@@ -148,8 +135,6 @@ func toRelease_MessageNotAnnotated_NotAnnotatedOneof(o isMessageNotAnnotated_Not
 		if r >= 2 {
 			return t
 		}
-	default:
-		_ = t // prevent unused variable
 	}
 	return nil
 }
@@ -182,8 +167,6 @@ func toRelease_MessageWithOneofsWithEnumFields_OneofWithEnumField(o isMessageWit
 			t.Released = t.Released.ToRelease(c)
 			return t
 		}
-	default:
-		_ = t // prevent unused variable
 	}
 	return nil
 }
