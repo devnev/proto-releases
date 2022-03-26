@@ -46,7 +46,9 @@ message MessageWithUnannotatedOneof {
 
 message MessageWithReleasedOneofItem {
   oneof oneof_with_item {
-    int32 released_oneof_item = 2;
+    int32 oneof_item_not_annotated = 1;
+
+    int32 oneof_item_released = 2;
   }
 }
 
@@ -90,6 +92,14 @@ message MessageWithEnumFields {
   EnumNotAnnotated not_annotated = 1;
 
   EnumNotAnnotated released = 2;
+}
+
+message MessageWithOneofsWithEnumFields {
+  oneof oneof_with_enum_field {
+    EnumNotAnnotated not_annotated = 1;
+
+    EnumNotAnnotated released = 2;
+  }
 }
 
 enum EnumNotAnnotated {

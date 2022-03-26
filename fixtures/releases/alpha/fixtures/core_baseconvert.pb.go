@@ -117,7 +117,9 @@ func (m *MessageWithUnannotatedOneof_OneofItemNotAnnotated) FromBase(b *fixtures
 func (m *MessageWithReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOneofItem {
 	msg := &fixtures.MessageWithReleasedOneofItem{}
 	switch o := m.GetOneofWithItem().(type) {
-	case *MessageWithReleasedOneofItem_ReleasedOneofItem:
+	case *MessageWithReleasedOneofItem_OneofItemNotAnnotated:
+		msg.OneofWithItem = o.ToBase()
+	case *MessageWithReleasedOneofItem_OneofItemReleased:
 		msg.OneofWithItem = o.ToBase()
 	}
 	return msg
@@ -125,16 +127,24 @@ func (m *MessageWithReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOne
 func (m *MessageWithReleasedOneofItem) FromBase(b *fixtures.MessageWithReleasedOneofItem) *MessageWithReleasedOneofItem {
 	msg := &MessageWithReleasedOneofItem{}
 	switch o := b.GetOneofWithItem().(type) {
-	case *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem:
-		m.OneofWithItem = (*MessageWithReleasedOneofItem_ReleasedOneofItem)(nil).FromBase(o)
+	case *fixtures.MessageWithReleasedOneofItem_OneofItemNotAnnotated:
+		m.OneofWithItem = (*MessageWithReleasedOneofItem_OneofItemNotAnnotated)(nil).FromBase(o)
+	case *fixtures.MessageWithReleasedOneofItem_OneofItemReleased:
+		m.OneofWithItem = (*MessageWithReleasedOneofItem_OneofItemReleased)(nil).FromBase(o)
 	}
 	return msg
 }
-func (m *MessageWithReleasedOneofItem_ReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem {
-	return (*fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem)(m)
+func (m *MessageWithReleasedOneofItem_OneofItemNotAnnotated) ToBase() *fixtures.MessageWithReleasedOneofItem_OneofItemNotAnnotated {
+	return (*fixtures.MessageWithReleasedOneofItem_OneofItemNotAnnotated)(m)
 }
-func (m *MessageWithReleasedOneofItem_ReleasedOneofItem) FromBase(b *fixtures.MessageWithReleasedOneofItem_ReleasedOneofItem) *MessageWithReleasedOneofItem_ReleasedOneofItem {
-	return (*MessageWithReleasedOneofItem_ReleasedOneofItem)(b)
+func (m *MessageWithReleasedOneofItem_OneofItemNotAnnotated) FromBase(b *fixtures.MessageWithReleasedOneofItem_OneofItemNotAnnotated) *MessageWithReleasedOneofItem_OneofItemNotAnnotated {
+	return (*MessageWithReleasedOneofItem_OneofItemNotAnnotated)(b)
+}
+func (m *MessageWithReleasedOneofItem_OneofItemReleased) ToBase() *fixtures.MessageWithReleasedOneofItem_OneofItemReleased {
+	return (*fixtures.MessageWithReleasedOneofItem_OneofItemReleased)(m)
+}
+func (m *MessageWithReleasedOneofItem_OneofItemReleased) FromBase(b *fixtures.MessageWithReleasedOneofItem_OneofItemReleased) *MessageWithReleasedOneofItem_OneofItemReleased {
+	return (*MessageWithReleasedOneofItem_OneofItemReleased)(b)
 }
 func (m *MessageWithOneofWithMessages) ToBase() *fixtures.MessageWithOneofWithMessages {
 	msg := &fixtures.MessageWithOneofWithMessages{}
@@ -253,6 +263,46 @@ func (m *MessageWithEnumFields) FromBase(b *fixtures.MessageWithEnumFields) *Mes
 	msg.NotAnnotated = msg.NotAnnotated.FromBase(b.GetNotAnnotated())
 	msg.Released = msg.Released.FromBase(b.GetReleased())
 	return msg
+}
+func (m *MessageWithOneofsWithEnumFields) ToBase() *fixtures.MessageWithOneofsWithEnumFields {
+	msg := &fixtures.MessageWithOneofsWithEnumFields{}
+	switch o := m.GetOneofWithEnumField().(type) {
+	case *MessageWithOneofsWithEnumFields_NotAnnotated:
+		msg.OneofWithEnumField = o.ToBase()
+	case *MessageWithOneofsWithEnumFields_Released:
+		msg.OneofWithEnumField = o.ToBase()
+	}
+	return msg
+}
+func (m *MessageWithOneofsWithEnumFields) FromBase(b *fixtures.MessageWithOneofsWithEnumFields) *MessageWithOneofsWithEnumFields {
+	msg := &MessageWithOneofsWithEnumFields{}
+	switch o := b.GetOneofWithEnumField().(type) {
+	case *fixtures.MessageWithOneofsWithEnumFields_NotAnnotated:
+		m.OneofWithEnumField = (*MessageWithOneofsWithEnumFields_NotAnnotated)(nil).FromBase(o)
+	case *fixtures.MessageWithOneofsWithEnumFields_Released:
+		m.OneofWithEnumField = (*MessageWithOneofsWithEnumFields_Released)(nil).FromBase(o)
+	}
+	return msg
+}
+func (m *MessageWithOneofsWithEnumFields_NotAnnotated) ToBase() *fixtures.MessageWithOneofsWithEnumFields_NotAnnotated {
+	return &fixtures.MessageWithOneofsWithEnumFields_NotAnnotated{
+		NotAnnotated: m.NotAnnotated.ToBase(),
+	}
+}
+func (m *MessageWithOneofsWithEnumFields_NotAnnotated) FromBase(b *fixtures.MessageWithOneofsWithEnumFields_NotAnnotated) *MessageWithOneofsWithEnumFields_NotAnnotated {
+	return &MessageWithOneofsWithEnumFields_NotAnnotated{
+		NotAnnotated: (EnumNotAnnotated)(0).FromBase(b.NotAnnotated),
+	}
+}
+func (m *MessageWithOneofsWithEnumFields_Released) ToBase() *fixtures.MessageWithOneofsWithEnumFields_Released {
+	return &fixtures.MessageWithOneofsWithEnumFields_Released{
+		Released: m.Released.ToBase(),
+	}
+}
+func (m *MessageWithOneofsWithEnumFields_Released) FromBase(b *fixtures.MessageWithOneofsWithEnumFields_Released) *MessageWithOneofsWithEnumFields_Released {
+	return &MessageWithOneofsWithEnumFields_Released{
+		Released: (EnumNotAnnotated)(0).FromBase(b.Released),
+	}
 }
 func (e EnumNotAnnotated) FromBase(b fixtures.EnumNotAnnotated) EnumNotAnnotated {
 	switch b {

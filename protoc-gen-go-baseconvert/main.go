@@ -149,7 +149,7 @@ func generateOneofFieldToBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *p
 		GoImportPath: base,
 	})
 	g.P("func (m *", f.GoIdent, ") ToBase() *", baseType, "{")
-	if f.Message == nil {
+	if f.Message == nil && f.Enum == nil {
 		g.P("return (*", baseType, ")(m)")
 	} else {
 		g.P("return &", baseType, "{")
@@ -165,12 +165,16 @@ func generateOneofFieldFromBase(g *protogen.GeneratedFile, o *protogen.Oneof, f 
 		GoImportPath: base,
 	})
 	g.P("func (m *", f.GoIdent, ") FromBase(b *", baseType, ") *", f.GoIdent, " {")
-	if f.Message == nil {
-		g.P("return (*", f.GoIdent, ")(b)")
-	} else {
+	if f.Message != nil {
 		g.P("return &", f.GoIdent, "{")
 		g.P(f.GoName, ": (*", f.Message.GoIdent, ")(nil).FromBase(b.", f.GoName, "),")
 		g.P("}")
+	} else if f.Enum != nil {
+		g.P("return &", f.GoIdent, "{")
+		g.P(f.GoName, ": (", f.Enum.GoIdent, ")(0).FromBase(b.", f.GoName, "),")
+		g.P("}")
+	} else {
+		g.P("return (*", f.GoIdent, ")(b)")
 	}
 	g.P("}")
 }

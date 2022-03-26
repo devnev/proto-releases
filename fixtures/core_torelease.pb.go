@@ -48,11 +48,16 @@ func (m *MessageWithUnannotatedOneof) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
 		return
 	}
-	switch o := m.NotAnnotatedOneof.(type) {
+	m.NotAnnotatedOneof = toRelease_MessageWithUnannotatedOneof_NotAnnotatedOneof(m.NotAnnotatedOneof, c)
+}
+func toRelease_MessageWithUnannotatedOneof_NotAnnotatedOneof(o isMessageWithUnannotatedOneof_NotAnnotatedOneof, c *proto_releases.Config) isMessageWithUnannotatedOneof_NotAnnotatedOneof {
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch t := o.(type) {
 	default:
-		_ = o // prevent unused variable
-		m.NotAnnotatedOneof = nil
+		_ = t // prevent unused variable
 	}
+	return nil
 }
 func (m *MessageWithReleasedOneofItem) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
@@ -60,15 +65,20 @@ func (m *MessageWithReleasedOneofItem) ToRelease(c *proto_releases.Config) {
 	}
 	r, p := c.GetRelease(), c.GetPreview()
 	_, _ = r, p // prevent unused variable
-	switch o := m.OneofWithItem.(type) {
-	case *MessageWithReleasedOneofItem_ReleasedOneofItem:
-		if !(r >= 2) {
-			m.OneofWithItem = nil
+	m.OneofWithItem = toRelease_MessageWithReleasedOneofItem_OneofWithItem(m.OneofWithItem, c)
+}
+func toRelease_MessageWithReleasedOneofItem_OneofWithItem(o isMessageWithReleasedOneofItem_OneofWithItem, c *proto_releases.Config) isMessageWithReleasedOneofItem_OneofWithItem {
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch t := o.(type) {
+	case *MessageWithReleasedOneofItem_OneofItemReleased:
+		if r >= 2 {
+			return t
 		}
 	default:
-		_ = o // prevent unused variable
-		m.OneofWithItem = nil
+		_ = t // prevent unused variable
 	}
+	return nil
 }
 func (m *MessageWithOneofWithMessages) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
@@ -76,21 +86,27 @@ func (m *MessageWithOneofWithMessages) ToRelease(c *proto_releases.Config) {
 	}
 	r, p := c.GetRelease(), c.GetPreview()
 	_, _ = r, p // prevent unused variable
-	switch o := m.OneofWithMessage.(type) {
+	m.OneofWithMessage = toRelease_MessageWithOneofWithMessages_OneofWithMessage(m.OneofWithMessage, c)
+}
+func toRelease_MessageWithOneofWithMessages_OneofWithMessage(o isMessageWithOneofWithMessages_OneofWithMessage, c *proto_releases.Config) isMessageWithOneofWithMessages_OneofWithMessage {
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch t := o.(type) {
 	case *MessageWithOneofWithMessages_MessageWithNoAnnotations:
-		o.MessageWithNoAnnotations.ToRelease(c)
+		t.MessageWithNoAnnotations.ToRelease(c)
+		return o
 	case *MessageWithOneofWithMessages_MessageWithReleasedField:
-		o.MessageWithReleasedField.ToRelease(c)
+		t.MessageWithReleasedField.ToRelease(c)
+		return o
 	case *MessageWithOneofWithMessages_MessageWithReleaseAnnotation:
-		if !(r >= 2) {
-			m.OneofWithMessage = nil
-		} else {
-			o.MessageWithReleaseAnnotation.ToRelease(c)
+		if r >= 2 {
+			t.MessageWithReleaseAnnotation.ToRelease(c)
+			return o
 		}
 	default:
-		_ = o // prevent unused variable
-		m.OneofWithMessage = nil
+		_ = t // prevent unused variable
 	}
+	return nil
 }
 func (m *MessageWithImportedFields) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
@@ -122,15 +138,20 @@ func (m *MessageNotAnnotated) ToRelease(c *proto_releases.Config) {
 	if !(r < 3 && (r >= 2)) {
 		m.ReleasedThenRemoved = 0
 	}
-	switch o := m.NotAnnotatedOneof.(type) {
+	m.NotAnnotatedOneof = toRelease_MessageNotAnnotated_NotAnnotatedOneof(m.NotAnnotatedOneof, c)
+}
+func toRelease_MessageNotAnnotated_NotAnnotatedOneof(o isMessageNotAnnotated_NotAnnotatedOneof, c *proto_releases.Config) isMessageNotAnnotated_NotAnnotatedOneof {
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch t := o.(type) {
 	case *MessageNotAnnotated_OneofItemNotAnnotated:
-		if !(r >= 2) {
-			m.NotAnnotatedOneof = nil
+		if r >= 2 {
+			return t
 		}
 	default:
-		_ = o // prevent unused variable
-		m.NotAnnotatedOneof = nil
+		_ = t // prevent unused variable
 	}
+	return nil
 }
 func (m *MessageWithEnumFields) ToRelease(c *proto_releases.Config) {
 	if m == nil || c.GetRelease() == 0 {
@@ -143,6 +164,28 @@ func (m *MessageWithEnumFields) ToRelease(c *proto_releases.Config) {
 		m.Released = 0
 	}
 	m.Released = m.Released.ToRelease(c)
+}
+func (m *MessageWithOneofsWithEnumFields) ToRelease(c *proto_releases.Config) {
+	if m == nil || c.GetRelease() == 0 {
+		return
+	}
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	m.OneofWithEnumField = toRelease_MessageWithOneofsWithEnumFields_OneofWithEnumField(m.OneofWithEnumField, c)
+}
+func toRelease_MessageWithOneofsWithEnumFields_OneofWithEnumField(o isMessageWithOneofsWithEnumFields_OneofWithEnumField, c *proto_releases.Config) isMessageWithOneofsWithEnumFields_OneofWithEnumField {
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch t := o.(type) {
+	case *MessageWithOneofsWithEnumFields_Released:
+		if r >= 2 {
+			t.Released = t.Released.ToRelease(c)
+			return t
+		}
+	default:
+		_ = t // prevent unused variable
+	}
+	return nil
 }
 func (e EnumNotAnnotated) ToRelease(c *proto_releases.Config) EnumNotAnnotated {
 	if c.GetRelease() == 0 {
