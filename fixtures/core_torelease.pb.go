@@ -142,4 +142,35 @@ func (m *MessageWithEnumFields) ToRelease(c *proto_releases.Config) {
 	if !(r >= 2) {
 		m.Released = 0
 	}
+	m.Released = m.Released.ToRelease(c)
+}
+func (e EnumNotAnnotated) ToRelease(c *proto_releases.Config) EnumNotAnnotated {
+	if c.GetRelease() == 0 {
+		return e
+	}
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	switch e {
+	case EnumNotAnnotated_released:
+		if r >= 2 {
+			return e
+		}
+	case EnumNotAnnotated_previewed:
+		if p && r >= 2 {
+			return e
+		}
+	case EnumNotAnnotated_previewed_then_released:
+		if r >= 3 || (p && r >= 2) {
+			return e
+		}
+	case EnumNotAnnotated_previewed_then_removed:
+		if r < 3 && (p && r >= 2) {
+			return e
+		}
+	case EnumNotAnnotated_released_then_removed:
+		if r < 3 && (r >= 2) {
+			return e
+		}
+	}
+	return 0
 }
