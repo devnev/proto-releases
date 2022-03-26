@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package example.alpha;
+
 option go_package = "github.com/devnev/proto-releases/examples/releases/alpha/github.com/devnev/proto-releases/examples";
 
 message Example {

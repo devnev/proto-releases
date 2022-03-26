@@ -36,7 +36,7 @@ func NewExampleServiceClient(cc grpc.ClientConnInterface) ExampleServiceClient {
 
 func (c *exampleServiceClient) ExampleUnreleaseMethod(ctx context.Context, in *Example, opts ...grpc.CallOption) (*Example, error) {
 	out := new(Example)
-	err := c.cc.Invoke(ctx, "/ExampleService/ExampleUnreleaseMethod", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/example.ExampleService/ExampleUnreleaseMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *exampleServiceClient) ExampleUnreleaseMethod(ctx context.Context, in *E
 
 func (c *exampleServiceClient) ExampleReleasedMethod(ctx context.Context, in *Example, opts ...grpc.CallOption) (*Example, error) {
 	out := new(Example)
-	err := c.cc.Invoke(ctx, "/ExampleService/ExampleReleasedMethod", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/example.ExampleService/ExampleReleasedMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func _ExampleService_ExampleUnreleaseMethod_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ExampleService/ExampleUnreleaseMethod",
+		FullMethod: "/example.ExampleService/ExampleUnreleaseMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ExampleServiceServer).ExampleUnreleaseMethod(ctx, req.(*Example))
@@ -112,7 +112,7 @@ func _ExampleService_ExampleReleasedMethod_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ExampleService/ExampleReleasedMethod",
+		FullMethod: "/example.ExampleService/ExampleReleasedMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ExampleServiceServer).ExampleReleasedMethod(ctx, req.(*Example))
@@ -124,7 +124,7 @@ func _ExampleService_ExampleReleasedMethod_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ExampleService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ExampleService",
+	ServiceName: "example.ExampleService",
 	HandlerType: (*ExampleServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -1,3 +1,0 @@
-syntax = "proto3";
-
-option go_package = "github.com/devnev/proto-releases/examples/releases/stable1/github.com/devnev/proto-releases/examples";

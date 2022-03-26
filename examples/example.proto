@@ -3,8 +3,8 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 syntax = "proto3";
+package example;
 option go_package = "github.com/devnev/proto-releases/examples";
-
 import "options.proto";
 
 message Example {

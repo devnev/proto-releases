@@ -35,7 +35,7 @@ func NewExampleServiceClient(cc grpc.ClientConnInterface) ExampleServiceClient {
 
 func (c *exampleServiceClient) ExampleReleasedMethod(ctx context.Context, in *Example, opts ...grpc.CallOption) (*Example, error) {
 	out := new(Example)
-	err := c.cc.Invoke(ctx, "/ExampleService/ExampleReleasedMethod", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/example.beta.ExampleService/ExampleReleasedMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _ExampleService_ExampleReleasedMethod_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ExampleService/ExampleReleasedMethod",
+		FullMethod: "/example.beta.ExampleService/ExampleReleasedMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ExampleServiceServer).ExampleReleasedMethod(ctx, req.(*Example))
@@ -92,7 +92,7 @@ func _ExampleService_ExampleReleasedMethod_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ExampleService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ExampleService",
+	ServiceName: "example.beta.ExampleService",
 	HandlerType: (*ExampleServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
