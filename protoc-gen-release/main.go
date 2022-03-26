@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	releases "github.com/devnev/proto-releases"
-	"github.com/devnev/proto-releases/filter"
+	"github.com/devnev/proto-releases/transform"
 	"github.com/jhump/protoreflect/desc"
 	"github.com/jhump/protoreflect/desc/builder"
 	"github.com/jhump/protoreflect/desc/protoprint"
@@ -75,7 +75,7 @@ func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packa
 		}
 	}
 	for _, fdp := range fdps {
-		filter.Packages(fdp, m.c)
+		transform.Packages(fdp, m.c)
 	}
 
 	fds, err := desc.CreateFileDescriptors(fdps)
@@ -93,7 +93,7 @@ func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packa
 			})
 			continue
 		}
-		if err = filter.File(fb, m.c); err != nil {
+		if err = transform.File(fb, m.c); err != nil {
 			outputs = append(outputs, pgs.GeneratorError{
 				Message: err.Error(),
 			})

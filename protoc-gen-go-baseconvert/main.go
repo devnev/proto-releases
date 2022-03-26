@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	releases "github.com/devnev/proto-releases"
-	"github.com/devnev/proto-releases/filter"
+	"github.com/devnev/proto-releases/transform"
 	"github.com/jhump/protoreflect/desc/protoparse"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -36,7 +36,7 @@ func main() {
 					break
 				}
 			}
-			baseGoPackage = filter.GoPackage(baseGoPackage, &pkgConfig)
+			baseGoPackage = transform.GoPackage(baseGoPackage, &pkgConfig)
 			generateFile(gen, f, protogen.GoImportPath(baseGoPackage))
 		}
 		return nil
