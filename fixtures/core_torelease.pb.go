@@ -132,3 +132,14 @@ func (m *MessageNotAnnotated) ToRelease(c *proto_releases.Config) {
 		m.NotAnnotatedOneof = nil
 	}
 }
+func (m *MessageWithEnumFields) ToRelease(c *proto_releases.Config) {
+	if m == nil || c.GetRelease() == 0 {
+		return
+	}
+	r, p := c.GetRelease(), c.GetPreview()
+	_, _ = r, p // prevent unused variable
+	m.NotAnnotated = 0
+	if !(r >= 2) {
+		m.Released = 0
+	}
+}

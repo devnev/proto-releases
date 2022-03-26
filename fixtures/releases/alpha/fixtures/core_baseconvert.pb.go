@@ -241,6 +241,42 @@ func (m *MessageNotAnnotated_OneofItemNotAnnotated) ToBase() *fixtures.MessageNo
 func (m *MessageNotAnnotated_OneofItemNotAnnotated) FromBase(b *fixtures.MessageNotAnnotated_OneofItemNotAnnotated) *MessageNotAnnotated_OneofItemNotAnnotated {
 	return (*MessageNotAnnotated_OneofItemNotAnnotated)(b)
 }
+func (m *MessageWithEnumFields) ToBase() *fixtures.MessageWithEnumFields {
+	msg := &fixtures.MessageWithEnumFields{
+		NotAnnotated: m.GetNotAnnotated().ToBase(),
+		Released:     m.GetReleased().ToBase(),
+	}
+	return msg
+}
+func (m *MessageWithEnumFields) FromBase(b *fixtures.MessageWithEnumFields) *MessageWithEnumFields {
+	msg := &MessageWithEnumFields{}
+	msg.NotAnnotated = msg.NotAnnotated.FromBase(b.GetNotAnnotated())
+	msg.Released = msg.Released.FromBase(b.GetReleased())
+	return msg
+}
+func (e EnumNotAnnotated) FromBase(b fixtures.EnumNotAnnotated) EnumNotAnnotated {
+	switch b {
+	case fixtures.EnumNotAnnotated_zero_value:
+		return EnumNotAnnotated_zero_value
+	case fixtures.EnumNotAnnotated_not_annotated:
+		return EnumNotAnnotated_not_annotated
+	case fixtures.EnumNotAnnotated_released:
+		return EnumNotAnnotated_released
+	case fixtures.EnumNotAnnotated_previewed:
+		return EnumNotAnnotated_previewed
+	case fixtures.EnumNotAnnotated_previewed_then_released:
+		return EnumNotAnnotated_previewed_then_released
+	case fixtures.EnumNotAnnotated_previewed_then_removed:
+		return EnumNotAnnotated_previewed_then_removed
+	case fixtures.EnumNotAnnotated_released_then_removed:
+		return EnumNotAnnotated_released_then_removed
+	default:
+		return EnumNotAnnotated(0)
+	}
+}
+func (e EnumNotAnnotated) ToBase() fixtures.EnumNotAnnotated {
+	return fixtures.EnumNotAnnotated(e)
+}
 
 type BaseTestServiceServer struct {
 	UnsafeTestServiceServer

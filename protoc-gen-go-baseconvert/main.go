@@ -55,6 +55,10 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, base protogen.GoImp
 		generateMessage(g, m, base)
 	}
 
+	for _, e := range file.Enums {
+		generateEnum(g, e, base)
+	}
+
 	for _, s := range file.Services {
 		generateService(g, s, base)
 	}
@@ -86,7 +90,7 @@ func generateMessageToBase(g *protogen.GeneratedFile, m *protogen.Message, base 
 		if f.Oneof != nil {
 			continue
 		}
-		if f.Message != nil {
+		if f.Message != nil || f.Enum != nil {
 			g.P(f.GoName, ": m.Get", f.GoName, "().ToBase(),")
 		} else {
 			g.P(f.GoName, ": m.Get", f.GoName, "(),")
@@ -114,13 +118,13 @@ func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, bas
 	g.P("func (m *", m.GoIdent, ") FromBase(b *", baseMsg, ") *", m.GoIdent, " {")
 	g.P("msg := &", m.GoIdent, "{")
 	for _, f := range m.Fields {
-		if f.Oneof == nil && f.Message == nil {
+		if f.Oneof == nil && f.Message == nil && f.Enum == nil {
 			g.P(f.GoName, ": b.Get", f.GoName, "(),")
 		}
 	}
 	g.P("}")
 	for _, f := range m.Fields {
-		if f.Oneof == nil && f.Message != nil {
+		if f.Oneof == nil && (f.Message != nil || f.Enum != nil) {
 			g.P("msg.", f.GoName, "= msg.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
 		}
 	}
@@ -168,6 +172,29 @@ func generateOneofFieldFromBase(g *protogen.GeneratedFile, o *protogen.Oneof, f 
 		g.P(f.GoName, ": (*", f.Message.GoIdent, ")(nil).FromBase(b.", f.GoName, "),")
 		g.P("}")
 	}
+	g.P("}")
+}
+
+func generateEnum(g *protogen.GeneratedFile, e *protogen.Enum, base protogen.GoImportPath) {
+	baseType := g.QualifiedGoIdent(protogen.GoIdent{
+		GoName:       e.GoIdent.GoName,
+		GoImportPath: base,
+	})
+	g.P("func (e ", e.GoIdent, ") FromBase(b ", baseType, ") ", e.GoIdent, " {")
+	g.P("switch b {")
+	for _, v := range e.Values {
+		g.P("case ", g.QualifiedGoIdent(protogen.GoIdent{
+			GoName:       v.GoIdent.GoName,
+			GoImportPath: base,
+		}), ":")
+		g.P("return ", v.GoIdent)
+	}
+	g.P("default:")
+	g.P("return ", e.GoIdent, "(0)")
+	g.P("}")
+	g.P("}")
+	g.P("func (e ", e.GoIdent, ") ToBase() ", baseType, " {")
+	g.P("return ", baseType, "(e)")
 	g.P("}")
 }
 

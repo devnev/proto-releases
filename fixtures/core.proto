@@ -144,6 +144,13 @@ enum EnumNotAnnotated {
     ];
 }
 
+message MessageWithEnumFields {
+    EnumNotAnnotated not_annotated = 1;
+    EnumNotAnnotated released = 2 [
+        (releases.field).release_in = 2
+    ];
+}
+
 service TestService {
     rpc EmptyMethodNotAnnotated(google.protobuf.Empty) returns (google.protobuf.Empty);
     rpc EmptyMethodReleased(google.protobuf.Empty) returns (google.protobuf.Empty) {

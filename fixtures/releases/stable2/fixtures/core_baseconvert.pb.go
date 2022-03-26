@@ -112,6 +112,32 @@ func (m *MessageNotAnnotated_OneofItemNotAnnotated) ToBase() *fixtures.MessageNo
 func (m *MessageNotAnnotated_OneofItemNotAnnotated) FromBase(b *fixtures.MessageNotAnnotated_OneofItemNotAnnotated) *MessageNotAnnotated_OneofItemNotAnnotated {
 	return (*MessageNotAnnotated_OneofItemNotAnnotated)(b)
 }
+func (m *MessageWithEnumFields) ToBase() *fixtures.MessageWithEnumFields {
+	msg := &fixtures.MessageWithEnumFields{
+		Released: m.GetReleased().ToBase(),
+	}
+	return msg
+}
+func (m *MessageWithEnumFields) FromBase(b *fixtures.MessageWithEnumFields) *MessageWithEnumFields {
+	msg := &MessageWithEnumFields{}
+	msg.Released = msg.Released.FromBase(b.GetReleased())
+	return msg
+}
+func (e EnumNotAnnotated) FromBase(b fixtures.EnumNotAnnotated) EnumNotAnnotated {
+	switch b {
+	case fixtures.EnumNotAnnotated_zero_value:
+		return EnumNotAnnotated_zero_value
+	case fixtures.EnumNotAnnotated_released:
+		return EnumNotAnnotated_released
+	case fixtures.EnumNotAnnotated_released_then_removed:
+		return EnumNotAnnotated_released_then_removed
+	default:
+		return EnumNotAnnotated(0)
+	}
+}
+func (e EnumNotAnnotated) ToBase() fixtures.EnumNotAnnotated {
+	return fixtures.EnumNotAnnotated(e)
+}
 
 type BaseTestServiceServer struct {
 	UnsafeTestServiceServer

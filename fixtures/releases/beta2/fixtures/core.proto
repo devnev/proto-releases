@@ -57,6 +57,10 @@ message MessageNotAnnotated {
   }
 }
 
+message MessageWithEnumFields {
+  EnumNotAnnotated released = 2;
+}
+
 enum EnumNotAnnotated {
   zero_value = 0;
 
