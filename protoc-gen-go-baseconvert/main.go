@@ -2,17 +2,15 @@ package main
 
 import (
 	"flag"
-	"path/filepath"
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/devnev/proto-releases/transform"
-	"github.com/jhump/protoreflect/desc/protoparse"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func main() {
-	basePath := flag.String("base_path", ".", "")
 	var pkgConfig releases.Config_GoPackageMapping
 	flag.Var(&releases.GoPackageShorthand{Config: &pkgConfig}, "base_go_package", "")
 	protogen.Options{
@@ -22,21 +20,8 @@ func main() {
 			if !f.Generate {
 				continue
 			}
-			parser := protoparse.Parser{}
-			baseFiles, err := parser.ParseFilesButDoNotLink(filepath.Join(*basePath, *f.Proto.Name))
-			if err != nil {
-				return err
-			}
-			var baseGoPackage string
-			for _, uo := range baseFiles[0].GetOptions().GetUninterpretedOption() {
-				if nameParts := uo.GetName(); len(nameParts) != 1 || nameParts[0].GetNamePart() != "go_package" {
-					continue
-				}
-				if baseGoPackage = string(uo.GetStringValue()); baseGoPackage != "" {
-					break
-				}
-			}
-			baseGoPackage = transform.GoPackage(baseGoPackage, &pkgConfig)
+			goPackage := f.Desc.Options().(*descriptorpb.FileOptions).GetGoPackage()
+			baseGoPackage := transform.GoPackage(goPackage, &pkgConfig)
 			generateFile(gen, f, protogen.GoImportPath(baseGoPackage))
 		}
 		return nil

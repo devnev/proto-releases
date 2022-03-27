@@ -75,7 +75,7 @@ func (m *mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Packa
 		}
 	}
 	for _, fdp := range fdps {
-		transform.Packages(fdp, m.c)
+		transform.Packages(fdp, m.c.GetPackage())
 	}
 
 	fds, err := desc.CreateFileDescriptors(fdps)

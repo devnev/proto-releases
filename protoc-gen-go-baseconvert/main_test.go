@@ -46,7 +46,7 @@ func TestProtoc(t *testing.T) {
 				"--go-grpc_out="+outPath,
 				"--go-grpc_opt=paths=source_relative",
 				"--go-baseconvert_out="+outPath,
-				"--go-baseconvert_opt=base_path="+repoRoot,
+				"--go-baseconvert_opt=base_go_package=github.com/devnev/proto-releases/fixtures/releases/"+name+":../../..",
 				"--go-baseconvert_opt=paths=source_relative",
 				"fixtures/core.proto",
 				"fixtures/imported.proto",

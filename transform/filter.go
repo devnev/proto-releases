@@ -15,24 +15,24 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 )
 
-func Packages(fdp *descriptorpb.FileDescriptorProto, c *releases.Config) {
+func Packages(fdp *descriptorpb.FileDescriptorProto, pm *releases.Config_PackageMapping) {
 	if fdp.GetPackage() != "" {
-		fdp.Package = proto.String(Package(fdp.GetPackage(), c.GetPackage()))
+		fdp.Package = proto.String(Package(fdp.GetPackage(), pm))
 	}
 	for _, mdp := range fdp.GetMessageType() {
 		for _, fldp := range mdp.GetField() {
 			if fldp.GetTypeName() != "" {
-				fldp.TypeName = proto.String(Package(fldp.GetTypeName(), c.GetPackage()))
+				fldp.TypeName = proto.String(Package(fldp.GetTypeName(), pm))
 			}
 		}
 	}
 	for _, sdp := range fdp.GetService() {
 		for _, mdp := range sdp.GetMethod() {
 			if mdp.GetInputType() != "" {
-				mdp.InputType = proto.String(Package(mdp.GetInputType(), c.GetPackage()))
+				mdp.InputType = proto.String(Package(mdp.GetInputType(), pm))
 			}
 			if mdp.GetOutputType() != "" {
-				mdp.OutputType = proto.String(Package(mdp.GetOutputType(), c.GetPackage()))
+				mdp.OutputType = proto.String(Package(mdp.GetOutputType(), pm))
 			}
 		}
 	}
@@ -227,7 +227,7 @@ func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackageMapping) s
 	return path.Join(gopkgconfig.ReleaseRoot, strings.TrimPrefix(srcgopkg, gopkgconfig.SourceRoot))
 }
 
-func Package(srcpkg string, pkgconfig *releases.Config_PackageMapping) (outpkg string) {
+func Package(srcpkg string, pkgconfig *releases.Config_PackageMapping) string {
 	if pkgconfig.GetReleaseRoot() == "" || srcpkg == "" {
 		return srcpkg
 	}
