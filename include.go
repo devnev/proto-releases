@@ -4,6 +4,7 @@
 
 package releases
 
+//nolint:revive // Using underscore suffix on range_ as `range` is a keyword
 func Include(range_ *Range, config *Config) bool {
 	if config.GetRelease() <= 0 {
 		// no current release specified so include everything

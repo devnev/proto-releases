@@ -1,0 +1,28 @@
+linters:
+  enable-all: true
+  disable:
+    - exhaustivestruct
+    - interfacer
+    - scopelint
+    - golint
+    - maligned
+    - lll
+    - exhaustruct
+    - forcetypeassert
+    - gomnd
+    - nlreturn
+    - nosnakecase
+    - paralleltest
+    - gosec
+    - nestif
+    - testpackage
+    # TODO: enable below as these are only disabled for ease of adoption
+    - wsl
+    - varnamelen
+
+linters-settings:
+  gocritic:
+    disabled-checks:
+      - ifElseChain
+  nolintlint:
+    require-explanation: true

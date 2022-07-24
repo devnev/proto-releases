@@ -4,4 +4,4 @@ import (
 	"errors"
 )
 
-var ConfigError = errors.New("release config error")
+var ErrConfig = errors.New("release config error")

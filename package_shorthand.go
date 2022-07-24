@@ -23,7 +23,7 @@ func (err PackageShorthandError) Error() string {
 }
 
 func (err PackageShorthandError) Unwrap() error {
-	return ConfigError
+	return ErrConfig
 }
 
 func (s *PackageShorthand) Set(v string) error {
@@ -55,18 +55,12 @@ func (s *PackageShorthand) String() string {
 		}
 	}
 
-	srcRoot, relRoot := s.Config.GetSourceRoot(), s.Config.GetReleaseRoot()
-	var val string
-	if deprefixed := strings.TrimPrefix(relRoot, srcRoot+"."); len(deprefixed) < len(relRoot) {
-		val = srcRoot + ":." + deprefixed
-	} else if srcRoot != "" {
-		val = srcRoot + ":" + relRoot
-	} else {
-		val = relRoot
-	}
-	if s.Config.GetReleaseSuffix() != "" {
-		val += ":" + s.Config.GetReleaseSuffix()
-	}
+	val := formatShorthand(
+		s.Config.GetSourceRoot(),
+		s.Config.GetReleaseRoot(),
+		s.Config.GetReleaseSuffix(),
+		".",
+	)
 	if tmpConf := (&Config_PackageMapping{}); ParsePackageShorthand(val, tmpConf) != nil || !isSameConf(tmpConf, s.Config) {
 		return "<invalid>" + val
 	}
@@ -115,6 +109,21 @@ func splitPackageShorthand(s string, pathSep rune, okRune func(rune) bool) ([]st
 	}
 	parts = append(parts, s[start:])
 	return parts, nil
+}
+
+func formatShorthand(sourceRoot, releaseRoot, releaseSuffix, relativePrefix string) string {
+	var val string
+	if deprefixed := strings.TrimPrefix(releaseRoot, sourceRoot+"/"); len(deprefixed) < len(releaseRoot) {
+		val = sourceRoot + ":" + relativePrefix + deprefixed
+	} else if sourceRoot != "" {
+		val = sourceRoot + ":" + releaseRoot
+	} else {
+		val = releaseRoot
+	}
+	if releaseSuffix != "" {
+		val += ":" + releaseSuffix
+	}
+	return val
 }
 
 func isValidPackageRune(r rune) bool {

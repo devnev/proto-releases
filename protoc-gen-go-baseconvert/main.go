@@ -57,8 +57,8 @@ func generateMessage(g *protogen.GeneratedFile, m *protogen.Message, base protog
 
 	for _, o := range m.Oneofs {
 		for _, f := range o.Fields {
-			generateOneofFieldToBase(g, o, f, base)
-			generateOneofFieldFromBase(g, o, f, base)
+			generateOneofFieldToBase(g, f, base)
+			generateOneofFieldFromBase(g, f, base)
 		}
 	}
 }
@@ -94,6 +94,7 @@ func generateMessageToBase(g *protogen.GeneratedFile, m *protogen.Message, base 
 	g.P("}")
 }
 
+//nolint:cyclop // Unclear how to reduce complexity
 func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, base protogen.GoImportPath) {
 	baseMsg := g.QualifiedGoIdent(protogen.GoIdent{
 		GoName:       m.GoIdent.GoName,
@@ -128,7 +129,7 @@ func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, bas
 	g.P("}")
 }
 
-func generateOneofFieldToBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *protogen.Field, base protogen.GoImportPath) {
+func generateOneofFieldToBase(g *protogen.GeneratedFile, f *protogen.Field, base protogen.GoImportPath) {
 	baseType := g.QualifiedGoIdent(protogen.GoIdent{
 		GoName:       f.GoIdent.GoName,
 		GoImportPath: base,
@@ -144,7 +145,7 @@ func generateOneofFieldToBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *p
 	g.P("}")
 }
 
-func generateOneofFieldFromBase(g *protogen.GeneratedFile, o *protogen.Oneof, f *protogen.Field, base protogen.GoImportPath) {
+func generateOneofFieldFromBase(g *protogen.GeneratedFile, f *protogen.Field, base protogen.GoImportPath) {
 	baseType := g.QualifiedGoIdent(protogen.GoIdent{
 		GoName:       f.GoIdent.GoName,
 		GoImportPath: base,

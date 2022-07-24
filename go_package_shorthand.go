@@ -24,7 +24,7 @@ func (err GoPackageShorthandError) Error() string {
 }
 
 func (err GoPackageShorthandError) Unwrap() error {
-	return ConfigError
+	return ErrConfig
 }
 
 func (s *GoPackageFlagValue) Set(v string) error {
@@ -56,18 +56,12 @@ func (s *GoPackageFlagValue) String() string {
 		}
 	}
 
-	srcRoot, relRoot := s.Config.GetSourceRoot(), s.Config.GetReleaseRoot()
-	var val string
-	if deprefixed := strings.TrimPrefix(relRoot, srcRoot+"/"); len(deprefixed) < len(relRoot) {
-		val = srcRoot + ":./" + deprefixed
-	} else if srcRoot != "" {
-		val = srcRoot + ":" + relRoot
-	} else {
-		val = relRoot
-	}
-	if s.Config.GetReleaseSuffix() != "" {
-		val += ":" + s.Config.GetReleaseSuffix()
-	}
+	val := formatShorthand(
+		s.Config.GetSourceRoot(),
+		s.Config.GetReleaseRoot(),
+		s.Config.GetReleaseSuffix(),
+		"./",
+	)
 	if tmpConf := (&Config_GoPackageMapping{}); ParseGoPackageShorthand(val, tmpConf) != nil || !isSameConf(tmpConf, s.Config) {
 		return "<invalid>" + val
 	}

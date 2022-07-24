@@ -43,6 +43,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 	return g
 }
 
+//nolint:cyclop // Unclear how to reduce complexity
 func generateMessage(g *protogen.GeneratedFile, m *protogen.Message) {
 	configIdent := g.QualifiedGoIdent(protogen.GoIdent{
 		GoImportPath: "github.com/devnev/proto-releases",
@@ -171,8 +172,8 @@ func generateEnum(g *protogen.GeneratedFile, e *protogen.Enum) {
 
 func hasReleaseOptions(fs []*protogen.Field) bool {
 	for _, f := range fs {
-		range_, _ := proto.GetExtension(f.Desc.Options(), releases.E_Field).(*releases.Range)
-		if range_.GetReleaseIn() > 0 || range_.GetPreviewIn() > 0 {
+		r, _ := proto.GetExtension(f.Desc.Options(), releases.E_Field).(*releases.Range)
+		if r.GetReleaseIn() > 0 || r.GetPreviewIn() > 0 {
 			return true
 		}
 	}
@@ -180,6 +181,7 @@ func hasReleaseOptions(fs []*protogen.Field) bool {
 }
 
 func buildCondition(d protoreflect.Descriptor, xt protoreflect.ExtensionType) string {
+	//nolint:revive // Using underscore suffix on range_ as `range` is a keyword
 	range_, _ := proto.GetExtension(d.Options(), xt).(*releases.Range)
 	var cond string
 	if range_.GetReleaseIn() > 0 {

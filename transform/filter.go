@@ -8,7 +8,7 @@ import (
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/devnev/proto-releases/internal/protos/google.golang.org/genproto/googleapis/api/annotations"
-	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/proto" //nolint:staticcheck // Need v1 proto API for use with protoreflect
 	"github.com/jhump/protoreflect/desc/builder"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/runtime/protoimpl"
@@ -38,6 +38,7 @@ func Packages(fdp *descriptorpb.FileDescriptorProto, pm *releases.Config_Package
 	}
 }
 
+//nolint:cyclop // Not as complex as the metric indicates
 func File(b *builder.FileBuilder, c *releases.Config) error {
 	if srcgopkg := b.Options.GetGoPackage(); srcgopkg != "" {
 		outgopkg := GoPackage(srcgopkg, c.GetGoPackage())
@@ -80,6 +81,7 @@ func File(b *builder.FileBuilder, c *releases.Config) error {
 	return nil
 }
 
+//nolint:cyclop // Not as complex as the metric indicates
 func Message(b *builder.MessageBuilder, c *releases.Config) (bool, error) {
 	var include bool
 	for _, child := range b.GetChildren() {
@@ -233,7 +235,7 @@ func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInf
 	if opts != nil && proto.MessageReflect(opts).IsValid() {
 		ext, err := proto.GetExtension(opts, x)
 		if err != nil {
-			return false, fmt.Errorf("failed to get extension %s of options %s: %w", x.Name, opts, err)
+			return false, fmt.Errorf("failed to get extension %s of options %s: %w", x.TypeDescriptor().FullName(), opts, err)
 		}
 		config, _ = ext.(*releases.Range)
 	}
