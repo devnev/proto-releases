@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var pkgConfig releases.Config_GoPackageMapping
-	flag.Var(&releases.GoPackageShorthand{Config: &pkgConfig}, "base_go_package", "")
+	flag.Var(&releases.GoPackageFlagValue{Config: &pkgConfig}, "base_go_package", "")
 	protogen.Options{
 		ParamFunc: flag.Set,
 	}.Run(func(gen *protogen.Plugin) error {

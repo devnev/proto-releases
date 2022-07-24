@@ -8,18 +8,43 @@ package releases;
 option go_package = "github.com/devnev/proto-releases;releases";
 
 message Config {
+    // The number of the release.
+    //
+    // If non-zero, this determines the release number to use when applying the
+    // options that specify which fields to include in a release. See the Range
+    // message for further details.
     uint64 release = 1;
+    // Whether the release is a preview release. See the Range message for
+    // further details.
     bool preview = 2;
 
+    // PackageMapping specifies how package paths should be transformed.
+    //
+    // The output package is concatenated from three parts:
+    // <release_root>.<source_suffix>.<release_suffix>
+    //
+    // <release_root> and <release_suffix> are specified by the fields of
+    // PackageMapping. <source_suffix> is taken from the input by stripping the
+    // prefix specified by the <source_root> field of PackageMapping.
     message PackageMapping {
         string source_root = 1;
         string release_root = 2;
+        string release_suffix = 3;
     }
     PackageMapping package = 4;
 
+    // GoPackageMapping specifies how package paths should be transformed.
+    //
+    // The output package is concatenated from three parts:
+    // <release_root>/<source_suffix>/<release_suffix>
+    //
+    // <release_root> and <release_suffix> are specified by the fields of
+    // GoPackageMapping. <source_suffix> is taken from the input by stripping
+    // the prefix specified by the <source_root> field of GoPackageMapping.
     message GoPackageMapping {
         string source_root = 1;
         string release_root = 2;
+        string release_suffix = 3;
     }
     GoPackageMapping go_package = 3;
 }

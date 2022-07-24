@@ -7,7 +7,7 @@ import (
 	"unicode"
 )
 
-type GoPackageShorthand struct {
+type GoPackageFlagValue struct {
 	Config    *Config_GoPackageMapping
 	ConfigPtr **Config_GoPackageMapping
 	setVal    string
@@ -20,14 +20,14 @@ type GoPackageShorthandError struct {
 }
 
 func (err GoPackageShorthandError) Error() string {
-	return fmt.Sprintf("invalid character %q at index %d of shorthand %q", err.invaildRune, err.invalidIndex, err.shorthand)
+	return fmt.Sprintf("invalid character %q at byte %d of shorthand %q", err.invaildRune, err.invalidIndex, err.shorthand)
 }
 
 func (err GoPackageShorthandError) Unwrap() error {
 	return ConfigError
 }
 
-func (s *GoPackageShorthand) Set(v string) error {
+func (s *GoPackageFlagValue) Set(v string) error {
 	conf := s.Config
 	if conf == nil && s.ConfigPtr != nil {
 		conf = &Config_GoPackageMapping{}
@@ -43,7 +43,7 @@ func (s *GoPackageShorthand) Set(v string) error {
 	return nil
 }
 
-func (s *GoPackageShorthand) String() string {
+func (s *GoPackageFlagValue) String() string {
 	isSameConf := func(c1, c2 *Config_GoPackageMapping) bool {
 		return c1.GetSourceRoot() == c2.GetSourceRoot() &&
 			c1.GetReleaseRoot() == c2.GetReleaseRoot()
@@ -59,11 +59,14 @@ func (s *GoPackageShorthand) String() string {
 	srcRoot, relRoot := s.Config.GetSourceRoot(), s.Config.GetReleaseRoot()
 	var val string
 	if deprefixed := strings.TrimPrefix(relRoot, srcRoot+"/"); len(deprefixed) < len(relRoot) {
-		val = srcRoot + ":" + deprefixed
+		val = srcRoot + ":./" + deprefixed
 	} else if srcRoot != "" {
-		val = srcRoot + ";" + relRoot
+		val = srcRoot + ":" + relRoot
 	} else {
 		val = relRoot
+	}
+	if s.Config.GetReleaseSuffix() != "" {
+		val += ":" + s.Config.GetReleaseSuffix()
 	}
 	if tmpConf := (&Config_GoPackageMapping{}); ParseGoPackageShorthand(val, tmpConf) != nil || !isSameConf(tmpConf, s.Config) {
 		return "<invalid>" + val
@@ -72,45 +75,28 @@ func (s *GoPackageShorthand) String() string {
 }
 
 func ParseGoPackageShorthand(v string, into *Config_GoPackageMapping) error {
-	if err := validateGoPackageShorthand(v); err != nil {
+	into.Reset()
+
+	parts, err := splitPackageShorthand(v, '/', isValidGoPackageRune)
+	switch {
+	case err != nil:
 		return err
+	case len(parts) == 1:
+		into.ReleaseRoot = parts[0]
+	case len(parts) == 3:
+		into.ReleaseSuffix = parts[2]
+		fallthrough
+	case len(parts) == 2:
+		into.SourceRoot = parts[0]
+		into.ReleaseRoot = parts[1]
+		if strings.HasPrefix(parts[1], "./") || strings.HasPrefix(parts[1], "../") {
+			into.ReleaseRoot = path.Join(parts[0], parts[1])
+		}
 	}
-	if idx := strings.Index(v, ";"); idx >= 0 {
-		into.SourceRoot = v[:idx]
-		into.ReleaseRoot = v[idx+1:]
-	} else if idx := strings.Index(v, ":"); idx < 0 {
-		into.SourceRoot = ""
-		into.ReleaseRoot = v
-	} else {
-		into.SourceRoot = v[:idx]
-		into.ReleaseRoot = path.Join(into.SourceRoot, v[idx+1:])
-	}
+
 	return nil
 }
 
-func validateGoPackageShorthand(s string) error {
-	var sepCount int
-	afterSep := true
-	for i, c := range s {
-		if c == ':' || c == ';' {
-			sepCount++
-			if sepCount > 1 {
-				return GoPackageShorthandError{s, c, i}
-			}
-			afterSep = true
-			continue
-		}
-		if afterSep && c == '/' {
-			return GoPackageShorthandError{s, c, i}
-		}
-		if isInvalidGoPackageRune(c) {
-			return GoPackageShorthandError{s, c, i}
-		}
-		afterSep = false
-	}
-	return nil
-}
-
-func isInvalidGoPackageRune(r rune) bool {
-	return !(unicode.IsLetter(r) || unicode.IsNumber(r) || strings.ContainsRune("/-_.", r))
+func isValidGoPackageRune(r rune) bool {
+	return unicode.IsLetter(r) || unicode.IsNumber(r) || strings.ContainsRune("-_./", r)
 }

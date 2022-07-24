@@ -5,7 +5,6 @@ import (
 	"path"
 	"reflect"
 	"strings"
-	"unicode/utf8"
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/golang/protobuf/proto"
@@ -215,66 +214,39 @@ func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInf
 }
 
 func GoPackage(srcgopkg string, gopkgconfig *releases.Config_GoPackageMapping) string {
-	if gopkgconfig.GetReleaseRoot() == "" {
+	if gopkgconfig.GetReleaseRoot() == "" && gopkgconfig.GetReleaseSuffix() == "" {
 		return srcgopkg
 	}
+
 	if srcgopkg == "" {
-		return gopkgconfig.ReleaseRoot
+		return path.Join(gopkgconfig.ReleaseRoot, gopkgconfig.ReleaseSuffix)
 	}
 	if i := strings.LastIndex(srcgopkg, ";"); i > 0 {
 		srcgopkg = srcgopkg[:i]
 	}
-	return path.Join(gopkgconfig.ReleaseRoot, strings.TrimPrefix(srcgopkg, gopkgconfig.SourceRoot))
+	return path.Join(gopkgconfig.ReleaseRoot, strings.TrimPrefix(srcgopkg, gopkgconfig.SourceRoot), gopkgconfig.ReleaseSuffix)
 }
 
 func Package(srcpkg string, pkgconfig *releases.Config_PackageMapping) string {
-	if pkgconfig.GetReleaseRoot() == "" || srcpkg == "" {
+	if (pkgconfig.GetReleaseRoot() == "" && pkgconfig.GetReleaseSuffix() == "") || srcpkg == "" {
 		return srcpkg
 	}
+
 	relpkg := pkgconfig.ReleaseRoot
 	if strings.HasPrefix(srcpkg, ".") {
 		relpkg = "." + relpkg
 	}
+	var relsuffix string
+	if pkgconfig.ReleaseSuffix != "" {
+		relsuffix = "." + pkgconfig.ReleaseSuffix
+	}
+
 	srcpkgNodot := strings.TrimPrefix(srcpkg, ".")
 	if srcpkgNodot == pkgconfig.SourceRoot {
-		return relpkg
+		return relpkg + relsuffix
 	}
 	if strings.HasPrefix(strings.TrimPrefix(srcpkgNodot, pkgconfig.SourceRoot), ".") {
-		return relpkg + srcpkgNodot[len(pkgconfig.SourceRoot):]
+		return relpkg + srcpkgNodot[len(pkgconfig.SourceRoot):] + relsuffix
 	}
-	return srcpkg
-}
-
-func commonPrefix(path1, path2 string, sep rune) string {
-	afterPrefix := 0
-	byteOff := 0
-	for {
-		r1, sz1 := utf8.DecodeRuneInString(path1[byteOff:])
-		r2, sz2 := utf8.DecodeRuneInString(path2[byteOff:])
-		if (r1 == utf8.RuneError && sz1 > 0) || (r2 == utf8.RuneError && sz2 > 0) {
-			// on error, return what we have
-			return path1[:afterPrefix]
-		}
-		endOf1, endOf2 := r1 == utf8.RuneError, r2 == utf8.RuneError
-		if endOf1 && endOf2 {
-			// if both ended, return entire path
-			return path1
-		}
-		if sep != 0 && endOf1 && r2 == sep {
-			// path1 ended at separator in path2
-			return path1
-		}
-		if sep != 0 && endOf2 && r1 == sep {
-			// path2 ended at separator in path1
-			return path2
-		}
-		if r1 != r2 || sz1 != sz2 {
-			// paths diverged, return found prefix
-			return path1[:afterPrefix]
-		}
-		byteOff += sz1
-		if sep == 0 || r1 == sep {
-			afterPrefix = byteOff
-		}
-	}
+	return srcpkg + relsuffix
 }
