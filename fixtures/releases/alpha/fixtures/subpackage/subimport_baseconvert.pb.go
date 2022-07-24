@@ -11,8 +11,12 @@ func (m *ImportedNotAnnotatedAndEmpty) ToBase() *subpackage.ImportedNotAnnotated
 	return msg
 }
 func (m *ImportedNotAnnotatedAndEmpty) FromBase(b *subpackage.ImportedNotAnnotatedAndEmpty) *ImportedNotAnnotatedAndEmpty {
-	msg := &ImportedNotAnnotatedAndEmpty{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedAndEmpty)
+	}
+	return m
 }
 func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *subpackage.ImportedNotAnnotatedWithUnreleasedField {
 	msg := &subpackage.ImportedNotAnnotatedWithUnreleasedField{
@@ -21,10 +25,13 @@ func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *subpackage.ImportedN
 	return msg
 }
 func (m *ImportedNotAnnotatedWithUnreleasedField) FromBase(b *subpackage.ImportedNotAnnotatedWithUnreleasedField) *ImportedNotAnnotatedWithUnreleasedField {
-	msg := &ImportedNotAnnotatedWithUnreleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithUnreleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *subpackage.ImportedNotAnnotatedWithReleasedField {
 	msg := &subpackage.ImportedNotAnnotatedWithReleasedField{
@@ -33,8 +40,11 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *subpackage.ImportedNot
 	return msg
 }
 func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *subpackage.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
-	msg := &ImportedNotAnnotatedWithReleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithReleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }

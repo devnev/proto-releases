@@ -15,12 +15,14 @@ import (
 	stable "github.com/devnev/proto-releases/examples/server/stable"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
 	srv := grpc.NewServer(
 		grpc.UnaryInterceptor(func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-			log.Printf("got %s", info.FullMethod)
+			log.Printf("got %s: %s", info.FullMethod, protojson.Format(req.(proto.Message)))
 			return handler(ctx, req)
 		}),
 		grpc.StreamInterceptor(func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
@@ -29,8 +31,7 @@ func main() {
 		}),
 	)
 
-	reflection.Register(srv)
-	var base examples.ExampleServiceServer = examples.UnimplementedExampleServiceServer{}
+	var base baseServer
 	examples.RegisterExampleServiceServer(srv, base)
 	alpha.RegisterExampleServiceServer(srv, alpha.BaseExampleServiceServer{
 		Base: base,
@@ -41,6 +42,7 @@ func main() {
 	stable.RegisterExampleServiceServer(srv, stable.BaseExampleServiceServer{
 		Base: base,
 	})
+	reflection.Register(srv)
 
 	l, err := net.Listen("tcp", "localhost:8080")
 	if err != nil {
@@ -51,4 +53,26 @@ func main() {
 	if err = srv.Serve(l); err != nil {
 		log.Fatal(err)
 	}
+}
+
+type baseServer struct {
+	examples.UnsafeExampleServiceServer
+}
+
+func (baseServer) ExampleReleasedMethod(_ context.Context, e *examples.Example) (*examples.Example, error) {
+	return &examples.Example{
+		NotAnnotated:             12,
+		Released:                 43,
+		Previewed:                75,
+		PreviewedReleasedRemoved: 99,
+	}, nil
+}
+
+func (baseServer) ExampleUnreleaseMethod(_ context.Context, e *examples.Example) (*examples.Example, error) {
+	return &examples.Example{
+		NotAnnotated:             12,
+		Released:                 43,
+		Previewed:                75,
+		PreviewedReleasedRemoved: 99,
+	}, nil
 }

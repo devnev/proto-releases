@@ -13,8 +13,11 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *subpackage.ImportedNot
 	return msg
 }
 func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *subpackage.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
-	msg := &ImportedNotAnnotatedWithReleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithReleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }

@@ -13,16 +13,23 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAn
 	return msg
 }
 func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
-	msg := &ImportedNotAnnotatedWithReleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithReleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *ImportedRelesed) ToBase() *fixtures.ImportedRelesed {
 	msg := &fixtures.ImportedRelesed{}
 	return msg
 }
 func (m *ImportedRelesed) FromBase(b *fixtures.ImportedRelesed) *ImportedRelesed {
-	msg := &ImportedRelesed{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedRelesed)
+	}
+	return m
 }

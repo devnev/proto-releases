@@ -11,8 +11,12 @@ func (m *ImportedNotAnnotatedAndEmpty) ToBase() *fixtures.ImportedNotAnnotatedAn
 	return msg
 }
 func (m *ImportedNotAnnotatedAndEmpty) FromBase(b *fixtures.ImportedNotAnnotatedAndEmpty) *ImportedNotAnnotatedAndEmpty {
-	msg := &ImportedNotAnnotatedAndEmpty{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedAndEmpty)
+	}
+	return m
 }
 func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *fixtures.ImportedNotAnnotatedWithUnreleasedField {
 	msg := &fixtures.ImportedNotAnnotatedWithUnreleasedField{
@@ -21,10 +25,13 @@ func (m *ImportedNotAnnotatedWithUnreleasedField) ToBase() *fixtures.ImportedNot
 	return msg
 }
 func (m *ImportedNotAnnotatedWithUnreleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithUnreleasedField) *ImportedNotAnnotatedWithUnreleasedField {
-	msg := &ImportedNotAnnotatedWithUnreleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithUnreleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAnnotatedWithReleasedField {
 	msg := &fixtures.ImportedNotAnnotatedWithReleasedField{
@@ -33,16 +40,23 @@ func (m *ImportedNotAnnotatedWithReleasedField) ToBase() *fixtures.ImportedNotAn
 	return msg
 }
 func (m *ImportedNotAnnotatedWithReleasedField) FromBase(b *fixtures.ImportedNotAnnotatedWithReleasedField) *ImportedNotAnnotatedWithReleasedField {
-	msg := &ImportedNotAnnotatedWithReleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedNotAnnotatedWithReleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *ImportedRelesed) ToBase() *fixtures.ImportedRelesed {
 	msg := &fixtures.ImportedRelesed{}
 	return msg
 }
 func (m *ImportedRelesed) FromBase(b *fixtures.ImportedRelesed) *ImportedRelesed {
-	msg := &ImportedRelesed{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(ImportedRelesed)
+	}
+	return m
 }

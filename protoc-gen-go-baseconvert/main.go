@@ -106,16 +106,19 @@ func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, bas
 	})
 
 	g.P("func (m *", m.GoIdent, ") FromBase(b *", baseMsg, ") *", m.GoIdent, " {")
-	g.P("msg := &", m.GoIdent, "{")
-	for _, f := range m.Fields {
-		if f.Oneof == nil && f.Message == nil && f.Enum == nil {
-			g.P(f.GoName, ": b.Get", f.GoName, "(),")
-		}
-	}
+	g.P("if m != nil {")
+	g.P("m.Reset()")
+	g.P("} else {")
+	g.P("m = new(", m.GoIdent, ")")
 	g.P("}")
 	for _, f := range m.Fields {
+		if f.Oneof == nil && f.Message == nil && f.Enum == nil {
+			g.P("m.", f.GoName, "= b.Get", f.GoName, "()")
+		}
+	}
+	for _, f := range m.Fields {
 		if f.Oneof == nil && (f.Message != nil || f.Enum != nil) {
-			g.P("msg.", f.GoName, "= msg.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
+			g.P("m.", f.GoName, "= m.", f.GoName, ".FromBase(b.Get", f.GoName, "())")
 		}
 	}
 	for _, o := range m.Oneofs {
@@ -129,7 +132,7 @@ func generateMessageFromBase(g *protogen.GeneratedFile, m *protogen.Message, bas
 		}
 		g.P("}")
 	}
-	g.P("return msg")
+	g.P("return m")
 	g.P("}")
 }
 

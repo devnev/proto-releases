@@ -13,40 +13,60 @@ func (m *EmptyMessageReleased) ToBase() *fixtures.EmptyMessageReleased {
 	return msg
 }
 func (m *EmptyMessageReleased) FromBase(b *fixtures.EmptyMessageReleased) *EmptyMessageReleased {
-	msg := &EmptyMessageReleased{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(EmptyMessageReleased)
+	}
+	return m
 }
 func (m *EmptyMessagePreviewed) ToBase() *fixtures.EmptyMessagePreviewed {
 	msg := &fixtures.EmptyMessagePreviewed{}
 	return msg
 }
 func (m *EmptyMessagePreviewed) FromBase(b *fixtures.EmptyMessagePreviewed) *EmptyMessagePreviewed {
-	msg := &EmptyMessagePreviewed{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(EmptyMessagePreviewed)
+	}
+	return m
 }
 func (m *EmptyMessagePreviewedThenReleased) ToBase() *fixtures.EmptyMessagePreviewedThenReleased {
 	msg := &fixtures.EmptyMessagePreviewedThenReleased{}
 	return msg
 }
 func (m *EmptyMessagePreviewedThenReleased) FromBase(b *fixtures.EmptyMessagePreviewedThenReleased) *EmptyMessagePreviewedThenReleased {
-	msg := &EmptyMessagePreviewedThenReleased{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(EmptyMessagePreviewedThenReleased)
+	}
+	return m
 }
 func (m *EmptyMessagePreviewedThenRemoved) ToBase() *fixtures.EmptyMessagePreviewedThenRemoved {
 	msg := &fixtures.EmptyMessagePreviewedThenRemoved{}
 	return msg
 }
 func (m *EmptyMessagePreviewedThenRemoved) FromBase(b *fixtures.EmptyMessagePreviewedThenRemoved) *EmptyMessagePreviewedThenRemoved {
-	msg := &EmptyMessagePreviewedThenRemoved{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(EmptyMessagePreviewedThenRemoved)
+	}
+	return m
 }
 func (m *EmptyMessageReleasedThenRemoved) ToBase() *fixtures.EmptyMessageReleasedThenRemoved {
 	msg := &fixtures.EmptyMessageReleasedThenRemoved{}
 	return msg
 }
 func (m *EmptyMessageReleasedThenRemoved) FromBase(b *fixtures.EmptyMessageReleasedThenRemoved) *EmptyMessageReleasedThenRemoved {
-	msg := &EmptyMessageReleasedThenRemoved{}
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(EmptyMessageReleasedThenRemoved)
+	}
+	return m
 }
 func (m *MessageWithReleasedField) ToBase() *fixtures.MessageWithReleasedField {
 	msg := &fixtures.MessageWithReleasedField{
@@ -55,10 +75,13 @@ func (m *MessageWithReleasedField) ToBase() *fixtures.MessageWithReleasedField {
 	return msg
 }
 func (m *MessageWithReleasedField) FromBase(b *fixtures.MessageWithReleasedField) *MessageWithReleasedField {
-	msg := &MessageWithReleasedField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithReleasedField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *MessageWithPreviewField) ToBase() *fixtures.MessageWithPreviewField {
 	msg := &fixtures.MessageWithPreviewField{
@@ -67,10 +90,13 @@ func (m *MessageWithPreviewField) ToBase() *fixtures.MessageWithPreviewField {
 	return msg
 }
 func (m *MessageWithPreviewField) FromBase(b *fixtures.MessageWithPreviewField) *MessageWithPreviewField {
-	msg := &MessageWithPreviewField{
-		Released: b.GetReleased(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithPreviewField)
 	}
-	return msg
+	m.Released = b.GetReleased()
+	return m
 }
 func (m *MessageWithReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOneofItem {
 	msg := &fixtures.MessageWithReleasedOneofItem{}
@@ -81,12 +107,16 @@ func (m *MessageWithReleasedOneofItem) ToBase() *fixtures.MessageWithReleasedOne
 	return msg
 }
 func (m *MessageWithReleasedOneofItem) FromBase(b *fixtures.MessageWithReleasedOneofItem) *MessageWithReleasedOneofItem {
-	msg := &MessageWithReleasedOneofItem{}
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithReleasedOneofItem)
+	}
 	switch o := b.GetOneofWithItem().(type) {
 	case *fixtures.MessageWithReleasedOneofItem_OneofItemReleased:
 		m.OneofWithItem = (*MessageWithReleasedOneofItem_OneofItemReleased)(nil).FromBase(o)
 	}
-	return msg
+	return m
 }
 func (m *MessageWithReleasedOneofItem_OneofItemReleased) ToBase() *fixtures.MessageWithReleasedOneofItem_OneofItemReleased {
 	return (*fixtures.MessageWithReleasedOneofItem_OneofItemReleased)(m)
@@ -103,12 +133,16 @@ func (m *MessageWithOneofWithMessages) ToBase() *fixtures.MessageWithOneofWithMe
 	return msg
 }
 func (m *MessageWithOneofWithMessages) FromBase(b *fixtures.MessageWithOneofWithMessages) *MessageWithOneofWithMessages {
-	msg := &MessageWithOneofWithMessages{}
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithOneofWithMessages)
+	}
 	switch o := b.GetOneofWithMessage().(type) {
 	case *fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation:
 		m.OneofWithMessage = (*MessageWithOneofWithMessages_MessageWithReleaseAnnotation)(nil).FromBase(o)
 	}
-	return msg
+	return m
 }
 func (m *MessageWithOneofWithMessages_MessageWithReleaseAnnotation) ToBase() *fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation {
 	return &fixtures.MessageWithOneofWithMessages_MessageWithReleaseAnnotation{
@@ -127,9 +161,13 @@ func (m *MessageWithImportedFields) ToBase() *fixtures.MessageWithImportedFields
 	return msg
 }
 func (m *MessageWithImportedFields) FromBase(b *fixtures.MessageWithImportedFields) *MessageWithImportedFields {
-	msg := &MessageWithImportedFields{}
-	msg.EmptyReleased = msg.EmptyReleased.FromBase(b.GetEmptyReleased())
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithImportedFields)
+	}
+	m.EmptyReleased = m.EmptyReleased.FromBase(b.GetEmptyReleased())
+	return m
 }
 func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {
 	msg := &fixtures.MessageNotAnnotated{
@@ -146,18 +184,21 @@ func (m *MessageNotAnnotated) ToBase() *fixtures.MessageNotAnnotated {
 	return msg
 }
 func (m *MessageNotAnnotated) FromBase(b *fixtures.MessageNotAnnotated) *MessageNotAnnotated {
-	msg := &MessageNotAnnotated{
-		Released:              b.GetReleased(),
-		Previewed:             b.GetPreviewed(),
-		PreviewedThenReleased: b.GetPreviewedThenReleased(),
-		PreviewedThenRemoved:  b.GetPreviewedThenRemoved(),
-		ReleasedThenRemoved:   b.GetReleasedThenRemoved(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageNotAnnotated)
 	}
+	m.Released = b.GetReleased()
+	m.Previewed = b.GetPreviewed()
+	m.PreviewedThenReleased = b.GetPreviewedThenReleased()
+	m.PreviewedThenRemoved = b.GetPreviewedThenRemoved()
+	m.ReleasedThenRemoved = b.GetReleasedThenRemoved()
 	switch o := b.GetNotAnnotatedOneof().(type) {
 	case *fixtures.MessageNotAnnotated_OneofItemNotAnnotated:
 		m.NotAnnotatedOneof = (*MessageNotAnnotated_OneofItemNotAnnotated)(nil).FromBase(o)
 	}
-	return msg
+	return m
 }
 func (m *MessageNotAnnotated_OneofItemNotAnnotated) ToBase() *fixtures.MessageNotAnnotated_OneofItemNotAnnotated {
 	return (*fixtures.MessageNotAnnotated_OneofItemNotAnnotated)(m)
@@ -172,9 +213,13 @@ func (m *MessageWithEnumFields) ToBase() *fixtures.MessageWithEnumFields {
 	return msg
 }
 func (m *MessageWithEnumFields) FromBase(b *fixtures.MessageWithEnumFields) *MessageWithEnumFields {
-	msg := &MessageWithEnumFields{}
-	msg.Released = msg.Released.FromBase(b.GetReleased())
-	return msg
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithEnumFields)
+	}
+	m.Released = m.Released.FromBase(b.GetReleased())
+	return m
 }
 func (m *MessageWithOneofsWithEnumFields) ToBase() *fixtures.MessageWithOneofsWithEnumFields {
 	msg := &fixtures.MessageWithOneofsWithEnumFields{}
@@ -185,12 +230,16 @@ func (m *MessageWithOneofsWithEnumFields) ToBase() *fixtures.MessageWithOneofsWi
 	return msg
 }
 func (m *MessageWithOneofsWithEnumFields) FromBase(b *fixtures.MessageWithOneofsWithEnumFields) *MessageWithOneofsWithEnumFields {
-	msg := &MessageWithOneofsWithEnumFields{}
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(MessageWithOneofsWithEnumFields)
+	}
 	switch o := b.GetOneofWithEnumField().(type) {
 	case *fixtures.MessageWithOneofsWithEnumFields_Released:
 		m.OneofWithEnumField = (*MessageWithOneofsWithEnumFields_Released)(nil).FromBase(o)
 	}
-	return msg
+	return m
 }
 func (m *MessageWithOneofsWithEnumFields_Released) ToBase() *fixtures.MessageWithOneofsWithEnumFields_Released {
 	return &fixtures.MessageWithOneofsWithEnumFields_Released{

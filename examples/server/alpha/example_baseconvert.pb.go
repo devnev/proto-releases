@@ -17,13 +17,16 @@ func (m *Example) ToBase() *server.Example {
 	return msg
 }
 func (m *Example) FromBase(b *server.Example) *Example {
-	msg := &Example{
-		NotAnnotated:             b.GetNotAnnotated(),
-		Released:                 b.GetReleased(),
-		Previewed:                b.GetPreviewed(),
-		PreviewedReleasedRemoved: b.GetPreviewedReleasedRemoved(),
+	if m != nil {
+		m.Reset()
+	} else {
+		m = new(Example)
 	}
-	return msg
+	m.NotAnnotated = b.GetNotAnnotated()
+	m.Released = b.GetReleased()
+	m.Previewed = b.GetPreviewed()
+	m.PreviewedReleasedRemoved = b.GetPreviewedReleasedRemoved()
+	return m
 }
 
 type BaseExampleServiceServer struct {
