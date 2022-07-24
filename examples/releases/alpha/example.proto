@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package example.alpha;
 
+import "google/api/annotations.proto";
+
 option go_package = "github.com/devnev/proto-releases/examples/releases/alpha";
 
 message Example {
@@ -30,5 +32,7 @@ message Example {
 service ExampleService {
   rpc ExampleUnreleaseMethod ( Example ) returns ( Example );
 
-  rpc ExampleReleasedMethod ( Example ) returns ( Example );
+  rpc ExampleReleasedMethod ( Example ) returns ( Example ) {
+    option (google.api.http) = { get:"/alpha/yay" };
+  }
 }

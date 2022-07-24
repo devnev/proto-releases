@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	releases "github.com/devnev/proto-releases"
 	"github.com/devnev/proto-releases/transform"
@@ -52,6 +53,13 @@ func (m *mod) InitContext(bctx pgs.BuildContext) {
 			m.c.Package = &releases.Config_PackageMapping{}
 			if err := releases.ParsePackageShorthand(v, m.c.Package); err != nil {
 				bctx.Fail(err)
+			}
+		case "http_rule":
+			m.c.HttpRule = &releases.Config_HttpRuleMapping{}
+			m.c.HttpRule.ReleaseRoot = v
+			if part1, part2, found := strings.Cut(v, ":"); found {
+				m.c.HttpRule.SourceRoot = part1
+				m.c.HttpRule.ReleaseRoot = part2
 			}
 		case "":
 			if v == "" {

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	releases "github.com/devnev/proto-releases"
+	"github.com/devnev/proto-releases/internal/protos/google.golang.org/genproto/googleapis/api/annotations"
 	"github.com/golang/protobuf/proto"
 	"github.com/jhump/protoreflect/desc/builder"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -188,7 +189,38 @@ func Service(b *builder.ServiceBuilder, c *releases.Config) (bool, error) {
 }
 
 func Method(b *builder.MethodBuilder, c *releases.Config) (bool, error) {
-	return shouldKeep(b, c, releases.E_Method)
+	if keep, err := shouldKeep(b, c, releases.E_Method); err != nil || !keep {
+		return false, err
+	}
+
+	httpExt, _ := proto.GetExtension(b.Options, annotations.E_Http)
+	httpRule, _ := httpExt.(*annotations.HttpRule)
+	switch pattern := httpRule.GetPattern().(type) {
+	case *annotations.HttpRule_Get:
+		pattern.Get = HTTPPath(pattern.Get, c.GetHttpRule())
+	case *annotations.HttpRule_Post:
+		pattern.Post = HTTPPath(pattern.Post, c.GetHttpRule())
+	case *annotations.HttpRule_Put:
+		pattern.Put = HTTPPath(pattern.Put, c.GetHttpRule())
+	case *annotations.HttpRule_Patch:
+		pattern.Patch = HTTPPath(pattern.Patch, c.GetHttpRule())
+	case *annotations.HttpRule_Delete:
+		pattern.Delete = HTTPPath(pattern.Delete, c.GetHttpRule())
+	case *annotations.HttpRule_Custom:
+		pattern.Custom.Path = HTTPPath(pattern.Custom.Path, c.GetHttpRule())
+	}
+
+	return true, nil
+}
+
+func HTTPPath(srcPath string, httpRuleConfig *releases.Config_HttpRuleMapping) string {
+	if httpRuleConfig.GetSourceRoot() == "" && httpRuleConfig.GetReleaseRoot() == "" {
+		return srcPath
+	}
+	if !strings.HasPrefix(srcPath, httpRuleConfig.SourceRoot) {
+		return srcPath
+	}
+	return path.Join(httpRuleConfig.ReleaseRoot, strings.TrimPrefix(srcPath, httpRuleConfig.SourceRoot))
 }
 
 func shouldKeep(b builder.Builder, c *releases.Config, x *protoimpl.ExtensionInfo) (bool, error) {

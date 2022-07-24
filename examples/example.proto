@@ -6,6 +6,7 @@ syntax = "proto3";
 package example;
 option go_package = "github.com/devnev/proto-releases/examples";
 import "options.proto";
+import "google/api/annotations.proto";
 
 message Example {
     // Not annotated means this is not include in any numbered release.
@@ -42,5 +43,8 @@ service ExampleService {
     rpc ExampleUnreleaseMethod(Example) returns (Example);
     rpc ExampleReleasedMethod(Example) returns (Example) {
         option (releases.method).release_in = 2;
+        option (google.api.http) = {
+            get: "/yay"
+        };
     };
 }

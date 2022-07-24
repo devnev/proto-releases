@@ -47,4 +47,10 @@ message Config {
         string release_suffix = 3;
     }
     GoPackageMapping go_package = 3;
+
+    message HttpRuleMapping {
+        string source_root = 1;
+        string release_root = 2;
+    }
+    HttpRuleMapping http_rule = 5;
 }
