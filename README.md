@@ -1,15 +1,63 @@
 # Proto-Releases
 
 Proto-releases aims to provide protobuf extensions and tools to manage releases
-of proto definitions. It currently allows creating unstable/alpha, preview/beta
-and stable release channels of the same proto definitions.
+of proto definitions.
 
-This is experimental, work in progress, and by no means a complete set of tools
-for the above purpose. Discussion & contributions welcome.
+> This is experimental, work in progress, and by no means a complete set of tools
+> for the above purpose. Discussion & contributions welcome.
+>
+> See the [LICENSE](LICENSE) file for licensing terms.
 
-See the [LICENSE](LICENSE) file for licensing terms.
+For example, this "internal" proto `acmecorp/hello.proto`:
 
-## Examples
+```proto
+package acmecorp;
+message Hello {
+    int32 repeat = 1 [
+        (releases.field).preview_in = 9;
+    ];
+    string name = 2 [
+        (releases.field).release_in = 5;
+    ];
+}
+service GreetingService {
+    rpc SayHello(Hello) returns google.protobuf.Empty {
+        option (releases.method).release_in = 5;
+        option (google.api.http) = {
+            get: "/v1unstable/hello"
+        };
+    };
+}
+```
+
+Can be converted to the following released proto `acmecorp/v1/hello.proto`:
+
+```proto
+package acmecorp.v1;
+message Hello {
+    string name = 2;
+}
+service GreetingService {
+    rpc SayHello(Hello) returns google.protobuf.Empty {
+        option (google.api.http) = {
+            get: "/v1/hello"
+        };
+    };
+}
+```
+
+Further, a single implementation of the original service can be used in Go to
+implement all released service versions:
+
+```go
+srv := grpc.NewServer()
+greetingsSvc := NewGreetingsService()
+RegisterGreetingsServiceServer(srv, greetingsSvc)
+beta.RegisterGreetingsServiceBaseServer(srv, greetingsSvc)
+stable.RegisterGreetingsServiceBaseServer(srv, greetingsSvc)
+```
+
+## Working Example
 
 See the [examples](examples) directory for a very small demo:
 
@@ -20,9 +68,7 @@ See the [examples](examples) directory for a very small demo:
 A more complete suite of examples can be found in the [fixtures](fixtures)
 directory.
 
-## In short
-
-### Proto releases
+## Proto releases
 
 A message can be annotated with release gates as follows:
 
@@ -83,7 +129,7 @@ message Hello {
 }
 ```
 
-### Automatic release implementation
+## Automatic release implementation
 
 The `protoc-gen-go-baseconvert` plugin can generate code to automatically
 implement releases of GRPC services to use a single implementation of the
@@ -136,7 +182,7 @@ protoc my_api.proto \
     --go-baseconvert_opt=paths=source_relative
 ```
 
-### Rewriting HTTP API Annotations
+## Rewriting HTTP API Annotations
 
 A method that is included in a release and has a `(google.api.http)` annotation can be rewritten to have its path prefixed:
 
