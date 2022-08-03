@@ -98,9 +98,7 @@ func main() {
     srv := grpc.NewServer()
     var apiSrv server.ApiServer = &myServerImpl{}
     server.RegisterApiServer(srv, apiSrv)
-    beta17.RegisterApiServer(srv, beta17.BaseApiServer{
-        Base: apiSrv
-    })
+    beta17.RegisterApiBaseServer(srv, apiSrv)
 }
 ```
 

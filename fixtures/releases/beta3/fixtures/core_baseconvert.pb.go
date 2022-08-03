@@ -5,6 +5,7 @@ package fixtures
 import (
 	context "context"
 	fixtures "github.com/devnev/proto-releases/fixtures"
+	grpc "google.golang.org/grpc"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -241,17 +242,21 @@ func (e EnumNotAnnotated) ToBase() fixtures.EnumNotAnnotated {
 	return fixtures.EnumNotAnnotated(e)
 }
 
-type BaseTestServiceServer struct {
+type baseTestServiceServer struct {
 	UnsafeTestServiceServer
-	Base fixtures.TestServiceServer
+	base fixtures.TestServiceServer
 }
 
-func (s BaseTestServiceServer) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
-	return s.Base.EmptyMethodReleased(ctx, in)
+func RegisterTestServiceBaseServer(s grpc.ServiceRegistrar, base fixtures.TestServiceServer) {
+	RegisterTestServiceServer(s, baseTestServiceServer{base: base})
 }
-func (s BaseTestServiceServer) MethodReleased(ctx context.Context, in *MessageNotAnnotated) (*MessageNotAnnotated, error) {
+
+func (s baseTestServiceServer) EmptyMethodReleased(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+	return s.base.EmptyMethodReleased(ctx, in)
+}
+func (s baseTestServiceServer) MethodReleased(ctx context.Context, in *MessageNotAnnotated) (*MessageNotAnnotated, error) {
 	baseIn := in.ToBase()
-	baseOut, err := s.Base.MethodReleased(ctx, baseIn)
+	baseOut, err := s.base.MethodReleased(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}

@@ -200,12 +200,23 @@ func generateService(g *protogen.GeneratedFile, s *protogen.Service, base protog
 		GoName:       s.GoName + "Server",
 		GoImportPath: base,
 	})
-	srvName := "Base" + s.GoName + "Server"
+	srvName := "base" + s.GoName + "Server"
 
 	g.P("type ", srvName, " struct {")
 	g.P("Unsafe", s.GoName, "Server")
-	g.P("Base ", baseSrvIface)
+	g.P("base ", baseSrvIface)
 	g.P("}")
+	g.P()
+
+	registrarIface := protogen.GoIdent{
+		GoName:       "ServiceRegistrar",
+		GoImportPath: "google.golang.org/grpc",
+	}
+
+	g.P("func Register", s.GoName, "BaseServer(s ", registrarIface, ", base ", baseSrvIface, ") {")
+	g.P("Register", s.GoName, "Server(s, ", srvName, "{base: base})")
+	g.P("}")
+	g.P()
 
 	for _, m := range s.Methods {
 		generateMethod(g, m, srvName)
@@ -226,11 +237,11 @@ func generateMethod(g *protogen.GeneratedFile, m *protogen.Method, srvName strin
 		inVar = "baseIn"
 	}
 	if m.Output.Desc.FullName() == emptyDesc.FullName() {
-		g.P("return s.Base.", m.GoName, "(ctx, ", inVar, ")")
+		g.P("return s.base.", m.GoName, "(ctx, ", inVar, ")")
 		g.P("}")
 		return
 	}
-	g.P("baseOut, err := s.Base.", m.GoName, "(ctx, ", inVar, ")")
+	g.P("baseOut, err := s.base.", m.GoName, "(ctx, ", inVar, ")")
 	g.P("if err != nil { return nil, err }")
 	g.P("out := new(", m.Input.GoIdent, ")")
 	g.P("out.FromBase(baseOut)")

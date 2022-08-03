@@ -33,15 +33,9 @@ func main() {
 
 	var base baseServer
 	examples.RegisterExampleServiceServer(srv, base)
-	alpha.RegisterExampleServiceServer(srv, alpha.BaseExampleServiceServer{
-		Base: base,
-	})
-	beta.RegisterExampleServiceServer(srv, beta.BaseExampleServiceServer{
-		Base: base,
-	})
-	stable.RegisterExampleServiceServer(srv, stable.BaseExampleServiceServer{
-		Base: base,
-	})
+	alpha.RegisterExampleServiceBaseServer(srv, base)
+	beta.RegisterExampleServiceBaseServer(srv, base)
+	stable.RegisterExampleServiceBaseServer(srv, base)
 	reflection.Register(srv)
 
 	l, err := net.Listen("tcp", "localhost:8080")

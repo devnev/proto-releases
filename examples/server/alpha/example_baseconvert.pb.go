@@ -5,6 +5,7 @@ package alpha
 import (
 	context "context"
 	server "github.com/devnev/proto-releases/examples/server"
+	grpc "google.golang.org/grpc"
 )
 
 func (m *Example) ToBase() *server.Example {
@@ -29,14 +30,18 @@ func (m *Example) FromBase(b *server.Example) *Example {
 	return m
 }
 
-type BaseExampleServiceServer struct {
+type baseExampleServiceServer struct {
 	UnsafeExampleServiceServer
-	Base server.ExampleServiceServer
+	base server.ExampleServiceServer
 }
 
-func (s BaseExampleServiceServer) ExampleUnreleaseMethod(ctx context.Context, in *Example) (*Example, error) {
+func RegisterExampleServiceBaseServer(s grpc.ServiceRegistrar, base server.ExampleServiceServer) {
+	RegisterExampleServiceServer(s, baseExampleServiceServer{base: base})
+}
+
+func (s baseExampleServiceServer) ExampleUnreleaseMethod(ctx context.Context, in *Example) (*Example, error) {
 	baseIn := in.ToBase()
-	baseOut, err := s.Base.ExampleUnreleaseMethod(ctx, baseIn)
+	baseOut, err := s.base.ExampleUnreleaseMethod(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}
@@ -44,9 +49,9 @@ func (s BaseExampleServiceServer) ExampleUnreleaseMethod(ctx context.Context, in
 	out.FromBase(baseOut)
 	return out, nil
 }
-func (s BaseExampleServiceServer) ExampleReleasedMethod(ctx context.Context, in *Example) (*Example, error) {
+func (s baseExampleServiceServer) ExampleReleasedMethod(ctx context.Context, in *Example) (*Example, error) {
 	baseIn := in.ToBase()
-	baseOut, err := s.Base.ExampleReleasedMethod(ctx, baseIn)
+	baseOut, err := s.base.ExampleReleasedMethod(ctx, baseIn)
 	if err != nil {
 		return nil, err
 	}
